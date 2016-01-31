@@ -20,4 +20,16 @@ public class TelephoneService extends Service implements Serializable {
     
     @Column(name="TYPE")
     private String type;
+    
+    public TelephoneService(){
+        
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

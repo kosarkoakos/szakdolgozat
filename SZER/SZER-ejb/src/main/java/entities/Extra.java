@@ -41,4 +41,56 @@ public class Extra implements Serializable {
     
     @ManyToMany(mappedBy="extras")
     private List<Order> orders;
-}
+    
+    public Extra(){
+        
+    }
+
+    public Short getExtraId() {
+        return extraId;
+    }
+
+    public void setExtraId(Short extraId) {
+        this.extraId = extraId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Short getCount() {
+        return count;
+    }
+
+    public void setCount(Short count) {
+        this.count = count;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }    
+ }

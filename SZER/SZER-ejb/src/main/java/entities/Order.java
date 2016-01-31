@@ -10,7 +10,6 @@ import entities.service.Service;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,4 +61,64 @@ public class Order implements Serializable{
             joinColumns = @JoinColumn(name = "ORDER_ID_FK"),
             inverseJoinColumns = @JoinColumn(name = "EXTRA_ID_FK"))
     private List<Extra> extras;
+    
+    public Order(){
+        
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public List<ServicePack> getServicePacks() {
+        return servicePacks;
+    }
+
+    public void setServicePacks(List<ServicePack> servicePacks) {
+        this.servicePacks = servicePacks;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
+
+    public Customer getSubscriber() {
+        return subscriber;
+    }
+
+    public void setSubscriber(Customer subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
+
+    public List<Extra> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(List<Extra> extras) {
+        this.extras = extras;
+    }
 }

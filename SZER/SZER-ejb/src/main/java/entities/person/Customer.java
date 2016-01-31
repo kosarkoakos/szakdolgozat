@@ -27,4 +27,24 @@ public class Customer extends Person implements Serializable {
     
     @OneToMany(mappedBy="subscriber")
     private List<Order> orders;
+    
+    public Customer(){
+        
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

@@ -43,4 +43,56 @@ public class Service implements Serializable{
     
     @ManyToMany(mappedBy = "services")
     private List<Order> containerOrders;
+    
+    public Service(){
+        
+    }
+
+    public Short getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Short serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<ServicePack> getContainerServicePacks() {
+        return containerServicePacks;
+    }
+
+    public void setContainerServicePacks(List<ServicePack> containerServicePacks) {
+        this.containerServicePacks = containerServicePacks;
+    }
+
+    public List<Order> getContainerOrders() {
+        return containerOrders;
+    }
+
+    public void setContainerOrders(List<Order> containerOrders) {
+        this.containerOrders = containerOrders;
+    }
 }

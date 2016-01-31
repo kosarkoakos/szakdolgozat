@@ -20,4 +20,16 @@ public class TelevisionService extends Service implements Serializable{
     
     @Column(name="CHANNEL_COUNT")
     private Byte channelCount;
+    
+    public TelevisionService(){
+        
+    }
+
+    public Byte getChannelCount() {
+        return channelCount;
+    }
+
+    public void setChannelCount(Byte channelCount) {
+        this.channelCount = channelCount;
+    }
 }

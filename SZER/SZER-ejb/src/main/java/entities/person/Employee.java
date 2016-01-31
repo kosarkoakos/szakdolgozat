@@ -21,4 +21,16 @@ public class Employee extends Person implements Serializable{
     
     @Column(name="ROLE")
     private String role;
+    
+    public Employee(){
+        
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

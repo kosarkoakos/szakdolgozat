@@ -20,4 +20,16 @@ public class InternetService extends Service implements Serializable {
     
     @Column(name="SPEED")
     private Short speed;
+    
+    public InternetService(){
+        
+    }
+
+    public Short getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Short speed) {
+        this.speed = speed;
+    }
 }

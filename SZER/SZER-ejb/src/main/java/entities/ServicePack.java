@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -48,4 +47,56 @@ public class ServicePack implements Serializable {
     
     @ManyToMany(mappedBy = "servicePacks")
     private List<Order> containerOrders;
+    
+    public ServicePack(){
+        
+    }
+
+    public Short getServicePackId() {
+        return servicePackId;
+    }
+
+    public void setServicePackId(Short servicePackId) {
+        this.servicePackId = servicePackId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Service> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<Service> parts) {
+        this.parts = parts;
+    }
+
+    public List<Order> getContainerOrders() {
+        return containerOrders;
+    }
+
+    public void setContainerOrders(List<Order> containerOrders) {
+        this.containerOrders = containerOrders;
+    }
 }
