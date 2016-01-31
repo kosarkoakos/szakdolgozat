@@ -9,6 +9,8 @@ import entities.person.Person;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -17,6 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Employees")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends Person implements Serializable{
     
     @Column(name="ROLE")

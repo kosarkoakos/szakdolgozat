@@ -8,6 +8,8 @@ package entities.service;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TelevisionServices")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class TelevisionService extends Service implements Serializable{
     
     @Column(name="CHANNEL_COUNT")

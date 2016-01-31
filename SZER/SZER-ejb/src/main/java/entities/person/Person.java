@@ -8,9 +8,12 @@ package entities.person;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +24,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="People")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "PERSONTYPE")
 public class Person implements Serializable {
     
     @Id

@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Customers")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Customer extends Person implements Serializable {
     
     @Column(name="REGISTRATIONDATE")
