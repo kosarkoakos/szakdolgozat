@@ -1,0 +1,44 @@
+\documentclass[centeredchapter]{thesis-ekf}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\PassOptionsToPackage{defaults=hu-min}{magyar.ldf}
+\usepackage[magyar]{babel}
+\usepackage{graphicx,amsmath,amssymb,amsthm}
+\graphicspath{{./images/}}
+\footnotestyle{rule=fourth}
+
+\newtheorem{tetel}{Tétel}[chapter]
+\newtheorem{lemma}[tetel]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definicio}[tetel]{Definíció}
+\newtheorem{feladat}[tetel]{Feladat}
+\theoremstyle{remark}
+\newtheorem{megjegyzes}[tetel]{Megjegyzés}
+\newtheorem*{megoldas}{Megoldás}
+
+\logo{\includegraphics[width=9cm]{ekf-logo3}}
+\institute{Matematikai és Informatikai Intézet}
+\title{A szakdolgozat címe}
+\authorcaption{Készítette:}
+\author{Szerző neve\\ szak}
+\supervisorcaption{Témavezető:}
+\supervisor{Tanár neve\\ beosztás}
+\city{Eger}
+\date{2016}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter*{Bevezetés}
+
+\chapter{Fejezet címe}
+
+\section{Szakasz címe}
+
+\subsection{Alszakasz címe}
+
+\begin{thebibliography}{1}
+\bibitem{cimke} \textsc{Szerző}: Cím, Kiadó, Hely, évszám.
+\end{thebibliography}
+\end{document}
