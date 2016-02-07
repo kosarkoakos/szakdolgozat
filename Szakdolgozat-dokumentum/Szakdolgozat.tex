@@ -44,27 +44,66 @@ Az alkalmazás célja lehetővé tenni a szolgáltató ügyfelei számára, hogy
 
 \section{Képernyők}
 
-Az alkalmazással végezhető műveletek természetesen láthatóak kell legyenek a használóik számára, erre a képernyők szolgálnak. Az alkalmazás webes böngészőkön keresztül érhető el a felhasználók számára, a képernyők is abban fognak megjelenni nekik.
+Az alkalmazással végezhető műveletek természetesen láthatóak kell legyenek a használóik számára, erre a képernyők szolgálnak. Az alkalmazás webes böngészőkön keresztül érhető el a felhasználók számára, a képernyők is abban fognak megjelenni nekik. Az alábbiakban a felhasználók számára megjelenő képernyők leírását adom meg.
+A képernyők két csoportba bonthatók:
+ 
+ \begin{itemize}
+ 	\item Az egyik csoportba azok a képernyők tartoznak, amelyek bárki számára(azaz a nem bejelentkezett felhasználók számára is) jelennek meg. Az ezeken a képernyőkön elérhető információk és műveletek nincsenek egyénekhez kötve, egyedi információkat nem tartalmaznak. Ezzel együtt vannak olyan bárki számára elérhető oldalak, amelyek bejelentkezés után bővebb tartalommal rendelkeznek.
+ 	\item Ennek ellenkezője áll fenn a bejelentkezett felhasználók számára elérhető oldalak esetén. Ezeken az oldalakon olyan információk és műveletek is elérhetőek, amelyek egyéniek, azaz bejelentkezett felhasználónként különböznek. Ilyen például a számlák képernyő, ahol nyilvánvalóan a felhasználó saját számlai kerülnek megjelenítésre. Ennek adatvédelmi okai (csak az előfizető láthassa a számláit, befizetésekkel kapcsolatos pénzügyeit) és praktikussági okai (egy felhasználót nem érdekel, hogy mások mely számlái várnak épp befizetésre) vannak.
+ \end{itemize}
+  
 
-\subsection{Főoldal}
+\subsection{Főoldal}\hypertarget{leiras-fooldal}{}
 
-\subsection{Bejelentkezési felület}
+Az alkalmazás kezdőoldala a főoldal, amely a bárki számára megjelenő oldalakhoz az elérést a menüpontokon keresztül. Az alkalmazás további funkciónak elérését lehetővé tévő \hyperlink{leiras-bejelentkezesi}{"Bejelentkezési oldal"} és \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"} elérését lehetővé tévő linkek szintén ezen az oldalon kapnak helyet. A szolgáltatott információkat tekintve ez az oldal egy rövid áttekintést nyújt a szolgáltató cég tevékenységéről miután üdvözlőszöveget jelenít meg a látogató számára.
 
-\subsection{Bemutatkozó oldal}
+\subsection{Regisztrációs oldal}\hypertarget{leiras-regisztracios}{}
 
-\subsection{Szolgáltatások}
+Az oldalon történő ügyintézéshez egy saját felhasználói fiókra szükséges. Ezt a fiókot a \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"}-on hozhatja létre a leendő ügyfél. Ehhez személyes adatainak megadására van szükség. A felhasználó az oldalon lévő form kitöltésével és beküldésével teheti ezt meg. A megadott adatok a regisztráció véglegesítése előtt egy validáción kell hogy keresztül menjenek. A validáció célja jelen esetben az, hogy elkerüljük egy előfizető többszöri regisztrációját a rendszerben. Ez a gyakorlatban azt jelenti, hogy például Nagy Ferenc, Eger, József Attila 125 szám alatt lakó ügyfél csak egyetlen fiókkal rendelkezzen. A validáció során, amennyiben ő már regisztrált felhasználója a rendszernek, ahelyett, hogy egy új fiókot kapna, a már meglévő fiókjához tartozó bejelentkezési adatokat kapja meg, amivel bejelentkezhet a \hyperlink{leiras-bej}{"Bejelentkezési oldal"}-on.
 
-\subsection{Akciók}
+\subsection{Bejelentkezési oldal}\hypertarget{leiras-bejelentkezesi}{}
 
-\subsection{Kapcsolat}
+A \hyperlink{leiras-bejelentkezesi}{"Bejelentkezési oldal"} egy nagyon egyszerű funkciót ad, a már korábbiakban regisztrált ügyfél a fiókadatainak, felhasználónevének és jelszavának megadásával beléphet a fiókjába. Amennyiben nem ismeri a jelszavát, úgy jelszó-emlékeztetőt kérhet a regisztrációja során használt e-mail cím megadásával.
 
-\subsection{Előfizetési oldal}
+\subsection{Bemutatkozó oldal}\hypertarget{leiras-bemutatkozo}{}
 
-\subsection{Számlabefizetés}
+A \hyperlink{leiras-bemutatkozo}{"Bemutatkozó oldal"}-on a szolgáltató hosszabb bemutatkozása olvasható, amely bővebb információkat ad a működéséről, felépítéséről és az általa nyújtott szolgáltatásokról.
 
-\subsection{Hibabejelentés}
+\subsection{Szolgáltatások}\hypertarget{leiras-szolgaltatasok}{}
 
-\section{A szoftver elkészítésére használt, és az azt támgató eszközök}
+A \hyperlink{leiras-szolgaltatasok}{"Szolgáltatások"} felület egy fontos felület a képernyők között. Ezen a felületen találja meg az oldal látogatója a cég által nyújtott szolgáltatások listáját és jellemzőiket, úgy mint az ár, internetszolgáltatás esetén a sebesség, stb. Mivel a cég többféle szolgáltatást is nyújt(telefon, internet, kábeltv) ezért az oldal áttekinthetősége és a szolgáltatások megjelenítésének struktúrája kiemelkedő fontosságú. Ezt úgy fogom kivitelezni, hogy a szolgáltatásokat kategóriák szerint listázhatja ki a látogató. A kategória elemei közül kiválasztott elem részletes leírása egy direkt ezen célt szolgáló felületrészen fog megjelenni.
+
+A bejelentkezett felhasználók itt adhatják hozzá a bevásárlókosarukhoz a szolgáltatásokat, amelyekre elő kívánnak fizetni. A szolgáltatások megrendelését a bevásárlókosár tartalmának véglegesítése a "Megrendel" gomb megnyomása érvényesíti.
+
+\subsection{Akciók}\hypertarget{leiras-akciok}{}
+
+Az \hyperlink{leiras-akciok}{"Akciók"} felületen kap tájékoztatás az ügyfél az éppen futó akciókról. Ilyen akció például, hogy ha több szolgáltatásra is előfizet, akkor azt kedvezményesen teheti meg, ha meghosszabbítja az előfizetését, akkor egy havi szolgáltatás árát nem kell befizetni, vagy éppen kap egy egeret ajándékba.
+
+\subsection{Kapcsolat}\hypertarget{leiras-kapcsolat}{}
+
+A \hyperlink{leiras-kapcsolat}{"Kapcsolat"} oldalon a cég elérhetőségei olvashatóak, úgy mint a székhely, ügyfélszolgálati telefonszám és levelezési cím.
+
+\subsection{Személyes adatok}\hypertarget{leiras-szemelyes}{}
+
+A \hyperlink{leiras-szemelyes}{"Személyes adatok"} oldalon tekintheti meg a rendszerben szereplő adatait az ügyfél, és szükség esetén módosíthatja azokat. Az itt szereplő adatok a személyre vonatkoznak, az előfizetéseit ezen az oldalon nem menedzselheti. A személyre vonatkozó adatok alatt a következőket értem: név, születési adatok, lakcím, elérhetőségek.
+
+\subsection{Előfizetési oldal}\hypertarget{leiras-elofizetesi}{}
+
+Az \hyperlink{leiras-elofizetesi}{"Előfizetési oldal"} a szolgáltatások menedzselésére, azaz az aktív és már lejárt előfizetések listázására, adataik megjelenítésére szolgál. Itt tudja a felhasználó a futó szolgáltatás időtartamának meghosszabbítási igényét a szolgáltató felé jelezni, és a még aktív szolgáltatásait lemondani. Ez esetben ennek következményeiről egy felugró ablakban kap tájékoztatást. A könnyebb navigálás érdekében a szolgáltatásokhoz kapcsolódó számláihoz erről az oldalról is hozzáfér.
+
+\subsection{Számlabefizetés}\hypertarget{leiras-szamla}{}
+
+Ez az oldal az előfizetések megléte miatt kiállított számlákat listázza ki. Minden egyes számláról megjelennek az információk, mint például a megrendelés, amiről a számla ki lett állítva, az összeg, ami a megrendelés értéke és a befizetési határidő, amellyel bezárólag a számlát az ügyfél köteles befizetni anélkül, hogy "büntetést" kapna késedelmi díj formájában. A számla befizetésére bankkártyás fizetéssel van mód, amelyhez a bankkártyán szereplő adatokat a számlához tartozó befizetés gomb megnyomásával betöltődő oldalon kell megadni. Ezen az oldalon - természetesen egy kitalált, nem létező - pénzügyi szolgáltató felé történő kérés fut le, amely a bankkártyás fizetést szimulálja. Ez a fizetési kísérlet kétféle eredménnyel záródhat:
+ Az ügyfél bankszámláján van elegendő pénz a számla kiegyenlítésére, és ez esetben - ismét hangsúlyozom egy nem létező - bankszámláról levonódik az összeg, és a számla kiegyenlített státuszba kerül.
+ A másik eset az, amikor az ügyfél bankszámláján nem áll rendelkezésre elegendő pénz a számla befizetésére, így az befizetésre váró számlaként marad a számlák között.
+ Mivel nincs valós pénzügyi szolgáltató a befizetések mögött, ezért a befizetés sikerességét vagy sikertelenségét egy véletlen szám generálással határozom meg, amelynek értéke dönti el, hogy sikeres vagy sikertelen legyen a befizetés. Mindkét esetben újra a \hyperlink{leiras-szamla}{"Számlabefizetés"} oldal töltődik be újra.
+
+\subsection{Hibabejelentés}\hypertarget{leiras-bejelentes}{}
+
+Az aktív szolgáltatással rendelkező felhasználóknak lehetőségük nyílik a szolgáltatással kapcsolatos hibák bejelentésére. Ezt a \hyperlink{leiras-bejelentes}{"Hibabejelentés"} oldalon tehetik meg.
+Ez egy form kitöltésével és beküldésével történik meg, amely form tartalmazza a hiba leírását az szolgáltatás megnevezésétől a hiba észlelésének időpontján át jellegének bemutatásáig.
+
+\section{A szoftver elkészítésére használt technológiák, és az azt támgató eszközök}
 
 \subsection{Java Enterpreise Edition}
 
