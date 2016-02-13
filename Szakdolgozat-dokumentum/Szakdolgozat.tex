@@ -125,6 +125,10 @@ Feladatuk az alkalmazás számára biztosítani az általa használt API-kat, é
 
 Én a WildFly alkalmazásszervert fogom használni, amely a JBoss alkalmazásszerver community verziójának új neve a 8.0-s verzió óta. Ez az alkalmazásszerver alkalmas a Java EE technológiával készült alkalmazások futtatására, mert implementálja a annak összes standardját.  
 
+\subsection{Oracle Database 11g Express Edition}
+
+Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat fog tárolni. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t fogom használni.
+
 \subsection{IntelliJ IDEA}
 
 A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ezen választásom oka az, hogy tapasztalt programozóktól azt hallottam, hogy a forgalomban lévő fejlesztői környezetek közül ez a tapasztalataik alapján a legjobb. Na, majd kiderül, hogy tényleg így van-e.
@@ -156,6 +160,11 @@ A Java EE API-k egy halmaza.
 \chapter{Az alkalmazás}
 
 \section{Az adatbázismodell}
+
+\section{A projekt összeállítása}
+
+A projekt vázának egy vaadin-os archetípust, nevezetesen a vaadin-archetype-application-t használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
+ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. Mindezek a vaadin honlapján elérhetőek. Link https://vaadin.com/maven#dependencies . Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután kézhez kapunk egy alap projektet, ami mindössze egy UI java objektumok, egy gwt.xml-t és néhány kinézetet leíró .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
 
 \subsection{Alszakasz címe}
 
