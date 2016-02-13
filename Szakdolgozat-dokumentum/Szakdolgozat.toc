@@ -15,16 +15,18 @@
 \select@language {magyar} \contentsline {section}{\numberline {1.3}A szoftver elk\IeC {\'e}sz\IeC {\'\i }t\IeC {\'e}s\IeC {\'e}re haszn\IeC {\'a}lt technol\IeC {\'o}gi\IeC {\'a}k, \IeC {\'e}s az azt t\IeC {\'a}mgat\IeC {\'o} eszk\IeC {\"o}z\IeC {\"o}k}{8}{section.1.3}
 \select@language {magyar} \contentsline {subsection}{\numberline {1.3.1}Java Enterpreise Edition}{8}{subsection.1.3.1}
 \select@language {magyar} \contentsline {subsection}{\numberline {1.3.2}WildFly Application Server}{9}{subsection.1.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.3.3}IntelliJ IDEA}{9}{subsection.1.3.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.3.4}Vaadin Framework}{9}{subsection.1.3.4}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.3.5}Maven}{10}{subsection.1.3.5}
-\select@language {magyar} \contentsline {subsection}{\numberline {1.3.6}Git}{10}{subsection.1.3.6}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.3.3}Oracle Database 11g Express Edition}{9}{subsection.1.3.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.3.4}IntelliJ IDEA}{9}{subsection.1.3.4}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.3.5}Vaadin Framework}{9}{subsection.1.3.5}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.3.6}Maven}{10}{subsection.1.3.6}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.3.7}Git}{10}{subsection.1.3.7}
 \select@language {magyar} \contentsline {chapter}{\numberline {2}A Java Enterprise Edition}{11}{chapter.2}
 \select@language {magyar} \contentsline {section}{\numberline {2.1}Szakasz c\IeC {\'\i }me}{11}{section.2.1}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.1.1}Alszakasz c\IeC {\'\i }me}{11}{subsection.2.1.1}
 \select@language {magyar} \contentsline {chapter}{\numberline {3}Az alkalmaz\IeC {\'a}s}{12}{chapter.3}
 \select@language {magyar} \contentsline {section}{\numberline {3.1}Az adatb\IeC {\'a}zismodell}{12}{section.3.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.1.1}Alszakasz c\IeC {\'\i }me}{12}{subsection.3.1.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}\IeC {\"O}sszegz\IeC {\'e}s}{13}{chapter.4}
-\select@language {magyar} \contentsline {section}{\numberline {4.1}Szakasz c\IeC {\'\i }me}{13}{section.4.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {4.1.1}Alszakasz c\IeC {\'\i }me}{13}{subsection.4.1.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}A projekt \IeC {\"o}ssze\IeC {\'a}ll\IeC {\'\i }t\IeC {\'a}sa}{12}{section.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Alszakasz c\IeC {\'\i }me}{14}{subsection.3.2.1}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}\IeC {\"O}sszegz\IeC {\'e}s}{15}{chapter.4}
+\select@language {magyar} \contentsline {section}{\numberline {4.1}Szakasz c\IeC {\'\i }me}{15}{section.4.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {4.1.1}Alszakasz c\IeC {\'\i }me}{15}{subsection.4.1.1}

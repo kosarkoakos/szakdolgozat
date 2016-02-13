@@ -16,6 +16,25 @@
 \newtheorem{megjegyzes}[tetel]{Megjegyzés}
 \newtheorem*{megoldas}{Megoldás}
 
+\usepackage{listingsutf8,xcolor,caption}
+\lstset{
+	inputencoding=utf8/latin2,
+	language=xml,
+	basicstyle=\footnotesize,
+	numbers=left,
+	breaklines,
+	postbreak=\hbox{},
+	xleftmargin=2cm,
+	xrightmargin=2cm,
+	backgroundcolor=\color{gray!30},
+	frame=tlbr,
+	framesep=3pt,
+	keywordstyle=\bfseries\color{blue},
+	commentstyle=\itshape\color{green!85}
+}
+\renewcommand{\lstlistingname}{kód}
+
+
 \logo{\includegraphics[width=9cm]{ekf-logo3}}
 \institute{Matematikai és Informatikai Intézet}
 \title{Szoftverfejlesztés Java EE platformon}
@@ -29,6 +48,7 @@
 \begin{document}
 \maketitle
 \tableofcontents
+
 
 \chapter*{Bevezetés}
 
@@ -163,8 +183,26 @@ A Java EE API-k egy halmaza.
 
 \section{A projekt összeállítása}
 
-A projekt vázának egy vaadin-os archetípust, nevezetesen a vaadin-archetype-application-t használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
-ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. Mindezek a vaadin honlapján elérhetőek. Link https://vaadin.com/maven#dependencies . Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután kézhez kapunk egy alap projektet, ami mindössze egy UI java objektumok, egy gwt.xml-t és néhány kinézetet leíró .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
+A projekt vázának egy Vaadin archetípust, nevezetesen a vaadin-archetype-application archetípust használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
+Ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. \href{https://vaadin.com/maven#dependencies}{Mindezek a Vaadin honlapján elérhetőek.} . Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután kézhez kapunk egy alap projektet, ami mindössze egy UI java objektumok, egy gwt.xml-t és néhány kinézetet leíró .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
+
+Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin maven-nel könnyen hozzáadható az alkalmazásunkhoz. A 	
+\lstinputlisting[caption=WildFly plugin,label=kod-wildfly-plugin]{wildfly-plugin.pas}
+sorok pom.xml-hez hozzáadásával a plugin letöltésre kerül, és a projekt részévé válik. Ezután a Maven toolboxban megjelenik a pluginok között, és a wildfly:deploy opció indításával máris deployolásra kerül az alkalmazásszerverünkre. A port és name konfigurációs attribútumok beállításával finomhangolhatjuk a deployolás tulajdonságait. Jelen esetben a 10000-es porton futó administration consol-ú szerverre fog történni a deploy - melynél jelen esetben maga a szerver a 8090-es porton fut - és szer.war néven fog az alkalmazás deployálásra kerülni. Ez utóbbi azt vonja magával, hogy az alkalmazást a localhost:8090/szer URL-en fogjuk elérni. 
+
+
+
+
+
+Ezt követően az első lépés az adatbázis elérést lehetővé tévő persistence.xml fájl hozzáadása a projekthez a feladat, amelyet az src mappa alatt nehény mélységben található resources almappában létrehozandó META-INF mappában kell elhelyezni. Ez az xml file tartalmazza az adatbázis eléréséhez szükséges információkat. Jelen esetben a DataSource nevét, amely az adatbáziskapcsolat kialakításához szükséges információkat tárolja: az adatbázis címe, a bejelentkezéshez szükséges felhasználónév és jelszó.
+Emellett a ami számunkra fontos ebben az xml-ben, az a table generation strategy. Egy jól megválasztott stratégiával gondoskodhatunk az adatok biztonságáról. Én az update értéket választottam. Ez a stratégia az alkalmazás indulásakor megvizsgálja az adatbázis séma tartalmát, és amennyiben nem talál benne a projektben definiált entitás számára táblát, létrehozza azt.
+
+Az ORM műveleteket a JPA fogja végezni. Ez az entitymanager-en keresztül végzi a munkáját. Ahhoz hogy ezt használni lehessen, a JPA-t függőségként hozzá kel adnunk a proketünkhoz. Ezt a pom.xml szerkesztésével tehetjük meg:
+
+\lstinputlisting[caption=Hibernate függőségek, label=kod-hibernate-dependencies]{hibernate-dependencies.pas}
+
+
+A fenti kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a JPA-t.
 
 \subsection{Alszakasz címe}
 

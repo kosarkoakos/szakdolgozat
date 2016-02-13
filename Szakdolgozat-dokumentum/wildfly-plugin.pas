@@ -1,0 +1,9 @@
+<plugin>
+	<groupId>org.wildfly.plugins</groupId>
+	<artifactId>wildfly-maven-plugin</artifactId>
+	<version>1.1.0.Alpha6</version>
+	<configuration>
+		<port>10000</port>
+		<name>szer.war</name>
+	</configuration>
+</plugin>

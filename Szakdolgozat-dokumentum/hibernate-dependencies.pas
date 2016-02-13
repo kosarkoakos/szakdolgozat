@@ -1,0 +1,32 @@
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-core</artifactId>
+	<version>4.0.1.Final</version>
+</dependency>
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-validator</artifactId>
+	<version>4.2.0.Final</version>
+</dependency>
+<dependency>
+	<groupId>org.hibernate.common</groupId>
+	<artifactId>hibernate-commons-annotations</artifactId>
+	<version>4.0.1.Final</version>
+	<classifier>tests</classifier>
+</dependency>
+<dependency>
+	<groupId>org.hibernate.javax.persistence</groupId>
+	<artifactId>hibernate-jpa-2.0-api</artifactId>
+	<version>1.0.1.Final</version>
+</dependency>
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-entitymanager</artifactId>
+	<version>4.0.1.Final</version>
+	<exclusions>
+		<exclusion>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
