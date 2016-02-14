@@ -15,6 +15,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<javaee.version>7.0</javaee.version>
+		<vaadin-cdi.version>1.0.3</vaadin-cdi.version>
 	</properties>
 
 	<repositories>
@@ -137,6 +139,20 @@
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- JAVA EE API-->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>${javaee.version}</version>
+		</dependency>
+
+		<!-- CDIUI használatához -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-cdi</artifactId>
+			<version>${vaadin-cdi.version}</version>
 		</dependency>
 	</dependencies>
 

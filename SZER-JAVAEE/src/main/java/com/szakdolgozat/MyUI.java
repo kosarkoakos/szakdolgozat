@@ -1,10 +1,15 @@
 package com.szakdolgozat;
 
+import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 
+import com.szakdolgozat.views.MainView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.CDIViewProvider;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -17,32 +22,27 @@ import com.vaadin.ui.VerticalLayout;
 /**
  *
  */
+@CDIUI("")
 @Theme("mytheme")
 @Widgetset("com.szakdolgozat.MyAppWidgetset")
 public class MyUI extends UI {
 
+    @Inject
+    private CDIViewProvider viewProvider;
+
+    private Navigator navigator;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
 
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        setContent(layout);
-    }
+        MainView mainView= new MainView();
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
+        navigator= new Navigator(this, mainView);
+        navigator.addProvider(viewProvider);
+
+        setContent(mainView);
+
+        navigator.navigateTo(MainView.VIEWID);
     }
 }
