@@ -1,12 +1,11 @@
 package com.szakdolgozat.views;
 
+import com.szakdolgozat.MyUI;
 import com.szakdolgozat.components.VerticalMenu;
+import com.szakdolgozat.entities.person.ApplicationUser;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * Created by Ákos on 2016.02.14..
@@ -20,19 +19,23 @@ public class AbstractView extends VerticalLayout implements View {
     protected HorizontalLayout bottomStripe;
 
     protected VerticalLayout image;
-    protected VerticalLayout loginBox;
     protected MenuBar menuBar;
     protected VerticalLayout menuLayout;
 
     protected VerticalLayout menuContent;
 
 
-    protected Button loginButton= new Button("Bejelentkezés");
+    protected Button loginButton;
 
     protected Button introductionButton;
     protected Button servicesButton;
     protected Button salesButton;
     protected Button contatcButton;
+
+    protected VerticalLayout loginLayout;
+    protected Label userGreetingsLabel;
+    protected TextField usernameTxtF;
+    protected PasswordField passwordField;
 
 
     @Override
@@ -57,7 +60,6 @@ public class AbstractView extends VerticalLayout implements View {
         bottomStripe=new HorizontalLayout();
 
         image= new VerticalLayout();
-        loginBox=new VerticalLayout();
         menuBar=new MenuBar();
         menuLayout= new VerticalLayout();
         menuContent= new VerticalLayout();
@@ -145,25 +147,19 @@ public class AbstractView extends VerticalLayout implements View {
         menu.addButton("Bemutatkozás", "bemutatkozóView");
         menu.addButton("Szolgáltatások", "szolgáltatásokView");
         menu.addButton("Akciók", "akciókView");
-        menu.addButton("Kapcsolat2", "kapcsolatView");
+        menu.addButton("Kapcsolat", "kapcsolatView");
 
         topStripe.addComponent(image);
-        topStripe.addComponent(loginBox);
+        buildLoginBox();
+
+        topStripe.addComponent(loginLayout);
+        topStripe.setComponentAlignment(loginLayout, Alignment.TOP_RIGHT);
 
         bottomStripe.addComponent(menu.getBuiltMenu());
         bottomStripe.addComponent(menuContent);
 
-
-        loginButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo(MainView.VIEWID);
-            }
-        });
-
         //ha ben van jelentkezve szöveg, ha nincs egy kétsoros form kerül a loginboxba
         //a menübár tartalma szintén bejelentkezettség állapota alapján már itt összeállhat
-        loginBox.addComponent(loginButton);
 
         mainLayout.addComponent(topStripe);
         mainLayout.addComponent(bottomStripe);
@@ -171,6 +167,31 @@ public class AbstractView extends VerticalLayout implements View {
         addComponent(mainLayout);
 
 
+    }
+
+    protected void buildLoginBox(){
+        ApplicationUser user=((MyUI)getUI().getCurrent()).getLoggedInUser();
+
+        loginLayout= new VerticalLayout();
+
+        if(user==null){
+            usernameTxtF = new TextField("Felhasználónév: ");
+            passwordField = new PasswordField("Jelszó: ");
+            loginLayout.addComponent(usernameTxtF);
+            loginLayout.addComponent(passwordField);
+            loginButton= new Button("Bejelentkezés");
+            loginButton.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    //TODO bejelentkeztetést implementálni
+                }
+            });
+            loginLayout.addComponent(loginButton);
+
+        }else{
+            userGreetingsLabel= new Label("Üdvözlünk, " + user.getName());
+            loginLayout.addComponent(userGreetingsLabel);
+        }
     }
 
 }

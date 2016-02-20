@@ -3,6 +3,7 @@ package com.szakdolgozat;
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 
+import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.views.MainView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -32,6 +33,8 @@ public class MyUI extends UI {
 
     private Navigator navigator;
 
+    private ApplicationUser loggedInUser;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
@@ -44,5 +47,13 @@ public class MyUI extends UI {
         setContent(mainView);
 
         navigator.navigateTo(MainView.VIEWID);
+    }
+
+    public ApplicationUser getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(ApplicationUser loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 }
