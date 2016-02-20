@@ -1,5 +1,6 @@
 package com.szakdolgozat.views;
 
+import com.szakdolgozat.components.VerticalMenu;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -20,9 +21,18 @@ public class AbstractView extends VerticalLayout implements View {
 
     protected VerticalLayout image;
     protected VerticalLayout loginBox;
-    protected VerticalLayout menuBar;
+    protected MenuBar menuBar;
+    protected VerticalLayout menuLayout;
+
     protected VerticalLayout menuContent;
-    Button loginButton= new Button("Bejelentkezés");
+
+
+    protected Button loginButton= new Button("Bejelentkezés");
+
+    protected Button introductionButton;
+    protected Button servicesButton;
+    protected Button salesButton;
+    protected Button contatcButton;
 
 
     @Override
@@ -48,13 +58,99 @@ public class AbstractView extends VerticalLayout implements View {
 
         image= new VerticalLayout();
         loginBox=new VerticalLayout();
-        menuBar=new VerticalLayout();
+        menuBar=new MenuBar();
+        menuLayout= new VerticalLayout();
         menuContent= new VerticalLayout();
+
+
+        /*
+        MenuBar.Command commandToIntroduction = new MenuBar.Command() {
+            @Override
+            public void menuSelected(MenuBar.MenuItem menuItem) {
+                getUI().getNavigator().navigateTo("bemutatkozóView");
+            }
+        };
+
+        MenuBar.Command commandToServices = new MenuBar.Command() {
+            @Override
+            public void menuSelected(MenuBar.MenuItem menuItem) {
+                getUI().getNavigator().navigateTo("szolgáltatásokView");
+            }
+        };
+
+        MenuBar.Command commandToSales = new MenuBar.Command() {
+            @Override
+            public void menuSelected(MenuBar.MenuItem menuItem) {
+                getUI().getNavigator().navigateTo("akciókkView");
+            }
+        };
+
+        MenuBar.Command commandToContact = new MenuBar.Command() {
+            @Override
+            public void menuSelected(MenuBar.MenuItem menuItem) {
+                getUI().getNavigator().navigateTo("kapcsolatView");
+            }
+        };
+
+        menuBar.addItem("Bemutatkozás", commandToIntroduction);
+        menuBar.addItem("Szolgáltatások", commandToServices);
+        menuBar.addItem("Akciók", commandToSales);
+        menuBar.addItem("Kapcsolat", commandToContact);
+
+        */
+
+        /*
+
+        introductionButton = new Button("Bemutatkozás");
+        servicesButton= new Button("Szolgáltatások");
+        salesButton= new Button("Akciók");
+        contatcButton = new Button("Kapcsolat");
+
+        introductionButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getUI().getNavigator().navigateTo("bemutatkozóView");
+            }
+        });
+
+        servicesButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getUI().getNavigator().navigateTo("szolgáltatásokView");
+            }
+        });
+
+        salesButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getUI().getNavigator().navigateTo("akciókView");
+            }
+        });
+
+        contatcButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getUI().getNavigator().navigateTo("kapcsolatView");
+            }
+        });
+
+        menuLayout.addComponent(introductionButton);
+        menuLayout.addComponent(servicesButton);
+        menuLayout.addComponent(salesButton);
+        menuLayout.addComponent(contatcButton);
+
+        */
+
+        VerticalMenu menu = new VerticalMenu();
+        menu.addButton("Bemutatkozás", "bemutatkozóView");
+        menu.addButton("Szolgáltatások", "szolgáltatásokView");
+        menu.addButton("Akciók", "akciókView");
+        menu.addButton("Kapcsolat2", "kapcsolatView");
 
         topStripe.addComponent(image);
         topStripe.addComponent(loginBox);
 
-        bottomStripe.addComponent(menuBar);
+        bottomStripe.addComponent(menu.getBuiltMenu());
         bottomStripe.addComponent(menuContent);
 
 
