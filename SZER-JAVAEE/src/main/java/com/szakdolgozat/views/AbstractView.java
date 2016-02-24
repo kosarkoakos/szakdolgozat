@@ -5,6 +5,7 @@ import com.szakdolgozat.components.VerticalMenu;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 /**
@@ -36,6 +37,11 @@ public class AbstractView extends VerticalLayout implements View {
     protected Label userGreetingsLabel;
     protected TextField usernameTxtF;
     protected PasswordField passwordField;
+
+    protected String imageWidth="710px";
+    protected String loginLayoutWidth="180px";
+    protected String menuWidth="150px";
+    protected String menuContentWidth="740px";
 
 
     @Override
@@ -149,11 +155,16 @@ public class AbstractView extends VerticalLayout implements View {
         menu.addButton("Akciók", "akciókView");
         menu.addButton("Kapcsolat", "kapcsolatView");
 
+        Label t = new Label("Tesztlabel");
+        image.addComponent(t);
+
         topStripe.addComponent(image);
+
         buildLoginBox();
 
         topStripe.addComponent(loginLayout);
-        topStripe.setComponentAlignment(loginLayout, Alignment.TOP_RIGHT);
+        topStripe.setComponentAlignment(loginLayout,Alignment.TOP_RIGHT);
+
 
         bottomStripe.addComponent(menu.getBuiltMenu());
         bottomStripe.addComponent(menuContent);
@@ -164,8 +175,21 @@ public class AbstractView extends VerticalLayout implements View {
         mainLayout.addComponent(topStripe);
         mainLayout.addComponent(bottomStripe);
 
-        addComponent(mainLayout);
 
+
+        addComponent(mainLayout);
+    //    mainLayout.setStyleName("mytheme");
+        mainLayout.setMargin(true);
+        mainLayout.setWidth("1000px");
+        setComponentAlignment(mainLayout,Alignment.MIDDLE_CENTER);
+
+        image.setWidth(imageWidth);
+        loginLayout.setWidth(loginLayoutWidth);
+        menuLayout.setWidth(menuWidth);
+        menuContent.setWidth(menuContentWidth);
+        menu.setMargin(new MarginInfo(false,true,false,false));
+        menuContent.setMargin(new MarginInfo(true,false,false,false));
+        image.setComponentAlignment(t, Alignment.BOTTOM_RIGHT);
 
     }
 
@@ -179,6 +203,12 @@ public class AbstractView extends VerticalLayout implements View {
             passwordField = new PasswordField("Jelszó: ");
             loginLayout.addComponent(usernameTxtF);
             loginLayout.addComponent(passwordField);
+            usernameTxtF.setHeight("25px");
+            passwordField.setHeight("25px");
+            loginLayout.setComponentAlignment(usernameTxtF, Alignment.TOP_LEFT);
+            loginLayout.setComponentAlignment(passwordField, Alignment.BOTTOM_RIGHT);
+
+
             loginButton= new Button("Bejelentkezés");
             loginButton.addClickListener(new Button.ClickListener() {
                 @Override
@@ -186,7 +216,9 @@ public class AbstractView extends VerticalLayout implements View {
                     //TODO bejelentkeztetést implementálni
                 }
             });
+
             loginLayout.addComponent(loginButton);
+            loginLayout.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
 
         }else{
             userGreetingsLabel= new Label("Üdvözlünk, " + user.getName());

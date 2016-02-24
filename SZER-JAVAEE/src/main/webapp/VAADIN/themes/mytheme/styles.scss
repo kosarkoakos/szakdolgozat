@@ -8,4 +8,26 @@
   @include addons;
   @include mytheme;
 
+
+  .mymargins.v-margin-left   {padding-left:   50px;}
+
+  .v-margin-top {
+  	padding-top: 40px;
+  }
+
+  .v-margin-left {
+   	padding-left: 40px;
+  }
+
+  .v-margin-right {
+  	padding-top: 40px;
+  }
+
+  .v-margin-bottom {
+   	padding-left: 40px;
+  }
+
+  .myborder.v-vertical{
+    border: 2px;
+  }
 }
