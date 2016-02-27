@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.views.MainView;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
@@ -26,6 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 @CDIUI("")
 @Theme("mytheme")
 @Widgetset("com.szakdolgozat.MyAppWidgetset")
+@PreserveOnRefresh
 public class MyUI extends UI {
 
     @Inject

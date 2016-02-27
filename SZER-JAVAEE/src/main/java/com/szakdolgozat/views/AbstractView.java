@@ -2,11 +2,18 @@ package com.szakdolgozat.views;
 
 import com.szakdolgozat.MyUI;
 import com.szakdolgozat.components.VerticalMenu;
+import com.szakdolgozat.dto.LoginDTO;
+import com.szakdolgozat.ejbs.ApplicationUserBean;
+import com.szakdolgozat.entities.person.Agent;
 import com.szakdolgozat.entities.person.ApplicationUser;
+import com.szakdolgozat.entities.person.Customer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.Reindeer;
+
+import javax.inject.Inject;
 
 /**
  * Created by Ákos on 2016.02.14..
@@ -25,8 +32,9 @@ public class AbstractView extends VerticalLayout implements View {
 
     protected VerticalLayout menuContent;
 
-
     protected Button loginButton;
+    protected Button toRegPage;
+    protected Button logoutButton;
 
     protected Button introductionButton;
     protected Button servicesButton;
@@ -34,27 +42,40 @@ public class AbstractView extends VerticalLayout implements View {
     protected Button contatcButton;
 
     protected VerticalLayout loginLayout;
+    protected HorizontalLayout regLinkAndButton;
     protected Label userGreetingsLabel;
     protected TextField usernameTxtF;
     protected PasswordField passwordField;
+
 
     protected String imageWidth="710px";
     protected String loginLayoutWidth="180px";
     protected String menuWidth="150px";
     protected String menuContentWidth="740px";
 
+    @Inject
+    ApplicationUserBean applicationUserBean;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        boolean hasAcces= true;
-        if(hasAcces){
+
+        if(((MyUI)getUI().getCurrent()).getLoggedInUser()==null){
             mainLayout.removeAllComponents();
             initDefaultComponents();
             afterEnter();
-        }else {
-      //      mainView aszerint, hogy be van-e jelentkezve
+        }else if(isCustomer()) {
+            mainLayout.removeAllComponents();
+            initDefaultComponents();
+            afterEnter();
+        }
+        else if(isAgent()){
+            mainLayout.removeAllComponents();
+            initDefaultComponents();
+            afterEnter();
         }
     }
+
+
 
     public void afterEnter(){
 
@@ -66,94 +87,8 @@ public class AbstractView extends VerticalLayout implements View {
         bottomStripe=new HorizontalLayout();
 
         image= new VerticalLayout();
-        menuBar=new MenuBar();
-        menuLayout= new VerticalLayout();
+
         menuContent= new VerticalLayout();
-
-
-        /*
-        MenuBar.Command commandToIntroduction = new MenuBar.Command() {
-            @Override
-            public void menuSelected(MenuBar.MenuItem menuItem) {
-                getUI().getNavigator().navigateTo("bemutatkozóView");
-            }
-        };
-
-        MenuBar.Command commandToServices = new MenuBar.Command() {
-            @Override
-            public void menuSelected(MenuBar.MenuItem menuItem) {
-                getUI().getNavigator().navigateTo("szolgáltatásokView");
-            }
-        };
-
-        MenuBar.Command commandToSales = new MenuBar.Command() {
-            @Override
-            public void menuSelected(MenuBar.MenuItem menuItem) {
-                getUI().getNavigator().navigateTo("akciókkView");
-            }
-        };
-
-        MenuBar.Command commandToContact = new MenuBar.Command() {
-            @Override
-            public void menuSelected(MenuBar.MenuItem menuItem) {
-                getUI().getNavigator().navigateTo("kapcsolatView");
-            }
-        };
-
-        menuBar.addItem("Bemutatkozás", commandToIntroduction);
-        menuBar.addItem("Szolgáltatások", commandToServices);
-        menuBar.addItem("Akciók", commandToSales);
-        menuBar.addItem("Kapcsolat", commandToContact);
-
-        */
-
-        /*
-
-        introductionButton = new Button("Bemutatkozás");
-        servicesButton= new Button("Szolgáltatások");
-        salesButton= new Button("Akciók");
-        contatcButton = new Button("Kapcsolat");
-
-        introductionButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo("bemutatkozóView");
-            }
-        });
-
-        servicesButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo("szolgáltatásokView");
-            }
-        });
-
-        salesButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo("akciókView");
-            }
-        });
-
-        contatcButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().getNavigator().navigateTo("kapcsolatView");
-            }
-        });
-
-        menuLayout.addComponent(introductionButton);
-        menuLayout.addComponent(servicesButton);
-        menuLayout.addComponent(salesButton);
-        menuLayout.addComponent(contatcButton);
-
-        */
-
-        VerticalMenu menu = new VerticalMenu();
-        menu.addButton("Bemutatkozás", "bemutatkozóView");
-        menu.addButton("Szolgáltatások", "szolgáltatásokView");
-        menu.addButton("Akciók", "akciókView");
-        menu.addButton("Kapcsolat", "kapcsolatView");
 
         Label t = new Label("Tesztlabel");
         image.addComponent(t);
@@ -161,24 +96,20 @@ public class AbstractView extends VerticalLayout implements View {
         topStripe.addComponent(image);
 
         buildLoginBox();
+        buildMenuLayout();
 
         topStripe.addComponent(loginLayout);
         topStripe.setComponentAlignment(loginLayout,Alignment.TOP_RIGHT);
 
-
-        bottomStripe.addComponent(menu.getBuiltMenu());
+        bottomStripe.addComponent(menuLayout);
         bottomStripe.addComponent(menuContent);
-
-        //ha ben van jelentkezve szöveg, ha nincs egy kétsoros form kerül a loginboxba
-        //a menübár tartalma szintén bejelentkezettség állapota alapján már itt összeállhat
 
         mainLayout.addComponent(topStripe);
         mainLayout.addComponent(bottomStripe);
 
 
-
         addComponent(mainLayout);
-    //    mainLayout.setStyleName("mytheme");
+
         mainLayout.setMargin(true);
         mainLayout.setWidth("1000px");
         setComponentAlignment(mainLayout,Alignment.MIDDLE_CENTER);
@@ -187,8 +118,8 @@ public class AbstractView extends VerticalLayout implements View {
         loginLayout.setWidth(loginLayoutWidth);
         menuLayout.setWidth(menuWidth);
         menuContent.setWidth(menuContentWidth);
-        menu.setMargin(new MarginInfo(false,true,false,false));
-        menuContent.setMargin(new MarginInfo(true,false,false,false));
+        menuLayout.setMargin(new MarginInfo(false,false,false,false));
+        menuContent.setMargin(new MarginInfo(false,false,false,false));
         image.setComponentAlignment(t, Alignment.BOTTOM_RIGHT);
 
     }
@@ -208,22 +139,93 @@ public class AbstractView extends VerticalLayout implements View {
             loginLayout.setComponentAlignment(usernameTxtF, Alignment.TOP_LEFT);
             loginLayout.setComponentAlignment(passwordField, Alignment.BOTTOM_RIGHT);
 
+            regLinkAndButton= new HorizontalLayout();
 
             loginButton= new Button("Bejelentkezés");
             loginButton.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    //TODO bejelentkeztetést implementálni
+                    LoginDTO loginDTO= new LoginDTO();
+                    loginDTO.setUsername(usernameTxtF.getValue());
+                    loginDTO.setPassword(passwordField.getValue());
+                    ApplicationUser au=applicationUserBean.doLogin(loginDTO);
+                    if(au!=null) {
+
+                        ((MyUI) getUI().getCurrent()).setLoggedInUser(au);
+
+                        System.out.println("A bejelentkezett felhasználó neve: " + ((MyUI) getUI().getCurrent()).getLoggedInUser().getUsername());
+                        getUI().getNavigator().navigateTo(MainView.VIEWID);
+                    }else {
+                        Notification.show("Valótlan bejelentkezési adatok!");
+                    }
                 }
             });
 
-            loginLayout.addComponent(loginButton);
-            loginLayout.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
+     //       loginLayout.addComponent(loginButton);
+     //       loginLayout.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
+
+
+            toRegPage= new Button("Regisztráció");
+            toRegPage.setStyleName(Reindeer.BUTTON_LINK);
+            toRegPage.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    getUI().getNavigator().navigateTo(CustomerRegistrationView.VIEWID);
+                }
+            });
+            regLinkAndButton.addComponent(toRegPage);
+            regLinkAndButton.addComponent(loginButton);
+            loginLayout.addComponent(regLinkAndButton);
+
+
 
         }else{
             userGreetingsLabel= new Label("Üdvözlünk, " + user.getName());
+            logoutButton= new Button("Kijelentkezés");
+            logoutButton.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    logout();
+                    getUI().getNavigator().navigateTo(MainView.VIEWID);
+                }
+            });
+
             loginLayout.addComponent(userGreetingsLabel);
+            loginLayout.addComponent(logoutButton);
         }
     }
+
+    private void logout(){
+        ((MyUI)getUI().getCurrent()).setLoggedInUser(null);
+    }
+
+    private boolean isCustomer(){
+        boolean isCustomer=((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Customer;
+        System.out.println(isCustomer);
+        return isCustomer;
+    }
+
+    private boolean isAgent(){
+        return ((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Agent;
+    }
+
+    private void buildMenuLayout(){
+        VerticalMenu verticalMenu= new VerticalMenu();
+
+        verticalMenu.addButton("Bemutatkozás", "bemutatkozóView");
+        verticalMenu.addButton("Szolgáltatások", "szolgáltatásokView");
+        verticalMenu.addButton("Akciók", "akciókView");
+
+        if(isCustomer()){
+            verticalMenu.addButton("Hibabejelntés", "hibabejelentésView");
+        }
+        if(isAgent()){
+            verticalMenu.addButton("Ügyféladatok módosítása","ügyféladatokMódosításaView");;
+        }
+        verticalMenu.addButton("Kapcsolat", "kapcsolatView");
+
+        menuLayout=verticalMenu.getBuiltMenu();
+    }
+
 
 }

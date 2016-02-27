@@ -18,6 +18,12 @@ public class ApplicationUser implements Serializable {
     @Column(name="USER_ID")
     private Long userId;
 
+    @Column(name="USERNAME")
+    private String username;
+
+    @Column(name="PASSWORD")
+    private String password;
+
     @Column(name="NAME")
     private String name;
 
@@ -58,5 +64,21 @@ public class ApplicationUser implements Serializable {
 
     public void setBirthPlace(String birthPlace) {
         this.birthPlace = birthPlace;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
