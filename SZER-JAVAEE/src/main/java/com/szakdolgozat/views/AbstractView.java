@@ -19,7 +19,7 @@ import javax.inject.Inject;
  * Created by Ákos on 2016.02.14..
  */
 
-public class AbstractView extends VerticalLayout implements View {
+public abstract class AbstractView extends VerticalLayout implements View {
 
     protected VerticalLayout mainLayout= new VerticalLayout();
 
@@ -77,9 +77,7 @@ public class AbstractView extends VerticalLayout implements View {
 
 
 
-    public void afterEnter(){
-
-    }
+    abstract public void afterEnter();
 
     private void initDefaultComponents() {
 
@@ -178,6 +176,18 @@ public class AbstractView extends VerticalLayout implements View {
             loginLayout.addComponent(regLinkAndButton);
 
 
+            //dbfeltöltéshez
+            Button dbfill= new Button("tölt");
+            dbfill.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    applicationUserBean.dbfill();
+                }
+            });
+
+            loginLayout.addComponent(dbfill);
+
+
 
         }else{
             userGreetingsLabel= new Label("Üdvözlünk, " + user.getName());
@@ -212,8 +222,8 @@ public class AbstractView extends VerticalLayout implements View {
     private void buildMenuLayout(){
         VerticalMenu verticalMenu= new VerticalMenu();
 
-        verticalMenu.addButton("Bemutatkozás", "bemutatkozóView");
-        verticalMenu.addButton("Szolgáltatások", "szolgáltatásokView");
+        verticalMenu.addButton("Bemutatkozás", "IntroductionView");
+        verticalMenu.addButton("Szolgáltatások", "ServicesView");
         verticalMenu.addButton("Akciók", "akciókView");
 
         if(isCustomer()){
@@ -222,7 +232,7 @@ public class AbstractView extends VerticalLayout implements View {
         if(isAgent()){
             verticalMenu.addButton("Ügyféladatok módosítása","ügyféladatokMódosításaView");;
         }
-        verticalMenu.addButton("Kapcsolat", "kapcsolatView");
+        verticalMenu.addButton("Kapcsolat", "ContactView");
 
         menuLayout=verticalMenu.getBuiltMenu();
     }
