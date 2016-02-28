@@ -11,17 +11,17 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class InternetService extends Service implements Serializable {
     @Column(name="SPEED")
-    private Short speed;
+    private String speed;
 
     public InternetService(){
 
     }
 
-    public Short getSpeed() {
+    public String getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Short speed) {
+    public void setSpeed(String speed) {
         this.speed = speed;
     }
 }

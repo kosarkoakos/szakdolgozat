@@ -26,7 +26,7 @@ public class ServicePack implements Serializable{
     @Column(name="DESCRIPTION")
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "jnd_ServicePacks_Services",
             joinColumns = @JoinColumn(name = "SERVICEPACK_ID_FK"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID_FK"))

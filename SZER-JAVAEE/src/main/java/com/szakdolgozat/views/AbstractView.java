@@ -148,10 +148,8 @@ public abstract class AbstractView extends VerticalLayout implements View {
                     loginDTO.setPassword(passwordField.getValue());
                     ApplicationUser au=applicationUserBean.doLogin(loginDTO);
                     if(au!=null) {
-
                         ((MyUI) getUI().getCurrent()).setLoggedInUser(au);
 
-                        System.out.println("A bejelentkezett felhasználó neve: " + ((MyUI) getUI().getCurrent()).getLoggedInUser().getUsername());
                         getUI().getNavigator().navigateTo(MainView.VIEWID);
                     }else {
                         Notification.show("Valótlan bejelentkezési adatok!");
@@ -211,7 +209,6 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
     private boolean isCustomer(){
         boolean isCustomer=((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Customer;
-        System.out.println(isCustomer);
         return isCustomer;
     }
 
