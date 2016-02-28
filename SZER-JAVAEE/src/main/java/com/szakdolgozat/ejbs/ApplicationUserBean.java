@@ -48,7 +48,7 @@ public class ApplicationUserBean {
     }
 
     public void dbfill(){
-
+/*
         InternetService is1= new InternetService();
         InternetService is2= new InternetService();
         InternetService is3= new InternetService();
@@ -161,7 +161,7 @@ public class ApplicationUserBean {
         entityManager.persist(sp2);
         entityManager.persist(sp3);
 
-
+*/
 
 
     }

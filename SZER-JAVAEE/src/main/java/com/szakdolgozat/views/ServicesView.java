@@ -1,6 +1,9 @@
 package com.szakdolgozat.views;
 
+import com.szakdolgozat.dto.NamePriceDTO;
+import com.szakdolgozat.ejbs.BasketEJB;
 import com.szakdolgozat.ejbs.ServicesBean;
+import com.szakdolgozat.ejbs.TableContentHandlerBean;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.service.InternetService;
 import com.szakdolgozat.entities.service.Service;
@@ -12,6 +15,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.*;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
@@ -25,10 +29,13 @@ public class ServicesView extends AbstractView {
 
     private VerticalLayout layoutForTables;
     private HorizontalLayout layoutForContent;
+    private VerticalLayout layoutForBasket;
+    private String tableWidth="450px";
 
 
     private Table services;
     private Table packContents;
+    private Table basket;
     private IndexedContainer internetContainer;
     private IndexedContainer televisionContainer;
     private IndexedContainer telephoneContainer;
@@ -41,15 +48,30 @@ public class ServicesView extends AbstractView {
     private String selectedServicePackName;
     private Service selectedService;
     private Button toCartButton;
+    private Button removeFromCart;
     private ComboBox serviceTypes;
+    private String removeName;
 
     ArrayList<ServicePack> allServicePacks;
 
     @Inject
     ServicesBean servicesBean;
 
+    @Inject
+    BasketEJB basketEJB;
+
+    @Inject
+    TableContentHandlerBean tableContentHandlerBean;
+
     @Override
     public void afterEnter() {
+        layoutForTables = new VerticalLayout();
+        layoutForBasket = new VerticalLayout();
+        services= new Table();
+        basket= new Table("A kosár tartalma:");
+        basket.setSelectable(true);
+        basket.setImmediate(true);
+        basket.setPageLength(3);
 
         serviceTypes= new ComboBox("Válassz!");
         serviceTypes.addItem("Telefon");
@@ -63,13 +85,16 @@ public class ServicesView extends AbstractView {
                 refreshTableContent(selectedServiceType);
             }
         });
+        serviceTypes.setNullSelectionAllowed(false);
+        serviceTypes.setValue("Telefon");
 
 
-        services= new Table("Elérhető szolgáltatások");
+
+        services.setWidth(tableWidth);
         services.setPageLength(5);
         services.setImmediate(true);
         services.setSelectable(true);
-        services.setContainerDataSource(internetContainer);
+        switchToTelephone();
         services.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -101,17 +126,54 @@ public class ServicesView extends AbstractView {
         toCartButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                //TODO
+                if(selectedServiceType.equals("Televízió") ||
+                        selectedServiceType.equals("Telefon") ||
+                        selectedServiceType.equals("Internet")){
+
+                    if (selectedService != null) {
+                        basketEJB.addService(selectedServiceName);
+                    }
+                }
+
+                if(selectedServiceType.equals("Csomagok")){
+                    if (selectedServicePack != null) {
+                        basketEJB.addServicePack(selectedServicePackName);
+                    }
+                }
             }
         });
 
-        layoutForTables = new VerticalLayout();
+
         layoutForTables.addComponent(serviceTypes);
         layoutForTables.addComponent(services);
 
         layoutForContent = new HorizontalLayout();
         layoutForContent.addComponent(layoutForTables);
         layoutForContent.addComponent(toCartButton);
+
+        basket.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                if(valueChangeEvent!=null) {
+                    removeName = ((NamePriceDTO) valueChangeEvent.getProperty().getValue()).getName();
+                    System.out.println("A kiválasztott basketbeli név: " + removeName);
+                }
+            }
+        });
+
+        removeFromCart= new Button("Eltávolít");
+        removeFromCart.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                basketEJB.removeService(removeName);
+           //     basketEJB.removeServicePack(removeName);
+            }
+        });
+
+
+        layoutForBasket.addComponent(basket);
+        layoutForBasket.addComponent(removeFromCart);
+        layoutForContent.addComponent(layoutForBasket);
 
         menuContent.addComponent(layoutForContent);
 
@@ -136,8 +198,9 @@ public class ServicesView extends AbstractView {
 
     private void makeLayoutForTablesAsTwoTable(){
         if(layoutForTables.getComponentCount()==2){
-            packContents= new Table();
+            packContents= new Table("A szolgáltatáscsomag tartalma:");
             packContents.setPageLength(3);
+            packContents.setWidth(tableWidth);
             layoutForTables.addComponent(packContents);
         }
     }
@@ -258,5 +321,19 @@ public class ServicesView extends AbstractView {
             }
 
         packContents.setContainerDataSource(servicePackContentContainer);
+    }
+
+    private void setBasketDS(@Observes String s){
+        System.out.println("setBasketDS nevű, eventet observelő metódus indul. Stirng: " + s);
+        IndexedContainer bic;
+        bic=tableContentHandlerBean.makeBasketIndexedConatiner(this.basketEJB.getServiceNames(),
+                                                            this.basketEJB.getServicePackNames());
+
+        if(bic==null){
+            System.out.println("A bic null.");
+        }else {
+            basket.setContainerDataSource(bic);
+        }
+
     }
 }
