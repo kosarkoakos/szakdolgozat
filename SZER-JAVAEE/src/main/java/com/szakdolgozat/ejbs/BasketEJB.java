@@ -52,10 +52,6 @@ public class BasketEJB {
             serviceNames.remove(serviceName);
             basketChanged.fire(serviceName + " removed.");
         }
-        System.out.println("removeServiceben a remove után a lista tartalma:");
-        for (String n: serviceNames){
-            System.out.println(n);
-        }
     }
 
     public void removeServicePack(String servicePackName){
@@ -63,6 +59,12 @@ public class BasketEJB {
             servicePackNames.remove(servicePackName);
             basketChanged.fire(servicePackName + " removed.");
         }
+    }
+
+    public void makeBasketEmpty(){
+        serviceNames.clear();
+        servicePackNames.clear();
+        basketChanged.fire("Basket is made empty!");
     }
 
     public List<String> getServicePackNames() {

@@ -1,10 +1,13 @@
 package com.szakdolgozat.views;
 
+import com.szakdolgozat.MyUI;
 import com.szakdolgozat.dto.NamePriceDTO;
 import com.szakdolgozat.ejbs.BasketEJB;
+import com.szakdolgozat.ejbs.OrdersBean;
 import com.szakdolgozat.ejbs.ServicesBean;
 import com.szakdolgozat.ejbs.TableContentHandlerBean;
 import com.szakdolgozat.entities.ServicePack;
+import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.service.InternetService;
 import com.szakdolgozat.entities.service.Service;
 import com.szakdolgozat.entities.service.TelephoneService;
@@ -13,6 +16,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import javax.enterprise.event.Observes;
@@ -27,10 +31,13 @@ public class ServicesView extends AbstractView {
 
     public static final String VIEWID="ServicesView";
 
-    private VerticalLayout layoutForTables;
+    private VerticalLayout layoutForServiceTables;
+    private HorizontalLayout layoutForServiceTablesLittleComponents;
     private HorizontalLayout layoutForContent;
     private VerticalLayout layoutForBasket;
+    private HorizontalLayout layoutForBasketButtons;
     private String tableWidth="450px";
+    private String basketWidth="250px";
 
 
     private Table services;
@@ -49,6 +56,7 @@ public class ServicesView extends AbstractView {
     private Service selectedService;
     private Button toCartButton;
     private Button removeFromCart;
+    private Button orderButton;
     private ComboBox serviceTypes;
     private String removeName;
 
@@ -63,112 +71,23 @@ public class ServicesView extends AbstractView {
     @Inject
     TableContentHandlerBean tableContentHandlerBean;
 
+    @Inject
+    OrdersBean ordersBean;
+
     @Override
     public void afterEnter() {
-        layoutForTables = new VerticalLayout();
-        layoutForBasket = new VerticalLayout();
-        services= new Table();
+
         initBasketTable();
+        initLayoutForBasket();
 
-        serviceTypes= new ComboBox("Válassz!");
-        serviceTypes.addItem("Telefon");
-        serviceTypes.addItem("Televízió");
-        serviceTypes.addItem("Internet");
-        serviceTypes.addItem("Csomagok");
-        serviceTypes.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                selectedServiceType=(String)valueChangeEvent.getProperty().getValue();
-                refreshTableContent(selectedServiceType);
-            }
-        });
-        serviceTypes.setNullSelectionAllowed(false);
-        serviceTypes.setValue("Telefon");
-
-
-
-        services.setWidth(tableWidth);
-        services.setPageLength(5);
-        services.setImmediate(true);
-        services.setSelectable(true);
-        switchToTelephone();
-        services.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                if(selectedServiceType.equals("Televízió") ||
-                   selectedServiceType.equals("Telefon") ||
-                   selectedServiceType.equals("Internet")){
-
-                    selectedService = (Service) valueChangeEvent.getProperty().getValue();
-                    if (selectedService != null) {
-                        selectedServiceName = selectedService.getName();
-                    }
-                }
-
-                if(selectedServiceType.equals("Csomagok")){
-                    selectedServicePack=(ServicePack)valueChangeEvent.getProperty().getValue();
-                    if (selectedServicePack != null) {
-                        selectedServicePackName= selectedServicePack.getName();
-                    }
-
-                    fillpackContents();
-                }
-
-            }
-        });
-
-
-
-        toCartButton= new Button("Kosárba");
-        toCartButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                if(selectedServiceType.equals("Televízió") ||
-                        selectedServiceType.equals("Telefon") ||
-                        selectedServiceType.equals("Internet")){
-
-                    if (selectedService != null) {
-                        basketEJB.addService(selectedServiceName);
-                    }
-                }
-
-                if(selectedServiceType.equals("Csomagok")){
-                    if (selectedServicePack != null) {
-                        basketEJB.addServicePack(selectedServicePackName);
-                    }
-                }
-            }
-        });
-
-
-        layoutForTables.addComponent(serviceTypes);
-        layoutForTables.addComponent(services);
+        initServiceTablesLayout();
 
         layoutForContent = new HorizontalLayout();
-        layoutForContent.addComponent(layoutForTables);
-        layoutForContent.addComponent(toCartButton);
 
+        layoutForContent.addComponent(layoutForServiceTables);
 
-
-        removeFromCart= new Button("Eltávolít");
-        removeFromCart.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                System.out.println("removeCart clicklistenerjében a removeName: "+ removeName);
-                if(basketEJB != null){
-                    basketEJB.removeService(removeName);
-                    basketEJB.removeServicePack(removeName);
-                }else{
-                    System.out.println("A basketEJB null.");
-                }
-
-            }
-        });
-
-
-        layoutForBasket.addComponent(basket);
-        layoutForBasket.addComponent(removeFromCart);
         layoutForContent.addComponent(layoutForBasket);
+        layoutForContent.setComponentAlignment(layoutForBasket,Alignment.TOP_RIGHT);
 
         menuContent.addComponent(layoutForContent);
 
@@ -186,17 +105,17 @@ public class ServicesView extends AbstractView {
     }
 
     private void makeLayoutForTablesAsOneTable(){
-        if(layoutForTables.getComponentCount()==3){
-            layoutForTables.removeComponent(packContents);
+        if(layoutForServiceTables.getComponentCount()==3){
+            layoutForServiceTables.removeComponent(packContents);
         }
     }
 
     private void makeLayoutForTablesAsTwoTable(){
-        if(layoutForTables.getComponentCount()==2){
+        if(layoutForServiceTables.getComponentCount()==2){
             packContents= new Table("A szolgáltatáscsomag tartalma:");
             packContents.setPageLength(3);
             packContents.setWidth(tableWidth);
-            layoutForTables.addComponent(packContents);
+            layoutForServiceTables.addComponent(packContents);
         }
     }
 
@@ -319,7 +238,6 @@ public class ServicesView extends AbstractView {
     }
 
     private void setBasketDS(@Observes String s){
-        System.out.println("setBasketDS nevű, eventet observelő metódus indul. Stirng: " + s);
         IndexedContainer bic;
         bic=tableContentHandlerBean.makeBasketIndexedConatiner(this.basketEJB.getServiceNames(),
                                                             this.basketEJB.getServicePackNames());
@@ -327,11 +245,8 @@ public class ServicesView extends AbstractView {
         initBasketTable();
         layoutForBasket.addComponent(basket);
 
-        if(bic==null){
-            System.out.println("A bic null.");
-        }else {
-            basket.setContainerDataSource(bic);
-        }
+        basket.setContainerDataSource(bic);
+
 
     }
 
@@ -340,15 +255,13 @@ public class ServicesView extends AbstractView {
         basket.setSelectable(true);
         basket.setImmediate(true);
         basket.setPageLength(3);
+        basket.setWidth(basketWidth);
 
         basket.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 if(valueChangeEvent!=null) {
-                    removeName = ((NamePriceDTO) valueChangeEvent
-                            .getProperty()
-                            .getValue())
-                            .getName();
+                    removeName = ((NamePriceDTO) valueChangeEvent.getProperty().getValue()).getName();
                     System.out.println("A kiválasztott basketbeli név: " + removeName);
                 }
                 else{
@@ -357,5 +270,125 @@ public class ServicesView extends AbstractView {
 
             }
         });
+    }
+
+    private void initLayoutForBasket(){
+        layoutForBasket=new VerticalLayout();
+        layoutForBasketButtons= new HorizontalLayout();
+
+        removeFromCart= new Button("Eltávolít");
+        removeFromCart.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                System.out.println("removeCart clicklistenerjében a removeName: "+ removeName);
+                if(basketEJB != null){
+                    basketEJB.removeService(removeName);
+                    basketEJB.removeServicePack(removeName);
+                }else{
+                    System.out.println("A basketEJB null.");
+                }
+
+            }
+        });
+
+        orderButton= new Button("Megrendel");
+        orderButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                //a megrendelést eltárolja az adatbázisban
+                //basket tartalmát törli
+                //számlák menüpontra irányít
+                ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
+                ordersBean.saveOrder(user, basketEJB.getServiceNames(),basketEJB.getServicePackNames());
+                basketEJB.makeBasketEmpty();
+
+            }
+        });
+
+        layoutForBasketButtons.addComponent(removeFromCart);
+        layoutForBasketButtons.addComponent(orderButton);
+        layoutForBasket.addComponent(layoutForBasketButtons);
+        layoutForBasket.addComponent(basket);
+
+    }
+
+    private void initServiceTablesLayout(){
+        layoutForServiceTables = new VerticalLayout();
+        layoutForServiceTables.setMargin(new MarginInfo(false,true,false,false));
+        services= new Table();
+
+        serviceTypes= new ComboBox("Válassz!");
+        serviceTypes.addItem("Telefon");
+        serviceTypes.addItem("Televízió");
+        serviceTypes.addItem("Internet");
+        serviceTypes.addItem("Csomagok");
+        serviceTypes.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                selectedServiceType=(String)valueChangeEvent.getProperty().getValue();
+                refreshTableContent(selectedServiceType);
+            }
+        });
+        serviceTypes.setNullSelectionAllowed(false);
+        serviceTypes.setValue("Telefon");
+
+        switchToTelephone();
+
+        services.setWidth(tableWidth);
+        services.setPageLength(5);
+        services.setImmediate(true);
+        services.setSelectable(true);
+        services.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                if(selectedServiceType.equals("Televízió") ||
+                        selectedServiceType.equals("Telefon") ||
+                        selectedServiceType.equals("Internet")){
+
+                    selectedService = (Service) valueChangeEvent.getProperty().getValue();
+                    if (selectedService != null) {
+                        selectedServiceName = selectedService.getName();
+                    }
+                }
+
+                if(selectedServiceType.equals("Csomagok")){
+                    selectedServicePack=(ServicePack)valueChangeEvent.getProperty().getValue();
+                    if (selectedServicePack != null) {
+                        selectedServicePackName= selectedServicePack.getName();
+                    }
+
+                    fillpackContents();
+                }
+
+            }
+        });
+
+        toCartButton= new Button("Kosárba");
+        toCartButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                if(selectedServiceType.equals("Televízió") ||
+                        selectedServiceType.equals("Telefon") ||
+                        selectedServiceType.equals("Internet")){
+
+                    if (selectedService != null) {
+                        basketEJB.addService(selectedServiceName);
+                    }
+                }
+
+                if(selectedServiceType.equals("Csomagok")){
+                    if (selectedServicePack != null) {
+                        basketEJB.addServicePack(selectedServicePackName);
+                    }
+                }
+            }
+        });
+
+        layoutForServiceTablesLittleComponents= new HorizontalLayout();
+        layoutForServiceTablesLittleComponents.addComponent(serviceTypes);
+        layoutForServiceTablesLittleComponents.addComponent(toCartButton);
+
+        layoutForServiceTables.addComponent(layoutForServiceTablesLittleComponents);
+        layoutForServiceTables.addComponent(services);
     }
 }

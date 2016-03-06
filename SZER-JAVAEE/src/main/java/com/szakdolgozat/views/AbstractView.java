@@ -175,15 +175,15 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
 
             //dbfeltöltéshez
-            Button dbfill= new Button("tölt");
-            dbfill.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    applicationUserBean.dbfill();
-                }
-            });
+        //    Button dbfill= new Button("tölt");
+        //    dbfill.addClickListener(new Button.ClickListener() {
+        //        @Override
+        //        public void buttonClick(Button.ClickEvent clickEvent) {
+        //            applicationUserBean.dbfill();
+        //        }
+        //    });
 
-            loginLayout.addComponent(dbfill);
+        //    loginLayout.addComponent(dbfill);
 
 
 
