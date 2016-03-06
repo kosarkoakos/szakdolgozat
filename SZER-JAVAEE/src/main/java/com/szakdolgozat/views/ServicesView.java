@@ -13,12 +13,15 @@ import com.szakdolgozat.entities.service.Service;
 import com.szakdolgozat.entities.service.TelephoneService;
 import com.szakdolgozat.entities.service.TelevisionService;
 import com.vaadin.cdi.CDIView;
+import com.vaadin.cdi.NormalUIScoped;
+import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -76,7 +79,7 @@ public class ServicesView extends AbstractView {
 
     @Override
     public void afterEnter() {
-
+        basket=new Table();
         initBasketTable();
         initLayoutForBasket();
 
@@ -299,9 +302,16 @@ public class ServicesView extends AbstractView {
                 //basket tartalmát törli
                 //számlák menüpontra irányít
                 ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
-                ordersBean.saveOrder(user, basketEJB.getServiceNames(),basketEJB.getServicePackNames());
-                basketEJB.makeBasketEmpty();
 
+                if(user!=null){
+                    ordersBean.saveOrder(user, basketEJB.getServiceNames(),basketEJB.getServicePackNames());
+                    basketEJB.makeBasketEmpty();
+                }else{
+                    Notification notification= new Notification("Jelentkezz be!", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(5000);
+                    notification.show(getUI().getPage());
+
+                }
             }
         });
 

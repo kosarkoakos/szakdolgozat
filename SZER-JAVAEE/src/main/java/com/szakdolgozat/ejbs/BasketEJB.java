@@ -28,7 +28,6 @@ public class BasketEJB {
     }
 
     public void addService(String serviceName){
-        System.out.println("A kosárba került a következő nevű service:" + serviceName);
         if(!serviceNames.contains(serviceName)) {
             serviceNames.add(serviceName);
             basketChanged.fire(serviceName + "added.");
@@ -39,7 +38,6 @@ public class BasketEJB {
 
     public void addServicePack(String servicePackName){
         if(!servicePackNames.contains(servicePackName)) {
-            System.out.println("A kosárba került a következő nevű servicepack:" + servicePackName);
             servicePackNames.add(servicePackName);
             basketChanged.fire(servicePackName + "added.");
         }else{

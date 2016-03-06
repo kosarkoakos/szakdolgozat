@@ -1,9 +1,11 @@
 package com.szakdolgozat.entities.person;
 
 import com.szakdolgozat.entities.Order;
+import com.szakdolgozat.entities.ReportedFault;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class Customer extends ApplicationUser implements Serializable {
 
     @OneToMany(mappedBy="subscriber")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "reporter")
+    private List<ReportedFault> reportedFaults;
 
     public Customer(){
 
@@ -42,4 +47,11 @@ public class Customer extends ApplicationUser implements Serializable {
         this.orders = orders;
     }
 
+    public List<ReportedFault> getReportedFaults() {
+        return reportedFaults;
+    }
+
+    public void setReportedFaults(List<ReportedFault> reportedFaults) {
+        this.reportedFaults = reportedFaults;
+    }
 }
