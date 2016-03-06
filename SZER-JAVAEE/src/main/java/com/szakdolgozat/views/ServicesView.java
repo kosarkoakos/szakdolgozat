@@ -68,10 +68,7 @@ public class ServicesView extends AbstractView {
         layoutForTables = new VerticalLayout();
         layoutForBasket = new VerticalLayout();
         services= new Table();
-        basket= new Table("A kosár tartalma:");
-        basket.setSelectable(true);
-        basket.setImmediate(true);
-        basket.setPageLength(3);
+        initBasketTable();
 
         serviceTypes= new ComboBox("Válassz!");
         serviceTypes.addItem("Telefon");
@@ -151,22 +148,20 @@ public class ServicesView extends AbstractView {
         layoutForContent.addComponent(layoutForTables);
         layoutForContent.addComponent(toCartButton);
 
-        basket.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                if(valueChangeEvent!=null) {
-                    removeName = ((NamePriceDTO) valueChangeEvent.getProperty().getValue()).getName();
-                    System.out.println("A kiválasztott basketbeli név: " + removeName);
-                }
-            }
-        });
+
 
         removeFromCart= new Button("Eltávolít");
         removeFromCart.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                basketEJB.removeService(removeName);
-           //     basketEJB.removeServicePack(removeName);
+                System.out.println("removeCart clicklistenerjében a removeName: "+ removeName);
+                if(basketEJB != null){
+                    basketEJB.removeService(removeName);
+                    basketEJB.removeServicePack(removeName);
+                }else{
+                    System.out.println("A basketEJB null.");
+                }
+
             }
         });
 
@@ -328,6 +323,9 @@ public class ServicesView extends AbstractView {
         IndexedContainer bic;
         bic=tableContentHandlerBean.makeBasketIndexedConatiner(this.basketEJB.getServiceNames(),
                                                             this.basketEJB.getServicePackNames());
+        layoutForBasket.removeComponent(basket);
+        initBasketTable();
+        layoutForBasket.addComponent(basket);
 
         if(bic==null){
             System.out.println("A bic null.");
@@ -335,5 +333,29 @@ public class ServicesView extends AbstractView {
             basket.setContainerDataSource(bic);
         }
 
+    }
+
+    private void initBasketTable(){
+        basket= new Table("A kosár tartalma:");
+        basket.setSelectable(true);
+        basket.setImmediate(true);
+        basket.setPageLength(3);
+
+        basket.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                if(valueChangeEvent!=null) {
+                    removeName = ((NamePriceDTO) valueChangeEvent
+                            .getProperty()
+                            .getValue())
+                            .getName();
+                    System.out.println("A kiválasztott basketbeli név: " + removeName);
+                }
+                else{
+                    System.out.println("A basket valueChangeEventje null");
+                }
+
+            }
+        });
     }
 }
