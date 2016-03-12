@@ -234,6 +234,4 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         menuLayout=verticalMenu.getBuiltMenu();
     }
-
-
 }

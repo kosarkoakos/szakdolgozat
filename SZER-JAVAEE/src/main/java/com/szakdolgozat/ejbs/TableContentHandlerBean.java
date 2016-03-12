@@ -91,7 +91,7 @@ public class TableContentHandlerBean {
 
         TypedQuery<Bill> getAllBillsQuery;
         getAllBillsQuery=entityManager.createQuery("SELECT s FROM Bill s WHERE s.order.orderId IN (" +
-                "SELECT o.orderId FROM Order o WHERE o.subscriber =:customer)",Bill.class);
+                "SELECT o.orderId FROM Order o WHERE o.subscriber =:customer) AND s.paidTime IS NULL",Bill.class);
         getAllBillsQuery.setParameter("customer", (Customer)customer);
         try {
             bills = getAllBillsQuery.getResultList();

@@ -2,7 +2,9 @@ package com.szakdolgozat.views;
 
 import com.szakdolgozat.MyUI;
 import com.szakdolgozat.dto.NamePriceDTO;
+import com.szakdolgozat.ejbs.IDStorageBean;
 import com.szakdolgozat.ejbs.TableContentHandlerBean;
+import com.szakdolgozat.entities.Bill;
 import com.szakdolgozat.entities.person.Customer;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property;
@@ -11,6 +13,7 @@ import com.vaadin.ui.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,11 +36,15 @@ public class BillsView extends AbstractView{
 
     private int tableLength=5;
 
-    private List<String> selectedBills= new ArrayList<>();
+    private ArrayList<Long> selectedBillsIDs= new ArrayList<>();
     private Integer sumPrice=0;
+    private String ids;
 
     @Inject
     TableContentHandlerBean tchb;
+
+    @Inject
+    IDStorageBean storageBean;
 
 
     @Override
@@ -71,20 +78,20 @@ public class BillsView extends AbstractView{
         billsTable.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String selected =  (String)valueChangeEvent.getProperty().getValue();
-             //   Integer selectedPrice =  ((NamePriceDTO)valueChangeEvent.getProperty().getValue()).getPrice();//selected lehet az, amiről éppen levette a kiválasztottságot
-                if(selectedBills.contains(selected)){
-                    selectedBills.remove(selected);
-                   // sumPrice-=selectedPrice;
-                    setFinalPriceLabelContent(sumPrice+10);
+                selectedBillsIDs.clear();
+                sumPrice=0;
+                Collection selected =  (Collection)valueChangeEvent.getProperty().getValue();
 
-                }else{
-                    selectedBills.add(selected);
-                   // sumPrice+=selectedPrice;
-                    setFinalPriceLabelContent(sumPrice+10);
+                if(!selected.isEmpty()){
+                    Object[] array=selected.toArray();
+
+                    for (int i=0;i<array.length;i++) {
+                        Bill sBill = (Bill) array[i];
+                        selectedBillsIDs.add(sBill.getBillId());
+                        sumPrice+=sBill.getAmount();
+                    }
                 }
-
-                System.out.println("selectedbills mérete: "+ selectedBills.size());
+                setFinalPriceLabelContent(sumPrice);
             }
         });
     }
@@ -93,10 +100,19 @@ public class BillsView extends AbstractView{
         finalPrice=new Label("Végösszeg: 0 HUF");
         payButton= new Button("Befizet");
 
+        payButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                storageBean.addList(((MyUI)getUI().getCurrent()).getLoggedInUser().getName(),selectedBillsIDs);
+                getUI().getNavigator().navigateTo(PayingView.VIEWID + "/" +sumPrice.toString());
+            }
+        });
+
 
     }
 
     private void setFinalPriceLabelContent(int price){
-        finalPrice.setValue("Végösszeg: " + price + "HUF");
+        finalPrice.setValue("Végösszeg: " + price + " HUF");
     }
+
 }

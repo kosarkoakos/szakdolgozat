@@ -25,6 +25,10 @@ public class Bill implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date deadline;
 
+    @Column(name="PAIDTIME")
+    @Temporal(TemporalType.DATE)
+    private Date paidTime;
+
     @ManyToOne
     @JoinColumn(name="ORDER_ID_FK", referencedColumnName="ORDER_ID")
     private Order order;
@@ -71,5 +75,13 @@ public class Bill implements Serializable{
 
     public void setBillName(String billName) {
         this.billName = billName;
+    }
+
+    public Date getPaidTime() {
+        return paidTime;
+    }
+
+    public void setPaidTime(Date paidTime) {
+        this.paidTime = paidTime;
     }
 }
