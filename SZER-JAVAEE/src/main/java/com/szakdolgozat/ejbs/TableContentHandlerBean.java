@@ -1,7 +1,10 @@
 package com.szakdolgozat.ejbs;
 
 import com.szakdolgozat.dto.NamePriceDTO;
+import com.szakdolgozat.entities.Bill;
 import com.szakdolgozat.entities.ServicePack;
+import com.szakdolgozat.entities.person.ApplicationUser;
+import com.szakdolgozat.entities.person.Customer;
 import com.szakdolgozat.entities.service.Service;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
@@ -12,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -77,6 +81,34 @@ public class TableContentHandlerBean {
             Item item= ic.addItem(np);
             item.getItemProperty("Név").setValue(np.getName());
             item.getItemProperty("Ár").setValue(np.getPrice());
+        }
+
+        return ic;
+    }
+
+    public IndexedContainer makeBillsIndexedContainer(ApplicationUser customer){
+        List<Bill> bills=null;
+
+        TypedQuery<Bill> getAllBillsQuery;
+        getAllBillsQuery=entityManager.createQuery("SELECT s FROM Bill s WHERE s.order.orderId IN (" +
+                "SELECT o.orderId FROM Order o WHERE o.subscriber =:customer)",Bill.class);
+        getAllBillsQuery.setParameter("customer", (Customer)customer);
+        try {
+            bills = getAllBillsQuery.getResultList();
+        }catch(Exception e){
+            System.out.println("Nincsenek számlái.");
+        }
+
+        IndexedContainer ic= new IndexedContainer();
+        ic.addContainerProperty("Szolgáltatás", String.class,null);
+        ic.addContainerProperty("Összeg", Integer.class, null);
+        ic.addContainerProperty("Befizetési határidő", Date.class ,null);
+
+        for (Bill b : bills){
+            Item item= ic.addItem(b);
+            item.getItemProperty("Szolgáltatás").setValue(b.getBillName());
+            item.getItemProperty("Összeg").setValue(b.getAmount());
+            item.getItemProperty("Befizetési határidő").setValue(b.getDeadline());
         }
 
         return ic;

@@ -1,5 +1,6 @@
 package com.szakdolgozat.ejbs;
 
+import com.szakdolgozat.entities.Bill;
 import com.szakdolgozat.entities.Order;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.person.ApplicationUser;
@@ -10,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -46,18 +49,51 @@ public class OrdersBean {
         Order order= new Order();
         ArrayList<Service> orderedServices=null;
         ArrayList<ServicePack> orderedServicePacks=null;
+        ArrayList<Bill> bills= new ArrayList<>();
+
+        java.util.Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH,1);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        SimpleDateFormat fullDate = new SimpleDateFormat("YYYY. MM. DD.");
+        SimpleDateFormat yearMonth = new SimpleDateFormat("YYYY. MM.");
+
         if(serviceNames.size()>0){
            orderedServices=(ArrayList<Service>) getServicesByName(serviceNames);
+            for(Service s :orderedServices){
+                Bill b = new Bill();
+                b.setAmount(s.getPrice());
+                b.setDeadline(calendar.getTime());
+                b.setOrder(order);
+                b.setBillName(s.getName() + " - " + yearMonth.format(calendar.getTime()));
+                bills.add(b);
+
+                entityManager.persist(b);
+
+            }
         }
         if(servicePackNames.size()>0){
             orderedServicePacks=(ArrayList<ServicePack>)getServicePacksByName(servicePackNames);
+            for(ServicePack sp : orderedServicePacks){
+                Bill b = new Bill();
+                b.setAmount(sp.getPrice());
+                b.setOrder(order);
+                b.setDeadline(calendar.getTime());
+                b.setBillName(sp.getName() + " - " + yearMonth.format(calendar.getTime()));
+                bills.add(b);
+                entityManager.persist(b);
+            }
         }
 
         order.setSubscriber((Customer)user);
         order.setServices(orderedServices);
         order.setServicePacks(orderedServicePacks);
         order.setOrderDate(java.util.Calendar.getInstance().getTime());
+        System.out.println("az order billjei dbszáma: " + bills.size());
+        order.setBills(bills);
+
         entityManager.persist(order);
+
+
 
     }
 

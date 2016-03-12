@@ -225,6 +225,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         if(isCustomer()){
             verticalMenu.addButton("Hibabejelentés", "FaultSenderView");
+            verticalMenu.addButton("Számlák", BillsView.VIEWID);
         }
         if(isAgent()){
             verticalMenu.addButton("Ügyféladatok módosítása","ügyféladatokMódosításaView");;

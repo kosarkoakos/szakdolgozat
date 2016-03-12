@@ -15,6 +15,9 @@ public class Bill implements Serializable{
     @Column(name="BILL_ID")
     private Long billId;
 
+    @Column(name = "BILLNAME")
+    private String billName;
+
     @Column(name="AMOUNT")
     private Integer amount;
 
@@ -60,5 +63,13 @@ public class Bill implements Serializable{
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getBillName() {
+        return billName;
+    }
+
+    public void setBillName(String billName) {
+        this.billName = billName;
     }
 }
