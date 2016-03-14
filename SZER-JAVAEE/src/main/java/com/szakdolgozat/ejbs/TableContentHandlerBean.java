@@ -1,16 +1,20 @@
 package com.szakdolgozat.ejbs;
 
+import com.szakdolgozat.dto.FaultDTO;
 import com.szakdolgozat.dto.NamePriceDTO;
 import com.szakdolgozat.entities.Bill;
+import com.szakdolgozat.entities.ReportedFault;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.person.Customer;
 import com.szakdolgozat.entities.service.Service;
+import com.szakdolgozat.enums.ServiceType;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -26,6 +30,9 @@ public class TableContentHandlerBean {
 
     @PersistenceContext(unitName = "SZERPU")
     EntityManager entityManager;
+
+    @Inject
+    DateFormatConverter dfc;
 
     public IndexedContainer makeBasketIndexedConatiner(List<String> sNames, List<String> spNames){
 
@@ -102,13 +109,42 @@ public class TableContentHandlerBean {
         IndexedContainer ic= new IndexedContainer();
         ic.addContainerProperty("Szolgáltatás", String.class,null);
         ic.addContainerProperty("Összeg", Integer.class, null);
-        ic.addContainerProperty("Befizetési határidő", Date.class ,null);
+        ic.addContainerProperty("Befizetési határidő", String.class ,null);
 
         for (Bill b : bills){
             Item item= ic.addItem(b);
             item.getItemProperty("Szolgáltatás").setValue(b.getBillName());
             item.getItemProperty("Összeg").setValue(b.getAmount());
-            item.getItemProperty("Befizetési határidő").setValue(b.getDeadline());
+            item.getItemProperty("Befizetési határidő").setValue(dfc.convertToFullDate(b.getDeadline()));
+        }
+
+        return ic;
+    }
+
+    public IndexedContainer makeFaultsIndexedContainer(ServiceType type){
+        List<FaultDTO> faults = null;
+
+        TypedQuery<FaultDTO> query;
+        query = entityManager.createQuery("SELECT NEW com.szakdolgozat.dto.FaultDTO(r.id, r.reporter.username, r.title, r.reportDate) FROM ReportedFault r WHERE r.serviceType =:type " +
+                "AND r.solvedDate IS NULL",FaultDTO.class);
+        query.setParameter("type",type);
+
+        try{
+            faults=query.getResultList();
+        }catch (Exception e){
+            System.out.println("Nem talált rekordot.");
+        }
+
+        IndexedContainer ic = new IndexedContainer();
+        ic.addContainerProperty("Bejelentő neve", String.class,null);
+        ic.addContainerProperty("Tárgy", String.class, null);
+        ic.addContainerProperty("Beérkezett", String.class,null);
+
+        for(FaultDTO f : faults){
+            Item item=ic.addItem(f);
+            item.getItemProperty("Bejelentő neve").setValue(f.getCustomerName());
+            item.getItemProperty("Tárgy").setValue(f.getFaultTitle());
+            item.getItemProperty("Beérkezett").setValue(dfc.convertTofullDateTime(f.getReportedDate()));
         }
 
         return ic;

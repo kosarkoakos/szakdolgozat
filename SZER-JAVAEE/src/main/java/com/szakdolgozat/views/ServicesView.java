@@ -327,7 +327,7 @@ public class ServicesView extends AbstractView {
         layoutForServiceTables.setMargin(new MarginInfo(false,true,false,false));
         services= new Table();
 
-        serviceTypes= new ComboBox("Válassz!");
+        serviceTypes= new ComboBox();
         serviceTypes.addItem("Telefon");
         serviceTypes.addItem("Televízió");
         serviceTypes.addItem("Internet");

@@ -16,6 +16,7 @@ public class ReportedFault implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name = "FAULT_ID")
     private Long id;
 
     @Column(name = "SERVICETYPE")
@@ -37,6 +38,9 @@ public class ReportedFault implements Serializable {
     @ManyToOne
     @JoinColumn(name="USER_ID_FK", referencedColumnName="USER_ID")
     Customer reporter;
+
+    @Column(name = "SOLUTION")
+    private String solution;
 
     public ReportedFault(){
     }
@@ -95,5 +99,13 @@ public class ReportedFault implements Serializable {
 
     public void setSolvedDate(Date solvedDate) {
         this.solvedDate = solvedDate;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
     }
 }

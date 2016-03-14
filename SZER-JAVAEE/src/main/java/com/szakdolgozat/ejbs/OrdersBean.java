@@ -8,6 +8,7 @@ import com.szakdolgozat.entities.person.Customer;
 import com.szakdolgozat.entities.service.Service;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -25,6 +26,9 @@ public class OrdersBean {
 
     @PersistenceContext(unitName = "SZERPU")
     EntityManager entityManager;
+
+    @Inject
+    DateFormatConverter dfc;
 
     public Collection<Service> getServicesByName(List<String> serviceNames){
         TypedQuery<Service> services=entityManager.createQuery("SELECT s FROM Service s WHERE s.name IN :names", Service.class);
@@ -54,8 +58,6 @@ public class OrdersBean {
         java.util.Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH,1);
         calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat fullDate = new SimpleDateFormat("YYYY. MM. DD.");
-        SimpleDateFormat yearMonth = new SimpleDateFormat("YYYY. MM.");
 
         if(serviceNames.size()>0){
            orderedServices=(ArrayList<Service>) getServicesByName(serviceNames);
@@ -64,7 +66,7 @@ public class OrdersBean {
                 b.setAmount(s.getPrice());
                 b.setDeadline(calendar.getTime());
                 b.setOrder(order);
-                b.setBillName(s.getName() + " - " + yearMonth.format(calendar.getTime()));
+                b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
                 bills.add(b);
 
                 entityManager.persist(b);
@@ -78,7 +80,7 @@ public class OrdersBean {
                 b.setAmount(sp.getPrice());
                 b.setOrder(order);
                 b.setDeadline(calendar.getTime());
-                b.setBillName(sp.getName() + " - " + yearMonth.format(calendar.getTime()));
+                b.setBillName(sp.getName() + " - " +dfc.convertToYearMonth(calendar.getTime()));
                 bills.add(b);
                 entityManager.persist(b);
             }
@@ -88,7 +90,6 @@ public class OrdersBean {
         order.setServices(orderedServices);
         order.setServicePacks(orderedServicePacks);
         order.setOrderDate(java.util.Calendar.getInstance().getTime());
-        System.out.println("az order billjei dbszáma: " + bills.size());
         order.setBills(bills);
 
         entityManager.persist(order);
