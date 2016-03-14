@@ -28,6 +28,7 @@ public class PayingView extends AbstractView{
 
     private Button payButton;
     private String amount;
+    private String panelWidth="350px";
 
     @Inject
     BillBean billBean;
@@ -47,7 +48,8 @@ public class PayingView extends AbstractView{
     }
 
     private void initPanel(){
-        payingPanel=new Panel();
+        payingPanel=new Panel("Befizetési adatok");
+        payingPanel.setWidth(panelWidth);
         formLayout= new FormLayout();
 
         name=new TextField("Név:");
@@ -83,6 +85,7 @@ public class PayingView extends AbstractView{
         payingPanel.setContent(formLayout);
 
         menuContent.addComponent(payingPanel);
+        menuContent.setComponentAlignment(payingPanel, Alignment.TOP_CENTER);
 
     }
 

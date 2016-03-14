@@ -25,6 +25,8 @@ public class FaultSenderView extends AbstractView {
     TextArea faultDescription;
     Button sendIn;
 
+    String panelWidth="400px";
+
     @Inject
     FaultBean faultBean;
 
@@ -35,6 +37,7 @@ public class FaultSenderView extends AbstractView {
 
         faultForm=new FormLayout();
         serviceType= new ComboBox();
+        serviceType.setCaption("Jelleg:");
         serviceType.addItem(ServiceType.Televízió);
         serviceType.addItem(ServiceType.Telefon);
         serviceType.addItem(ServiceType.Internet);
@@ -42,8 +45,10 @@ public class FaultSenderView extends AbstractView {
         serviceType.setNullSelectionAllowed(false);
 
 
-        faultTitle= new TextField("Cím");
+        faultTitle= new TextField();
+        faultTitle.setCaption("Tárgy:");
         faultDescription= new TextArea();
+        faultDescription.setCaption("Hibaleírás:");
 
         sendIn= new Button("Beküld");
 
@@ -65,9 +70,13 @@ public class FaultSenderView extends AbstractView {
         faultForm.addComponent(faultDescription);
         faultForm.addComponent(sendIn);
 
+
         panel.setContent(faultForm);
+        panel.setWidth(panelWidth);
 
         menuContent.addComponent(panel);
+
+        menuContent.setComponentAlignment(panel, Alignment.TOP_CENTER);
 
 
 

@@ -34,5 +34,7 @@
 @mixin mytheme {
   @include valo;
 
-
+          .blueBackground{
+               background-color:#80CEEB;
+          }
 }

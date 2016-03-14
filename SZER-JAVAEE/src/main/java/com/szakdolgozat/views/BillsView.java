@@ -9,6 +9,7 @@ import com.szakdolgozat.entities.person.Customer;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import javax.inject.Inject;
@@ -59,6 +60,7 @@ public class BillsView extends AbstractView{
         leftColumn.addComponent(billsTable);
         rightColumn.addComponent(finalPrice);
         rightColumn.addComponent(payButton);
+        rightColumn.setMargin(new MarginInfo(false,false,false,true));
     }
 
     private void initLayouts(){

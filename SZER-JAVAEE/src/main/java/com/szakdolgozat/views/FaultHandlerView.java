@@ -9,6 +9,7 @@ import com.szakdolgozat.enums.ServiceType;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ public class FaultHandlerView extends AbstractView {
     private Label reportedDate;
     private TextArea solution;
     private Button saveButton;
+    private Panel faultPanel;
 
 
 
@@ -76,7 +78,6 @@ public class FaultHandlerView extends AbstractView {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 selectedType=(ServiceType) valueChangeEvent.getProperty().getValue();
                 faultSelector.removeComponent(faultsTable);
-                System.out.println("seletcedType: " + selectedType);
                 initFaultsTable();
                 faultSelector.addComponent(faultsTable);
 
@@ -88,6 +89,9 @@ public class FaultHandlerView extends AbstractView {
 
     private void initFaultForm(){
         faultForm=new FormLayout();
+        faultPanel=new Panel("Hiba adatok");
+        faultPanel.setContent(faultForm);
+
         customerName=new Label();
         customerName.setCaption("Bejelentő:");
         title=new Label();
@@ -145,7 +149,8 @@ public class FaultHandlerView extends AbstractView {
         faultSelector.addComponent(types);
         faultSelector.addComponent(faultsTable);
         components.addComponent(faultSelector);
-        components.addComponent(faultForm);
+        faultSelector.setMargin(new MarginInfo(false,true,false,false));
+        components.addComponent(faultPanel);
     }
 
     private void setFaultsTableDS(ServiceType type){
@@ -155,7 +160,6 @@ public class FaultHandlerView extends AbstractView {
 
     private void setFaultInformation(Long id){
         ReportedFault fault=faultBean.getFaultById(id);
-        System.out.println("setFaultInformation: fault.title: " + fault.getTitle() );
         customerName.setValue(fault.getReporter().getName());
         title.setValue(fault.getTitle());
         description.setValue(fault.getDescription());

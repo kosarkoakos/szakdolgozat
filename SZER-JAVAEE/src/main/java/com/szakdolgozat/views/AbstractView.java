@@ -9,11 +9,15 @@ import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.person.Customer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * Created by Ákos on 2016.02.14..
@@ -49,15 +53,21 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
 
     protected String imageWidth="710px";
+    protected String imageHeight="250px";
     protected String loginLayoutWidth="180px";
     protected String menuWidth="150px";
     protected String menuContentWidth="740px";
+
+    protected Image telecommunication;
 
     @Inject
     ApplicationUserBean applicationUserBean;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
+        setStyleName("blueBackground");
+        setHeight("1000px");
 
         if(((MyUI)getUI().getCurrent()).getLoggedInUser()==null){
             mainLayout.removeAllComponents();
@@ -86,10 +96,15 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         image= new VerticalLayout();
 
-        menuContent= new VerticalLayout();
+        ClassResource sr=new ClassResource("/com/szakdolgozat/telecommunication.jpg");
 
-        Label t = new Label("Tesztlabel");
-        image.addComponent(t);
+        Embedded e= new Embedded("",sr);
+        e.setWidth(imageWidth);
+        e.setHeight(imageHeight);
+
+        image.addComponent(e);
+
+        menuContent= new VerticalLayout();
 
         topStripe.addComponent(image);
 
@@ -110,15 +125,17 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         mainLayout.setMargin(true);
         mainLayout.setWidth("1000px");
-        setComponentAlignment(mainLayout,Alignment.MIDDLE_CENTER);
+        setComponentAlignment(mainLayout,Alignment.TOP_CENTER);
 
         image.setWidth(imageWidth);
         loginLayout.setWidth(loginLayoutWidth);
         menuLayout.setWidth(menuWidth);
         menuContent.setWidth(menuContentWidth);
-        menuLayout.setMargin(new MarginInfo(false,false,false,false));
-        menuContent.setMargin(new MarginInfo(false,false,false,false));
-        image.setComponentAlignment(t, Alignment.BOTTOM_RIGHT);
+        loginLayout.setMargin(new MarginInfo(true,false,false,true));
+        menuLayout.setMargin(new MarginInfo(true,false,false,false));
+        menuContent.setMargin(new MarginInfo(true,false,false,true));
+        image.setMargin(new MarginInfo(false,false,false,false));
+    //    image.setComponentAlignment(t, Alignment.BOTTOM_RIGHT);
 
     }
 
@@ -129,7 +146,9 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         if(user==null){
             usernameTxtF = new TextField("Felhasználónév: ");
+            usernameTxtF.setWidth(loginLayoutWidth);
             passwordField = new PasswordField("Jelszó: ");
+            passwordField.setWidth(loginLayoutWidth);
             loginLayout.addComponent(usernameTxtF);
             loginLayout.addComponent(passwordField);
             usernameTxtF.setHeight("25px");
@@ -169,9 +188,11 @@ public abstract class AbstractView extends VerticalLayout implements View {
                     getUI().getNavigator().navigateTo(CustomerRegistrationView.VIEWID);
                 }
             });
-            regLinkAndButton.addComponent(toRegPage);
-            regLinkAndButton.addComponent(loginButton);
-            loginLayout.addComponent(regLinkAndButton);
+         //   regLinkAndButton.addComponent(toRegPage);
+         //   regLinkAndButton.addComponent(loginButton);
+         //   loginLayout.addComponent(regLinkAndButton);
+            loginLayout.addComponent(loginButton);
+            loginLayout.addComponent(toRegPage);
 
 
             //dbfeltöltéshez
