@@ -8,6 +8,7 @@ import com.szakdolgozat.ejbs.ServicesBean;
 import com.szakdolgozat.ejbs.TableContentHandlerBean;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.person.ApplicationUser;
+import com.szakdolgozat.entities.person.Customer;
 import com.szakdolgozat.entities.service.InternetService;
 import com.szakdolgozat.entities.service.Service;
 import com.szakdolgozat.entities.service.TelephoneService;
@@ -39,7 +40,7 @@ public class ServicesView extends AbstractView {
     private HorizontalLayout layoutForContent;
     private VerticalLayout layoutForBasket;
     private HorizontalLayout layoutForBasketButtons;
-    private String tableWidth="450px";
+    private String tableWidth="750";
     private String basketWidth="250px";
 
 
@@ -89,8 +90,8 @@ public class ServicesView extends AbstractView {
 
         layoutForContent.addComponent(layoutForServiceTables);
 
-        layoutForContent.addComponent(layoutForBasket);
-        layoutForContent.setComponentAlignment(layoutForBasket,Alignment.TOP_RIGHT);
+      //  layoutForContent.addComponent(layoutForBasket);
+      //  layoutForContent.setComponentAlignment(layoutForBasket,Alignment.TOP_RIGHT);
 
         menuContent.addComponent(layoutForContent);
 
@@ -123,11 +124,12 @@ public class ServicesView extends AbstractView {
     }
 
     private void switchToInternet() {
-        if (internetContainer == null) {
+       /* if (internetContainer == null) {
 
             internetContainer = new IndexedContainer();
             internetContainer.addContainerProperty("Név", String.class, null);
             internetContainer.addContainerProperty("Leírás", String.class, null);
+            internetContainer.addContainerProperty("Hűségidő", Integer.class, null);
             internetContainer.addContainerProperty("Ár", Integer.class, null);
             internetContainer.addContainerProperty("Sebesség", String.class, null);
 
@@ -137,16 +139,18 @@ public class ServicesView extends AbstractView {
                 Item item = internetContainer.addItem(is);
                 item.getItemProperty("Név").setValue(is.getName());
                 item.getItemProperty("Leírás").setValue(is.getDescription());
+                item.getItemProperty("Hűségidő").setValue(is.getLoyalty());
                 item.getItemProperty("Ár").setValue(is.getPrice());
                 item.getItemProperty("Sebesség").setValue(is.getSpeed());
             }
+            }*/
 
-            services.setContainerDataSource(internetContainer);
-        }
+        internetContainer=tableContentHandlerBean.makeInternetServicesIndexedContainer();
+        services.setContainerDataSource(internetContainer);
     }
 
     private void switchToTelevision(){
-        if(televisionContainer==null){
+        /*if(televisionContainer==null){
             televisionContainer=new IndexedContainer();
 
             televisionContainer.addContainerProperty("Név", String.class,null);
@@ -164,13 +168,13 @@ public class ServicesView extends AbstractView {
                 item.getItemProperty("Ár").setValue(ts.getPrice());
                 item.getItemProperty("Csatornák száma").setValue(ts.getChannelCount());
             }
-        }
-
+        }*/
+        televisionContainer=tableContentHandlerBean.makeTelevisionIndexedContainer();
         services.setContainerDataSource(televisionContainer);
     }
 
     private void switchToTelephone(){
-        if(telephoneContainer==null){
+       /* if(telephoneContainer==null){
             telephoneContainer=new IndexedContainer();
 
             telephoneContainer.addContainerProperty("Név", String.class, null);
@@ -188,13 +192,13 @@ public class ServicesView extends AbstractView {
                 item.getItemProperty("Ár").setValue(ts.getPrice());
                 item.getItemProperty("Típus").setValue(ts.getType());
             }
-        }
-
+        }*/
+        telephoneContainer=tableContentHandlerBean.makeTelephoneIndexedConatiner();
         services.setContainerDataSource(telephoneContainer);
     }
 
     private void switchToServicePack(){
-        if(servicePackContainer ==null){
+        /*if(servicePackContainer ==null){
             servicePackContainer = new IndexedContainer();
             servicePackContainer.addContainerProperty("Név", String.class,null);
             servicePackContainer.addContainerProperty("Leírás", String.class,null);
@@ -208,13 +212,14 @@ public class ServicesView extends AbstractView {
                 item.getItemProperty("Leírás").setValue(sp.getDescription());
                 item.getItemProperty("Ár").setValue(sp.getPrice());
             }
-        }
+        }*/
 
+        servicePackContainer=tableContentHandlerBean.makeServicePacksIndexedContainer();
         services.setContainerDataSource(servicePackContainer);
     }
 
     private void fillpackContents(){
-            for(ServicePack sp : allServicePacks){
+           /* for(ServicePack sp : allServicePacks){
                 if (sp.getName().equals(selectedServicePackName)){
                     servicePackContentContainer=new IndexedContainer();
                     servicePackContentContainer.addContainerProperty("Név", String.class,null);
@@ -235,9 +240,12 @@ public class ServicesView extends AbstractView {
                     }
 
                 }
-            }
+            }*/
+        if(selectedServicePackName!=null) {
+            servicePackContentContainer = tableContentHandlerBean.makeServicePackContentIndexedContainer(selectedServicePackName);
 
-        packContents.setContainerDataSource(servicePackContentContainer);
+            packContents.setContainerDataSource(servicePackContentContainer);
+        }
     }
 
     private void setBasketDS(@Observes String s){
@@ -265,12 +273,7 @@ public class ServicesView extends AbstractView {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 if(valueChangeEvent!=null) {
                     removeName = ((NamePriceDTO) valueChangeEvent.getProperty().getValue()).getName();
-                    System.out.println("A kiválasztott basketbeli név: " + removeName);
                 }
-                else{
-                    System.out.println("A basket valueChangeEventje null");
-                }
-
             }
         });
     }
@@ -283,7 +286,6 @@ public class ServicesView extends AbstractView {
         removeFromCart.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                System.out.println("removeCart clicklistenerjében a removeName: "+ removeName);
                 if(basketEJB != null){
                     basketEJB.removeService(removeName);
                     basketEJB.removeServicePack(removeName);
@@ -298,9 +300,6 @@ public class ServicesView extends AbstractView {
         orderButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                //a megrendelést eltárolja az adatbázisban
-                //basket tartalmát törli
-                //számlák menüpontra irányít
                 ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
 
                 if(user!=null){
@@ -310,15 +309,19 @@ public class ServicesView extends AbstractView {
                     Notification notification= new Notification("Jelentkezz be!", Notification.Type.HUMANIZED_MESSAGE);
                     notification.setDelayMsec(5000);
                     notification.show(getUI().getPage());
-
                 }
             }
         });
 
         layoutForBasketButtons.addComponent(removeFromCart);
         layoutForBasketButtons.addComponent(orderButton);
-        layoutForBasket.addComponent(layoutForBasketButtons);
         layoutForBasket.addComponent(basket);
+        //layoutForBasket.addComponent(layoutForBasketButtons);
+
+        if(((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Customer) {
+            loginLayout.addComponent(layoutForBasket);
+            loginLayout.addComponent(layoutForBasketButtons);
+        }
 
     }
 

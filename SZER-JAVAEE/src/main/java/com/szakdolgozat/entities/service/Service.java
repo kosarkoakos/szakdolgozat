@@ -35,6 +35,9 @@ public class Service implements Serializable{
     @ManyToMany(mappedBy = "services")
     private List<Order> containerOrders;
 
+    @Column(name="LOYALTY")
+    private int loyalty;
+
     public Service(){
 
     }
@@ -85,5 +88,13 @@ public class Service implements Serializable{
 
     public void setContainerOrders(List<Order> containerOrders) {
         this.containerOrders = containerOrders;
+    }
+
+    public int getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(int loyalty) {
+        this.loyalty = loyalty;
     }
 }

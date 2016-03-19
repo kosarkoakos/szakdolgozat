@@ -55,34 +55,70 @@ public class OrdersBean {
         ArrayList<ServicePack> orderedServicePacks=null;
         ArrayList<Bill> bills= new ArrayList<>();
 
-        java.util.Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH,1);
-        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-
         if(serviceNames.size()>0){
            orderedServices=(ArrayList<Service>) getServicesByName(serviceNames);
             for(Service s :orderedServices){
-                Bill b = new Bill();
-                b.setAmount(s.getPrice());
-                b.setDeadline(calendar.getTime());
-                b.setOrder(order);
-                b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
-                bills.add(b);
+                java.util.Calendar calendar = Calendar.getInstance();
+                for(int i=0;i<s.getLoyalty()*12;i++) {
+                    calendar.add(Calendar.MONTH,1);
+                    calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+                    calendar.add(Calendar.DATE,4);
+                    Bill b = new Bill();
+                    b.setAmount(s.getPrice());
+                    b.setDeadline(calendar.getTime());
+                    b.setOrder(order);
+                    b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
+                    bills.add(b);
 
-                entityManager.persist(b);
+                    entityManager.persist(b);
+                }
+
+                if(s.getLoyalty()==0){
+                    calendar.add(Calendar.MONTH,1);
+                    calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+                    calendar.add(Calendar.DATE,4);
+                    Bill b = new Bill();
+                    b.setAmount(s.getPrice());
+                    b.setDeadline(calendar.getTime());
+                    b.setOrder(order);
+                    b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
+                    bills.add(b);
+
+                    entityManager.persist(b);
+                }
 
             }
         }
         if(servicePackNames.size()>0){
             orderedServicePacks=(ArrayList<ServicePack>)getServicePacksByName(servicePackNames);
             for(ServicePack sp : orderedServicePacks){
-                Bill b = new Bill();
-                b.setAmount(sp.getPrice());
-                b.setOrder(order);
-                b.setDeadline(calendar.getTime());
-                b.setBillName(sp.getName() + " - " +dfc.convertToYearMonth(calendar.getTime()));
-                bills.add(b);
-                entityManager.persist(b);
+                java.util.Calendar calendar = Calendar.getInstance();
+                for(int i=0;i<sp.getLoyalty();i++) {
+                    calendar.add(Calendar.MONTH,1);
+                    calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+                    calendar.add(Calendar.DATE,4);
+                    Bill b = new Bill();
+                    b.setAmount(sp.getPrice());
+                    b.setOrder(order);
+                    b.setDeadline(calendar.getTime());
+                    b.setBillName(sp.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
+                    bills.add(b);
+                    entityManager.persist(b);
+                }
+
+                if(sp.getLoyalty()==0){
+                    calendar.add(Calendar.MONTH,1);
+                    calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+                    calendar.add(Calendar.DATE,4);
+                    Bill b = new Bill();
+                    b.setAmount(sp.getPrice());
+                    b.setDeadline(calendar.getTime());
+                    b.setOrder(order);
+                    b.setBillName(sp.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
+                    bills.add(b);
+
+                    entityManager.persist(b);
+                }
             }
         }
 

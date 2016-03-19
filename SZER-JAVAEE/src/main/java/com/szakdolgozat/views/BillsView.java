@@ -36,6 +36,7 @@ public class BillsView extends AbstractView{
     private Button payButton;
 
     private int tableLength=5;
+    private String tableWidth="600px";
 
     private ArrayList<Long> selectedBillsIDs= new ArrayList<>();
     private Integer sumPrice=0;
@@ -73,6 +74,7 @@ public class BillsView extends AbstractView{
         billsTable= new Table();
         billsTable.setMultiSelect(true);
         billsTable.setPageLength(tableLength);
+        billsTable.setWidth(tableWidth);
 
         billsContainer=tchb.makeBillsIndexedContainer((Customer)((MyUI)getUI().getCurrent()).getLoggedInUser());
         billsTable.setContainerDataSource(billsContainer);

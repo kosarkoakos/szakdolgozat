@@ -33,6 +33,26 @@ public class FaultSenderView extends AbstractView {
     @Override
     public void afterEnter() {
 
+        initForm();
+
+        faultForm.addComponent(serviceType);
+        faultForm.addComponent(faultTitle);
+        faultForm.addComponent(faultDescription);
+        faultForm.addComponent(sendIn);
+
+
+        panel.setContent(faultForm);
+        panel.setWidth(panelWidth);
+
+        menuContent.addComponent(panel);
+
+        menuContent.setComponentAlignment(panel, Alignment.TOP_CENTER);
+
+
+
+    }
+
+    private void initForm(){
         panel=new Panel("Hibabejelentés");
 
         faultForm=new FormLayout();
@@ -62,23 +82,13 @@ public class FaultSenderView extends AbstractView {
                 reportedFault.setDescription(faultDescription.getValue());
                 reportedFault.setReportDate(java.util.Calendar.getInstance().getTime());
                 faultBean.saveReportedFault(reportedFault);
+                cleanForm();
             }
         });
+    }
 
-        faultForm.addComponent(serviceType);
-        faultForm.addComponent(faultTitle);
-        faultForm.addComponent(faultDescription);
-        faultForm.addComponent(sendIn);
-
-
-        panel.setContent(faultForm);
-        panel.setWidth(panelWidth);
-
-        menuContent.addComponent(panel);
-
-        menuContent.setComponentAlignment(panel, Alignment.TOP_CENTER);
-
-
-
+    private void cleanForm(){
+        faultTitle.setValue("");
+        faultDescription.setValue("");
     }
 }

@@ -52,9 +52,9 @@ public abstract class AbstractView extends VerticalLayout implements View {
     protected PasswordField passwordField;
 
 
-    protected String imageWidth="710px";
-    protected String imageHeight="250px";
-    protected String loginLayoutWidth="180px";
+    protected String imageWidth="610px";
+    protected String imageHeight="300px";
+    protected String loginLayoutWidth="280px";
     protected String menuWidth="150px";
     protected String menuContentWidth="740px";
 
@@ -195,16 +195,16 @@ public abstract class AbstractView extends VerticalLayout implements View {
             loginLayout.addComponent(toRegPage);
 
 
-            //dbfeltöltéshez
-        //    Button dbfill= new Button("tölt");
-        //    dbfill.addClickListener(new Button.ClickListener() {
-        //        @Override
-        //        public void buttonClick(Button.ClickEvent clickEvent) {
-        //            applicationUserBean.dbfill();
-        //        }
-        //    });
+        //    dbfeltöltéshez
+            Button dbfill= new Button("tölt");
+            dbfill.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    applicationUserBean.dbfill();
+                }
+            });
 
-        //    loginLayout.addComponent(dbfill);
+       //     loginLayout.addComponent(dbfill);
 
 
 

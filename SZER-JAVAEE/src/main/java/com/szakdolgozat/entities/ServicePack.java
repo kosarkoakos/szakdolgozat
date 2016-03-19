@@ -35,6 +35,9 @@ public class ServicePack implements Serializable{
     @ManyToMany(mappedBy = "servicePacks")
     private List<Order> containerOrders;
 
+    @Column(name = "LOYALTY")
+    private int loyalty;
+
     public ServicePack(){
 
     }
@@ -85,5 +88,13 @@ public class ServicePack implements Serializable{
 
     public void setContainerOrders(List<Order> containerOrders) {
         this.containerOrders = containerOrders;
+    }
+
+    public int getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(int loyalty) {
+        this.loyalty = loyalty;
     }
 }

@@ -109,6 +109,15 @@ public class FaultHandlerView extends AbstractView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 faultBean.makeFaultSolved(selectedFaultId,solution.getValue());
+                if(solution.getValue().equals("")){
+                    Notification notification= new Notification("A megoldást eredményező intézkedés(ekt)t kötelező leírni!", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(5000);
+                    notification.show(getUI().getPage());
+                }
+                else {
+                    setFaultsTableDS(selectedType);
+                    cleanForm();
+                }
             }
         });
 
@@ -164,6 +173,14 @@ public class FaultHandlerView extends AbstractView {
         title.setValue(fault.getTitle());
         description.setValue(fault.getDescription());
         reportedDate.setValue(dfc.convertTofullDateTime(fault.getReportDate()));
+        solution.setValue("");
+    }
+
+    private void cleanForm(){
+        customerName.setValue("");
+        title.setValue("");
+        description.setValue("");
+        reportedDate.setValue("");
         solution.setValue("");
     }
 
