@@ -40,8 +40,8 @@ public class ServicesView extends AbstractView {
     private HorizontalLayout layoutForContent;
     private VerticalLayout layoutForBasket;
     private HorizontalLayout layoutForBasketButtons;
-    private String tableWidth="750";
-    private String basketWidth="250px";
+    private String tableWidth="730px";
+    private String basketWidth="270px";
 
 
     private Table services;
@@ -63,6 +63,8 @@ public class ServicesView extends AbstractView {
     private Button orderButton;
     private ComboBox serviceTypes;
     private String removeName;
+
+    private VerticalLayout basketCompenents;
 
     ArrayList<ServicePack> allServicePacks;
 
@@ -262,7 +264,7 @@ public class ServicesView extends AbstractView {
     }
 
     private void initBasketTable(){
-        basket= new Table("A kosár tartalma:");
+        basket= new Table();
         basket.setSelectable(true);
         basket.setImmediate(true);
         basket.setPageLength(3);
@@ -281,6 +283,7 @@ public class ServicesView extends AbstractView {
     private void initLayoutForBasket(){
         layoutForBasket=new VerticalLayout();
         layoutForBasketButtons= new HorizontalLayout();
+        basketCompenents=new VerticalLayout();
 
         removeFromCart= new Button("Eltávolít");
         removeFromCart.addClickListener(new Button.ClickListener() {
@@ -316,11 +319,14 @@ public class ServicesView extends AbstractView {
         layoutForBasketButtons.addComponent(removeFromCart);
         layoutForBasketButtons.addComponent(orderButton);
         layoutForBasket.addComponent(basket);
-        //layoutForBasket.addComponent(layoutForBasketButtons);
+        layoutForBasket.addComponent(layoutForBasketButtons);
+
+        //basketCompenents.addComponent(layoutForBasketButtons);
+        //basketCompenents.addComponent(layoutForBasket);
 
         if(((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Customer) {
             loginLayout.addComponent(layoutForBasket);
-            loginLayout.addComponent(layoutForBasketButtons);
+            loginLayout.setComponentAlignment(layoutForBasket,Alignment.MIDDLE_LEFT);
         }
 
     }

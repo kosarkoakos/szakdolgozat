@@ -1,7 +1,6 @@
 package com.szakdolgozat.views;
 
 import com.szakdolgozat.MyUI;
-import com.szakdolgozat.dto.NamePriceDTO;
 import com.szakdolgozat.ejbs.IDStorageBean;
 import com.szakdolgozat.ejbs.TableContentHandlerBean;
 import com.szakdolgozat.entities.Bill;
@@ -9,13 +8,11 @@ import com.szakdolgozat.entities.person.Customer;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Ákos on 2016.03.12..
@@ -27,7 +24,7 @@ public class BillsView extends AbstractView{
 
     private HorizontalLayout verticalColumns;
     private VerticalLayout leftColumn;
-    private VerticalLayout rightColumn;
+    private VerticalLayout paymentComponents;
 
     private Table billsTable;
     private IndexedContainer billsContainer;
@@ -36,7 +33,7 @@ public class BillsView extends AbstractView{
     private Button payButton;
 
     private int tableLength=5;
-    private String tableWidth="600px";
+    private String tableWidth="730px";
 
     private ArrayList<Long> selectedBillsIDs= new ArrayList<>();
     private Integer sumPrice=0;
@@ -57,17 +54,21 @@ public class BillsView extends AbstractView{
 
         menuContent.addComponent(verticalColumns);
         verticalColumns.addComponent(leftColumn);
-        verticalColumns.addComponent(rightColumn);
+        if(((MyUI)getUI().getCurrent()).getLoggedInUser() instanceof Customer){
+            loginLayout.addComponent(paymentComponents);
+            loginLayout.setComponentAlignment(paymentComponents,Alignment.BOTTOM_LEFT);
+        }
+    //    verticalColumns.addComponent(paymentComponents);
         leftColumn.addComponent(billsTable);
-        rightColumn.addComponent(finalPrice);
-        rightColumn.addComponent(payButton);
-        rightColumn.setMargin(new MarginInfo(false,false,false,true));
+        paymentComponents.addComponent(finalPrice);
+        paymentComponents.addComponent(payButton);
+    //    paymentComponents.setMargin(new MarginInfo(false,false,false,true));
     }
 
     private void initLayouts(){
         verticalColumns= new HorizontalLayout();
         leftColumn=new VerticalLayout();
-        rightColumn=new VerticalLayout();
+        paymentComponents =new VerticalLayout();
     }
 
     private void initBillsTable(){

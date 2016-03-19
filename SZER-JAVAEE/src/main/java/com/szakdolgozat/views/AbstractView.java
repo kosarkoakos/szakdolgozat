@@ -54,11 +54,14 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
     protected String imageWidth="610px";
     protected String imageHeight="300px";
-    protected String loginLayoutWidth="280px";
+    protected String loginLayoutWidth="270px";
+    protected String loginLayoutHeight="250px";
     protected String menuWidth="150px";
     protected String menuContentWidth="740px";
 
     protected Image telecommunication;
+
+    protected VerticalLayout loginComponents;
 
     @Inject
     ApplicationUserBean applicationUserBean;
@@ -143,18 +146,21 @@ public abstract class AbstractView extends VerticalLayout implements View {
         ApplicationUser user=((MyUI)getUI().getCurrent()).getLoggedInUser();
 
         loginLayout= new VerticalLayout();
+        loginLayout.setHeight(loginLayoutHeight);
+
+        loginComponents=new VerticalLayout();
 
         if(user==null){
             usernameTxtF = new TextField("Felhasználónév: ");
             usernameTxtF.setWidth(loginLayoutWidth);
             passwordField = new PasswordField("Jelszó: ");
             passwordField.setWidth(loginLayoutWidth);
-            loginLayout.addComponent(usernameTxtF);
-            loginLayout.addComponent(passwordField);
+            loginComponents.addComponent(usernameTxtF);
+            loginComponents.addComponent(passwordField);
             usernameTxtF.setHeight("25px");
             passwordField.setHeight("25px");
-            loginLayout.setComponentAlignment(usernameTxtF, Alignment.TOP_LEFT);
-            loginLayout.setComponentAlignment(passwordField, Alignment.BOTTOM_RIGHT);
+      //      loginLayout.setComponentAlignment(usernameTxtF, Alignment.TOP_LEFT);
+      //      loginLayout.setComponentAlignment(passwordField, Alignment.BOTTOM_RIGHT);
 
             regLinkAndButton= new HorizontalLayout();
 
@@ -191,8 +197,10 @@ public abstract class AbstractView extends VerticalLayout implements View {
          //   regLinkAndButton.addComponent(toRegPage);
          //   regLinkAndButton.addComponent(loginButton);
          //   loginLayout.addComponent(regLinkAndButton);
-            loginLayout.addComponent(loginButton);
-            loginLayout.addComponent(toRegPage);
+            loginComponents.addComponent(loginButton);
+            loginComponents.addComponent(toRegPage);
+
+            loginLayout.addComponent(loginComponents);
 
 
         //    dbfeltöltéshez
@@ -219,8 +227,10 @@ public abstract class AbstractView extends VerticalLayout implements View {
                 }
             });
 
-            loginLayout.addComponent(userGreetingsLabel);
-            loginLayout.addComponent(logoutButton);
+            loginComponents.addComponent(userGreetingsLabel);
+            loginComponents.addComponent(logoutButton);
+
+            loginLayout.addComponent(loginComponents);
         }
     }
 
