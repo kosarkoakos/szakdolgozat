@@ -191,7 +191,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
             toRegPage.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    getUI().getNavigator().navigateTo(CustomerRegistrationView.VIEWID);
+                    getUI().getNavigator().navigateTo(RegistrationView.VIEWID);
                 }
             });
          //   regLinkAndButton.addComponent(toRegPage);

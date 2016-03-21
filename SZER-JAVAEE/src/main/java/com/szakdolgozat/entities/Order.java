@@ -46,6 +46,10 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "EXTRA_ID_FK"))
     private List<Extra> extras;
 
+    @ManyToOne
+    @JoinColumn(name = "ADDRESS_ID_FK", referencedColumnName = "ADDRESS_ID")
+    private Address address;
+
     public Order(){
 
     }
@@ -104,5 +108,13 @@ public class Order {
 
     public void setExtras(List<Extra> extras) {
         this.extras = extras;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

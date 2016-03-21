@@ -1,24 +1,17 @@
 package com.szakdolgozat.views;
 
-import com.szakdolgozat.ejbs.ApplicationUserBean;
-import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.person.Customer;
+import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIView;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 
-import javax.inject.Inject;
-import java.util.*;
-
 /**
- * Created by Ákos on 2016.02.27..
+ * Created by Ákos on 2016.03.21..
  */
-@CDIView("CustomerRegistrationView")
-public class CustomerRegistrationView extends VerticalLayout implements View {
+@CDIView("RegistrationView")
+public class RegistrationView extends AbstractView {
 
-    public static final String VIEWID="CustomerRegistrationView";
-
+    public static final String VIEWID="RegistrationView";
     Panel regPanel;
     TextField usernameTextField;
     PasswordField passwordField;
@@ -27,25 +20,26 @@ public class CustomerRegistrationView extends VerticalLayout implements View {
     DateField birthDateDateField;
     TextField birthPlaceTextField;
 
-    VerticalLayout mainLayout;
-
     Button regButton;
-
     FormLayout regForm;
-
-    String panelWidth="400px";
-
-    @Inject
-    ApplicationUserBean applicationUserBean;
+    private String panelWidth="400px";
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        removeAllComponents();
+    public void afterEnter() {
 
-        mainLayout= new VerticalLayout();
+        initForm();
 
-        setStyleName("blueBackground");
-        setHeight("1000px");;
+        regPanel=new Panel("Regisztráció");
+        regPanel.setContent(regForm);
+        regPanel.setWidth(panelWidth);
+
+        menuContent.addComponent(regPanel);
+        menuContent.setComponentAlignment(regPanel,Alignment.TOP_CENTER);
+    }
+
+    private void initForm(){
+
+        regForm= new FormLayout();
 
         usernameTextField=new TextField("Felhasználónév: ");
         passwordField= new PasswordField("Jelszó: ");
@@ -54,15 +48,6 @@ public class CustomerRegistrationView extends VerticalLayout implements View {
         birthDateDateField= new DateField("Születési idő: ");
         birthPlaceTextField= new TextField("Születési hely: ");
         regButton= new Button("Regisztráció");
-
-        regForm= new FormLayout();
-        regForm.addComponent(usernameTextField);
-        regForm.addComponent(passwordField);
-        regForm.addComponent(cPasswordField);
-        regForm.addComponent(nameTextField);
-        regForm.addComponent(birthDateDateField);
-        regForm.addComponent(birthPlaceTextField);
-        regForm.addComponent(regButton);
 
         regButton.addClickListener(new Button.ClickListener() {
             @Override
@@ -81,15 +66,12 @@ public class CustomerRegistrationView extends VerticalLayout implements View {
             }
         });
 
-        regPanel = new Panel("Adatok");
-        regPanel.setContent(regForm);
-
-        mainLayout.addComponent(regPanel);
-        mainLayout.setWidth(panelWidth);
-        //addComponent(regPanel);
-        addComponent(mainLayout);
-        setComponentAlignment(mainLayout,Alignment.TOP_CENTER);
-
-
+        regForm.addComponent(usernameTextField);
+        regForm.addComponent(passwordField);
+        regForm.addComponent(cPasswordField);
+        regForm.addComponent(nameTextField);
+        regForm.addComponent(birthDateDateField);
+        regForm.addComponent(birthPlaceTextField);
+        regForm.addComponent(regButton);
     }
 }

@@ -2,10 +2,7 @@ package com.szakdolgozat.views;
 
 import com.szakdolgozat.MyUI;
 import com.szakdolgozat.dto.NamePriceDTO;
-import com.szakdolgozat.ejbs.BasketEJB;
-import com.szakdolgozat.ejbs.OrdersBean;
-import com.szakdolgozat.ejbs.ServicesBean;
-import com.szakdolgozat.ejbs.TableContentHandlerBean;
+import com.szakdolgozat.ejbs.*;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.person.Customer;
@@ -79,6 +76,9 @@ public class ServicesView extends AbstractView {
 
     @Inject
     OrdersBean ordersBean;
+
+    @Inject
+    ServicesStorageBean servicesStorageBean;
 
     @Override
     public void afterEnter() {
@@ -306,8 +306,10 @@ public class ServicesView extends AbstractView {
                 ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
 
                 if(user!=null){
-                    ordersBean.saveOrder(user, basketEJB.getServiceNames(),basketEJB.getServicePackNames());
-                    basketEJB.makeBasketEmpty();
+                    servicesStorageBean.addServicesList(user.getUsername(),(ArrayList<String>) basketEJB.getServiceNames());
+                    servicesStorageBean.addServicePacksList(user.getUsername(),(ArrayList<String>) basketEJB.getServicePackNames());
+                    getUI().getNavigator().navigateTo(SetAddressView.VIEWID);
+
                 }else{
                     Notification notification= new Notification("Jelentkezz be!", Notification.Type.HUMANIZED_MESSAGE);
                     notification.setDelayMsec(5000);

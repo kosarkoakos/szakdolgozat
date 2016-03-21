@@ -55,6 +55,8 @@ public class OrdersBean {
         ArrayList<ServicePack> orderedServicePacks=null;
         ArrayList<Bill> bills= new ArrayList<>();
 
+        //TODO az orderhez beállítani a megadott címet
+
         if(serviceNames.size()>0){
            orderedServices=(ArrayList<Service>) getServicesByName(serviceNames);
             for(Service s :orderedServices){
