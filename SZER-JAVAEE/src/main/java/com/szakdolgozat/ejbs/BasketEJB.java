@@ -2,9 +2,12 @@ package com.szakdolgozat.ejbs;
 
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.service.Service;
+import com.vaadin.cdi.NormalUIScoped;
+import com.vaadin.cdi.UIScoped;
 import com.vaadin.ui.Notification;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import java.util.List;
 /**
  * Created by Ákos on 2016.02.28..
  */
-@Stateful
+@NormalUIScoped
 public class BasketEJB {
 
     private List<String> serviceNames;

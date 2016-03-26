@@ -97,6 +97,8 @@ public class ServicesView extends AbstractView {
 
         menuContent.addComponent(layoutForContent);
 
+        fillBasketTable();
+
     }
 
     private void refreshTableContent(String serviceType) {
@@ -251,16 +253,20 @@ public class ServicesView extends AbstractView {
     }
 
     private void setBasketDS(@Observes String s){
+        fillBasketTable();
+
+
+    }
+
+    private void fillBasketTable(){
         IndexedContainer bic;
         bic=tableContentHandlerBean.makeBasketIndexedConatiner(this.basketEJB.getServiceNames(),
-                                                            this.basketEJB.getServicePackNames());
+                this.basketEJB.getServicePackNames());
         layoutForBasket.removeComponent(basket);
         initBasketTable();
         layoutForBasket.addComponent(basket);
 
         basket.setContainerDataSource(bic);
-
-
     }
 
     private void initBasketTable(){
