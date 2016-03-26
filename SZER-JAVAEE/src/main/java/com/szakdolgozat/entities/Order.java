@@ -40,12 +40,6 @@ public class Order {
     @OneToMany(mappedBy="order",cascade = CascadeType.ALL)
     private List<Bill> bills;
 
-    @ManyToMany
-    @JoinTable(name = "jnd_Orders_Extras",
-            joinColumns = @JoinColumn(name = "ORDER_ID_FK"),
-            inverseJoinColumns = @JoinColumn(name = "EXTRA_ID_FK"))
-    private List<Extra> extras;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID_FK", referencedColumnName = "ADDRESS_ID")
     private Address address;
@@ -100,14 +94,6 @@ public class Order {
 
     public void setBills(List<Bill> bills) {
         this.bills = bills;
-    }
-
-    public List<Extra> getExtras() {
-        return extras;
-    }
-
-    public void setExtras(List<Extra> extras) {
-        this.extras = extras;
     }
 
     public Address getAddress() {

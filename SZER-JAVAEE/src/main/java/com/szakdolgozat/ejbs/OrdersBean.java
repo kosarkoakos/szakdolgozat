@@ -60,22 +60,14 @@ public class OrdersBean {
         ArrayList<ServicePack> orderedServicePacks=null;
         ArrayList<Bill> bills= new ArrayList<>();
 
-        ArrayList<Order> orderList= new ArrayList<>();
-/*
-        Address newAddress= new Address();
-        newAddress.setZipCode(address.getZipCode());
-        newAddress.setCity(address.getCity());
-        newAddress.setStreet(address.getStreet());
-        newAddress.setHouseNumber(address.getHouseNumber());
-        newAddress.setFloor(address.getFloor());
-        newAddress.setDoor(address.getDoor());
-
-
-        entityManager.persist(newAddress);
-        System.out.println("======================");
-        System.out.println("addressID:" + newAddress.getId());
-        System.out.println("======================");*/
-
+        Address addressInDB =lookUpForAddress(address);
+        if(addressInDB==null){
+            System.out.println("addressInDB = null ág");
+            order.setAddress(address);
+        }else {
+            System.out.println("addressInDB != null ág");
+            order.setAddress(addressInDB);
+        }
 
         if(serviceNames.size()>0){
            orderedServices=(ArrayList<Service>) getServicesByName(serviceNames);
@@ -91,8 +83,6 @@ public class OrdersBean {
                     b.setOrder(order);
                     b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
                     bills.add(b);
-
-                    //entityManager.persist(b);
                 }
 
                 if(s.getLoyalty()==0){
@@ -105,8 +95,6 @@ public class OrdersBean {
                     b.setOrder(order);
                     b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
                     bills.add(b);
-
-                   // entityManager.persist(b);
                 }
 
             }
@@ -125,7 +113,6 @@ public class OrdersBean {
                     b.setDeadline(calendar.getTime());
                     b.setBillName(sp.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
                     bills.add(b);
-                    //entityManager.persist(b);
                 }
 
                 if(sp.getLoyalty()==0){
@@ -138,8 +125,6 @@ public class OrdersBean {
                     b.setOrder(order);
                     b.setBillName(sp.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));
                     bills.add(b);
-
-                    //entityManager.persist(b);
                 }
             }
         }
@@ -149,24 +134,18 @@ public class OrdersBean {
         order.setServicePacks(orderedServicePacks);
         order.setOrderDate(java.util.Calendar.getInstance().getTime());
         order.setBills(bills);
-        order.setAddress(address);
 
         entityManager.persist(order);
 
-
-        System.out.println("======================");
-        System.out.println("addressID:" + order.getOrderId());
-        System.out.println("======================");
-
-    //    attachOrderAddress(order.getOrderId(),newAddress.getId());
 
     }
 
     private Address lookUpForAddress(Address address){
         TypedQuery<Address> query;
         query=entityManager.createQuery("SELECT a FROM Address a " +
-                "WHERE a.zipCode=:z AND a.city=:c AND a.street=:s AND a.houseNumber=:h" +
-                " AND a.floor=:f AND a.door=:d", Address.class);
+                "WHERE a.zipCode=:z AND a.city=:c AND a.street=:s AND a.houseNumber=:h " +
+                "AND (a.floor=:f OR a.floor IS NULL) " +
+                "AND (a.door=:d OR a.door IS NULL)", Address.class);
         query.setParameter("z", address.getZipCode());
         query.setParameter("c", address.getCity());
         query.setParameter("s", address.getStreet());
@@ -176,26 +155,16 @@ public class OrdersBean {
 
         Address addressFromDB=null;
 
-        ArrayList<Address> addresses=(ArrayList<Address>)query.getResultList();
-
-        addressFromDB=addresses.get(0);
-
-        System.out.println("dbbeli address ID : " + addressFromDB.getId());
+        try {
+            addressFromDB=query.getSingleResult();
+            System.out.println("dbbeli address ID : " + addressFromDB.getId());
+        }catch (NoResultException e)
+        {
+            System.out.println(e);
+        }catch (NonUniqueResultException e){
+            System.out.println(e);
+        }
 
         return addressFromDB;
     }
-
-    private void attachOrderAddress(Long orderId, Long addressId){
-       Query query;
-        query=entityManager.createNativeQuery("UPDATE ORDERS SET ADDRESS_ID_FK =:addressId " +
-                "WHERE ORDER_ID=:orderId",Integer.class);
-
-        query.setParameter("addressId",addressId);
-        query.setParameter("orderId",orderId);
-        System.out.println(query.toString());
-
-        int modifiedRows = query.executeUpdate();
-        System.out.println("mofifiedRows: "+modifiedRows);
-    }
-
 }
