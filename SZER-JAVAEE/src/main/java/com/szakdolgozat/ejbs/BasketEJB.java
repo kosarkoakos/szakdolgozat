@@ -62,7 +62,7 @@ public class BasketEJB {
     public void makeBasketEmpty(){
         serviceNames.clear();
         servicePackNames.clear();
-        basketChanged.fire("Basket is made empty!");
+      //  basketChanged.fire("Basket is made empty!");
     }
 
     public List<String> getServicePackNames() {

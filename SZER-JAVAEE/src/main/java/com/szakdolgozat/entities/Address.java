@@ -2,6 +2,7 @@ package com.szakdolgozat.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,9 @@ public class Address implements Serializable {
     @Column(name = "CITY")
     private String city;
 
+    @Column(name = "STREET")
+    private String street;
+
     @Column(name = "HOUSENUMBER")
     private String houseNumber;
 
@@ -31,10 +35,12 @@ public class Address implements Serializable {
     @Column(name = "DOOR")
     private String door;
 
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address",cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    private Address(){}
+    public Address(){
+        orders=new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -91,4 +97,14 @@ public class Address implements Serializable {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+
 }

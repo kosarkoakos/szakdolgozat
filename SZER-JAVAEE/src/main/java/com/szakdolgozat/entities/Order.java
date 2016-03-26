@@ -37,7 +37,7 @@ public class Order {
     @JoinColumn(name = "USER_ID_FK", referencedColumnName = "USER_ID")
     private Customer subscriber;
 
-    @OneToMany(mappedBy="order")
+    @OneToMany(mappedBy="order",cascade = CascadeType.ALL)
     private List<Bill> bills;
 
     @ManyToMany
@@ -46,7 +46,7 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "EXTRA_ID_FK"))
     private List<Extra> extras;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID_FK", referencedColumnName = "ADDRESS_ID")
     private Address address;
 
@@ -117,4 +117,6 @@ public class Order {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
 }

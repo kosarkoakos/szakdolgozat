@@ -1,13 +1,15 @@
 package com.szakdolgozat.ejbs;
 
+import com.szakdolgozat.entities.Address;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.service.InternetService;
 import com.szakdolgozat.entities.service.TelephoneService;
 import com.szakdolgozat.entities.service.TelevisionService;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 
@@ -17,7 +19,7 @@ import java.util.Collection;
 @Stateless
 public class ServicesBean {
 
-    @PersistenceContext(unitName = "SZERPU")
+    @PersistenceContext(unitName = "SZERPU",type= PersistenceContextType.TRANSACTION)
     EntityManager entityManager;
 
     public Collection<InternetService> getAllInternetServices(){
@@ -47,4 +49,46 @@ public class ServicesBean {
 
         return getAllISQury.getResultList();
     }
+
+    public Address lookUpForAddress(Address address){
+        TypedQuery<Address> query;
+        query=entityManager.createQuery("SELECT a FROM Address a " +
+                "WHERE a.zipCode=:z AND a.city=:c AND a.street=:s AND a.houseNumber=:h" +
+                " AND a.floor=:f AND a.door=:d", Address.class);
+
+
+        Address a=new Address();
+        a.setZipCode("teszt");
+/*        a.setCity(address.getCity());
+        a.setStreet(address.getStreet());
+        a.setHouseNumber(address.getHouseNumber());
+        a.setFloor(address.getFloor());
+        a.setDoor(address.getDoor());*/
+        query.setParameter("z", a.getZipCode());
+        query.setParameter("c", a.getCity());
+        query.setParameter("s", a.getStreet());
+        query.setParameter("h", a.getHouseNumber());
+        query.setParameter("f", a.getFloor());
+        query.setParameter("d", a.getDoor());
+
+        Address addressFromDB=null;
+
+
+
+        if(addressFromDB != null){
+            return addressFromDB;
+        }
+       // try {
+
+            entityManager.persist(a);
+
+           // addressFromDB = query.getSingleResult();
+      //  }catch (Exception e){
+      //      System.out.println("Hiba a servicesBean lookUpForAddress-ében.");
+      //  }
+
+
+        return addressFromDB;
+    }
+
 }

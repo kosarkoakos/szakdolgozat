@@ -4,6 +4,7 @@ import com.szakdolgozat.MyUI;
 import com.szakdolgozat.ejbs.BasketEJB;
 import com.szakdolgozat.ejbs.OrdersBean;
 import com.szakdolgozat.ejbs.ServicesStorageBean;
+import com.szakdolgozat.entities.Address;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.ui.*;
@@ -42,7 +43,12 @@ public class SetAddressView extends AbstractView {
 
     @Override
     public void afterEnter() {
+        initForm();
+        addressPanel=new Panel();
+        addressPanel.setContent(addressForm);
 
+        menuContent.addComponent(addressPanel);
+        menuContent.setComponentAlignment(addressPanel,Alignment.TOP_CENTER);
     }
 
     private void initForm(){
@@ -68,16 +74,28 @@ public class SetAddressView extends AbstractView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
+                Address address=new Address();
+                address.setZipCode(zipcode.getValue());
+                address.setCity(city.getValue());
+                address.setStreet(street.getValue());
+                address.setHouseNumber(houseNumber.getValue());
+                address.setFloor(floor.getValue());
+                address.setDoor(door.getValue());
 
                 ordersBean.saveOrder(user,
                                         servicesStorageBean.getServicesListOfCustomer(user.getUsername()),
-                                        servicesStorageBean.getServicePacksListOfCustomer(user.getUsername())
+                                        servicesStorageBean.getServicePacksListOfCustomer(user.getUsername()),
+                                        address
                 );
                 basketEJB.makeBasketEmpty();
                 servicesStorageBean.removeServicesList(user.getUsername());
                 servicesStorageBean.removeServicePacksList(user.getUsername());
+
+                getUI().getNavigator().navigateTo(BillsView.VIEWID);
             }
         });
+
+        addressForm.addComponent(verifyButton);
 
     }
 }

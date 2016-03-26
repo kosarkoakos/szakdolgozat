@@ -1,6 +1,7 @@
 package com.szakdolgozat.ejbs;
 
 import com.szakdolgozat.dto.LoginDTO;
+import com.szakdolgozat.entities.Address;
 import com.szakdolgozat.entities.ServicePack;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.service.InternetService;
