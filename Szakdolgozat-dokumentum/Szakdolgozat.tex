@@ -37,7 +37,7 @@
 
 \logo{\includegraphics[width=9cm]{ekf-logo3}}
 \institute{Matematikai és Informatikai Intézet}
-\title{Szoftverfejlesztés Java EE platformon}
+\title{Szoftverfejlesztés Java Enterprise platformon}
 \authorcaption{Készítette:}
 \author{Kosárkó Ákos \\ Programtervező informatikus Bsc szak}
 \supervisorcaption{Témavezető:}
@@ -56,11 +56,11 @@
 
 Így kerültem kapcsolatba a Java Enterprise Edition technológiával, amely, mint később világossá vált számomra, az iparban széles körben elterjedt és számos helyen használt eszköz. A szakdolgozat elkészítésével és az ehhez írt alkalmazás elkészítésével célom a technológia általam már ismert részének bemutatása, a technológia által nyújtott és számomra új megoldások megtalálása, és a gyakorlás. Mindezeket egy fiktív telekommunikációs cég számára készített alkalmazás, amellyel online ügyintézést tesznek lehetővé a régi és új ügyfeleik számára.
 
-\chapter{Specifikáció}
+\chapter{Az alkalmazás bemutatása}
 
-\section{Az alkalmazás célja}
+\section{Az alkalmazás működtetésének célja}
 
-Az alkalmazás célja lehetővé tenni a szolgáltató ügyfelei számára, hogy online intézhessék az ügyeiket. Ezen ügyintézésbe a cég szolgáltatásaira való előfizetés, szolgáltatáslemondás, számlabefizetés és hibabejelentés tartozik, emellett a szolgáltató az oldalán az új akciókról és a szolgáltatással kapcsolatos hírekről tájékoztathatja a leendő és már meglévő ügyfeleit. 
+Az alkalmazás működtetésének célja lehetővé tenni a szolgáltató ügyfelei számára, hogy online intézhessék az ügyeiket. Ezen ügyintézésbe a cég szolgáltatásaira való előfizetés, számlabefizetés és hibabejelentés tartozik, emellett az alkalmazást a szolgáltató ügyintézői szintén használhatják, akik az ügyintézői jogosultságuk miatt más tartalomhoz férnek hozzá, mint az ügyfelek. Ők látják az összes bejelentett hibajegyet, amikhez a hiba elhárításának megoldását fűzik hozzá a hibabejelentés lezárásaként. 
 
 \section{Képernyők}
 
@@ -68,64 +68,52 @@ Az alkalmazással végezhető műveletek természetesen láthatóak kell legyene
 A képernyők két csoportba bonthatók:
  
  \begin{itemize}
- 	\item Az egyik csoportba azok a képernyők tartoznak, amelyek bárki számára(azaz a nem bejelentkezett felhasználók számára is) jelennek meg. Az ezeken a képernyőkön elérhető információk és műveletek nincsenek egyénekhez kötve, egyedi információkat nem tartalmaznak. Ezzel együtt vannak olyan bárki számára elérhető oldalak, amelyek bejelentkezés után bővebb tartalommal rendelkeznek.
- 	\item Ennek ellenkezője áll fenn a bejelentkezett felhasználók számára elérhető oldalak esetén. Ezeken az oldalakon olyan információk és műveletek is elérhetőek, amelyek egyéniek, azaz bejelentkezett felhasználónként különböznek. Ilyen például a számlák képernyő, ahol nyilvánvalóan a felhasználó saját számlai kerülnek megjelenítésre. Ennek adatvédelmi okai (csak az előfizető láthassa a számláit, befizetésekkel kapcsolatos pénzügyeit) és praktikussági okai (egy felhasználót nem érdekel, hogy mások mely számlái várnak épp befizetésre) vannak.
+ 	\item Az egyik csoportba azok a képernyők tartoznak, amelyek bárki számára(azaz a nem bejelentkezett felhasználók számára is) megjelennek. Az ezeken a képernyőkön elérhető információk és műveletek nincsenek egyénekhez kötve, egyedi információkat nem tartalmaznak. Ezzel együtt vannak olyan bárki számára elérhető oldalak, amelyek bejelentkezés után bővebb tartalommal rendelkeznek.
+ 	\item Ennek ellenkezője áll fenn a bejelentkezett felhasználók számára elérhető oldalak esetén. Ezeken az oldalakon olyan információk és műveletek is elérhetőek, amelyek egyéniek, azaz bejelentkezett felhasználónként különböznek. Ilyen például a számlák képernyő, ahol nyilvánvalóan a felhasználó saját számlai kerülnek megjelenítésre. Ennek adatvédelmi okai vannak: egy előfizető számláit csakis ő maga láthassa, az alkalmazás többi felhasználója ne.
+ 	A bejelentkezett felhasználók típusoktól függően (ügyfél illetve ügyintéző) más felületeket érnek el: egy ügyfél hibabejelentő oldalt ér el, míg az ügyintéző a bejelentett hibákat listáztathatja ki, és kezelheti.
  \end{itemize}
   
 
 \subsection{Főoldal}\hypertarget{leiras-fooldal}{}
 
-Az alkalmazás kezdőoldala a főoldal, amely a bárki számára megjelenő oldalakhoz az elérést a menüpontokon keresztül. Az alkalmazás további funkciónak elérését lehetővé tévő \hyperlink{leiras-bejelentkezesi}{"Bejelentkezési oldal"} és \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"} elérését lehetővé tévő linkek szintén ezen az oldalon kapnak helyet. A szolgáltatott információkat tekintve ez az oldal egy rövid áttekintést nyújt a szolgáltató cég tevékenységéről miután üdvözlőszöveget jelenít meg a látogató számára.
+Az alkalmazás kezdőoldala a főoldal, amely a bárki számára megjelenő oldalakhoz közé tartozik. Ez az oldal egy rövid üdvözlő szöveget jelenít meg, a bárki számára elérhető menüpontok gombjaival együtt.
 
 \subsection{Regisztrációs oldal}\hypertarget{leiras-regisztracios}{}
 
-Az oldalon történő ügyintézéshez egy saját felhasználói fiókra szükséges. Ezt a fiókot a \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"}-on hozhatja létre a leendő ügyfél. Ehhez személyes adatainak megadására van szükség. A felhasználó az oldalon lévő form kitöltésével és beküldésével teheti ezt meg. A megadott adatok a regisztráció véglegesítése előtt egy validáción kell hogy keresztül menjenek. A validáció célja jelen esetben az, hogy elkerüljük egy előfizető többszöri regisztrációját a rendszerben. Ez a gyakorlatban azt jelenti, hogy például Nagy Ferenc, Eger, József Attila 125 szám alatt lakó ügyfél csak egyetlen fiókkal rendelkezzen. A validáció során, amennyiben ő már regisztrált felhasználója a rendszernek, ahelyett, hogy egy új fiókot kapna, a már meglévő fiókjához tartozó bejelentkezési adatokat kapja meg, amivel bejelentkezhet a \hyperlink{leiras-bej}{"Bejelentkezési oldal"}-on.
+Az oldalon történő ügyintézéshez egy saját felhasználói fiókra szükséges. Ezt a fiókot a \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"}-on hozhatja létre a leendő ügyfél, amelyre a képernyő jobb felső sarkában lévő login-box "Regisztráció" linkre kattintással jut el. A fiók létrehozásához személyes adatainak megadására van szükség, amely a form mezőinek kitöltésével végzendő el. A megadott adatok a regisztráció véglegesítése előtt egy validáción kell hogy keresztül menjenek. A validáció célja jelen esetben az, hogy elkerüljük olyan értékek megadását, amik nem lehetnek valósak, például egy számjegy a névben. 
 
-\subsection{Bejelentkezési oldal}\hypertarget{leiras-bejelentkezesi}{}
-
-A \hyperlink{leiras-bejelentkezesi}{"Bejelentkezési oldal"} egy nagyon egyszerű funkciót ad, a már korábbiakban regisztrált ügyfél a fiókadatainak, felhasználónevének és jelszavának megadásával beléphet a fiókjába. Amennyiben nem ismeri a jelszavát, úgy jelszó-emlékeztetőt kérhet a regisztrációja során használt e-mail cím megadásával.
-
-\subsection{Bemutatkozó oldal}\hypertarget{leiras-bemutatkozo}{}
+\subsection{Bemutatkozás}\hypertarget{leiras-bemutatkozo}{}
 
 A \hyperlink{leiras-bemutatkozo}{"Bemutatkozó oldal"}-on a szolgáltató hosszabb bemutatkozása olvasható, amely bővebb információkat ad a működéséről, felépítéséről és az általa nyújtott szolgáltatásokról.
 
 \subsection{Szolgáltatások}\hypertarget{leiras-szolgaltatasok}{}
 
-A \hyperlink{leiras-szolgaltatasok}{"Szolgáltatások"} felület egy fontos felület a képernyők között. Ezen a felületen találja meg az oldal látogatója a cég által nyújtott szolgáltatások listáját és jellemzőiket, úgy mint az ár, internetszolgáltatás esetén a sebesség, stb. Mivel a cég többféle szolgáltatást is nyújt(telefon, internet, kábeltv) ezért az oldal áttekinthetősége és a szolgáltatások megjelenítésének struktúrája kiemelkedő fontosságú. Ezt úgy fogom kivitelezni, hogy a szolgáltatásokat kategóriák szerint listázhatja ki a látogató. A kategória elemei közül kiválasztott elem részletes leírása egy direkt ezen célt szolgáló felületrészen fog megjelenni.
-
-A bejelentkezett felhasználók itt adhatják hozzá a bevásárlókosarukhoz a szolgáltatásokat, amelyekre elő kívánnak fizetni. A szolgáltatások megrendelését a bevásárlókosár tartalmának véglegesítése a "Megrendel" gomb megnyomása érvényesíti.
-
-\subsection{Akciók}\hypertarget{leiras-akciok}{}
-
-Az \hyperlink{leiras-akciok}{"Akciók"} felületen kap tájékoztatás az ügyfél az éppen futó akciókról. Ilyen akció például, hogy ha több szolgáltatásra is előfizet, akkor azt kedvezményesen teheti meg, ha meghosszabbítja az előfizetését, akkor egy havi szolgáltatás árát nem kell befizetni, vagy éppen kap egy egeret ajándékba.
+A \hyperlink{leiras-szolgaltatasok}{"Szolgáltatások"} felület egy fontos felület a képernyők között. Ezen a felületen találja meg az oldal látogatója a cég által nyújtott szolgáltatások listáját és azok jellemzőit, úgy mint az ár, internetszolgáltatás esetén a sebesség, stb. Mivel a cég többféle szolgáltatást is nyújt(telefon, internet, kábeltv) ezért az oldal áttekinthetősége és a szolgáltatások megjelenítésének struktúrája kiemelkedő fontosságú. Éppen ezért a szolgáltatások listája szolgáltatástípusonként megjelenítve áll rendelkezésre az ügyfelek számára.
+A bejelentkezett felhasználók itt adhatják hozzá a bevásárlókosarukhoz a szolgáltatásokat, amelyekre elő kívánnak fizetni. A bevásárlókosárba tett szolgáltatások megrendelését a "Megrendel" gomb megnyomásával eszközölheti az ügyfél, ami után a szolgáltatási végpont adatait kell hogy megadja. A megrendelt szolgáltatások az itt megadott címre kerülnek bekötésre.
 
 \subsection{Kapcsolat}\hypertarget{leiras-kapcsolat}{}
 
 A \hyperlink{leiras-kapcsolat}{"Kapcsolat"} oldalon a cég elérhetőségei olvashatóak, úgy mint a székhely, ügyfélszolgálati telefonszám és levelezési cím.
 
-\subsection{Személyes adatok}\hypertarget{leiras-szemelyes}{}
+\subsection{Számlák}\hypertarget{leiras-szamla}{}
 
-A \hyperlink{leiras-szemelyes}{"Személyes adatok"} oldalon tekintheti meg a rendszerben szereplő adatait az ügyfél, és szükség esetén módosíthatja azokat. Az itt szereplő adatok a személyre vonatkoznak, az előfizetéseit ezen az oldalon nem menedzselheti. A személyre vonatkozó adatok alatt a következőket értem: név, születési adatok, lakcím, elérhetőségek.
-
-\subsection{Előfizetési oldal}\hypertarget{leiras-elofizetesi}{}
-
-Az \hyperlink{leiras-elofizetesi}{"Előfizetési oldal"} a szolgáltatások menedzselésére, azaz az aktív és már lejárt előfizetések listázására, adataik megjelenítésére szolgál. Itt tudja a felhasználó a futó szolgáltatás időtartamának meghosszabbítási igényét a szolgáltató felé jelezni, és a még aktív szolgáltatásait lemondani. Ez esetben ennek következményeiről egy felugró ablakban kap tájékoztatást. A könnyebb navigálás érdekében a szolgáltatásokhoz kapcsolódó számláihoz erről az oldalról is hozzáfér.
-
-\subsection{Számlabefizetés}\hypertarget{leiras-szamla}{}
-
-Ez az oldal az előfizetések megléte miatt kiállított számlákat listázza ki. Minden egyes számláról megjelennek az információk, mint például a megrendelés, amiről a számla ki lett állítva, az összeg, ami a megrendelés értéke és a befizetési határidő, amellyel bezárólag a számlát az ügyfél köteles befizetni anélkül, hogy "büntetést" kapna késedelmi díj formájában. A számla befizetésére bankkártyás fizetéssel van mód, amelyhez a bankkártyán szereplő adatokat a számlához tartozó befizetés gomb megnyomásával betöltődő oldalon kell megadni. Ezen az oldalon - természetesen egy kitalált, nem létező - pénzügyi szolgáltató felé történő kérés fut le, amely a bankkártyás fizetést szimulálja. Ez a fizetési kísérlet kétféle eredménnyel záródhat:
- Az ügyfél bankszámláján van elegendő pénz a számla kiegyenlítésére, és ez esetben - ismét hangsúlyozom egy nem létező - bankszámláról levonódik az összeg, és a számla kiegyenlített státuszba kerül.
+Ez az oldal az előfizetések megléte miatt kiállított számlákat listázza ki. Az ügyfél minden egyes befizetetlen számláját kilistázásra kerül ezen a felületen, számlanévvel, összeggel és befizetési határidővel együtt. A számla befizetésére bankkártyás fizetéssel van mód, amelyhez a bankkártyán szereplő adatokat a számlához tartozó befizetés gomb megnyomásával betöltődő oldalon kell megadni. Ezen az oldalon - természetesen egy kitalált, nem létező - pénzügyi szolgáltató felé történő kérés fut le, amely a bankkártyás fizetést szimulálja. Ez a fizetési kísérlet kétféle eredménnyel záródhat:
+ Az ügyfél bankszámláján van elegendő pénz a számla kiegyenlítésére, és ez esetben a számla befizetett státuszba kerül.
  A másik eset az, amikor az ügyfél bankszámláján nem áll rendelkezésre elegendő pénz a számla befizetésére, így az befizetésre váró számlaként marad a számlák között.
  Mivel nincs valós pénzügyi szolgáltató a befizetések mögött, ezért a befizetés sikerességét vagy sikertelenségét egy véletlen szám generálással határozom meg, amelynek értéke dönti el, hogy sikeres vagy sikertelen legyen a befizetés. Mindkét esetben újra a \hyperlink{leiras-szamla}{"Számlabefizetés"} oldal töltődik be újra.
 
 \subsection{Hibabejelentés}\hypertarget{leiras-bejelentes}{}
 
 Az aktív szolgáltatással rendelkező felhasználóknak lehetőségük nyílik a szolgáltatással kapcsolatos hibák bejelentésére. Ezt a \hyperlink{leiras-bejelentes}{"Hibabejelentés"} oldalon tehetik meg.
-Ez egy form kitöltésével és beküldésével történik meg, amely form tartalmazza a hiba leírását az szolgáltatás megnevezésétől a hiba észlelésének időpontján át jellegének bemutatásáig.
+Az észlelt hiba részleteit egy form kitöltésével adhatják meg, amely form beküldésével az rögzítésre kerül, és az ügyintézők számára láthatóvá válik.
+
+\subsection{Bejelentett hibák}\hypertarget{leiras-bejelentetthibak}{}
+
+Ez egy az ügyintézők számára elérhető felület, amin a még ki nem javított hibákról szóló bejelentések érhetőek el. Amennyiben egy hiba kijavításra került, azt az ügyintézők a megoldást eredményező munkálatok rögzítésével nyugtázhatják.
 
 \section{A szoftver elkészítésére használt technológiák, és az azt támgató eszközök}
 
-Egy alkalmazás elkészítése összetett folyamat. Ennek során nem elég a specifikációt ismerni, és az alkalmazott programozási nyelv használatában járatosnak lenni, ezek mellet számos olyan eszközt érdemes igénybe venni, amely gyorsítja, hatékonyabbá teszi, vagy éppen "biztonságosabbá" teszi az alkalmazás fejlesztését azáltal, hogy a szoftverkészítés folyamat egyes állomásain a forráskód állapotát eltárolja.
+Egy alkalmazás elkészítése összetett folyamat. Ennek során nem elég a specifikációt ismerni, és az alkalmazott programozási nyelv használatában járatosnak lenni, ezek mellet számos olyan eszközt érdemes igénybe venni, amely gyorsítja, hatékonyabbá, vagy éppen "biztonságosabbá" teszi az alkalmazás fejlesztését azáltal, hogy a szoftverkészítés folyamat egyes állomásain a forráskód állapotát eltárolja.
 
 \subsection{Java Enterpreise Edition}
 
@@ -140,18 +128,17 @@ Az általam készített alkalmazás egy olyan alkalmazás, amelyik az API-k egy 
 
 \subsection{WildFly Application Server}
 
-Az elkészült alkalmazások futtatásához egy olyan környezet szükséges, amely ismeri és kezeli az alkalmazás által használt API-kat. Ezeket a környezeteket alkalmazásszervereknek nevezzük. 
+Az elkészült alkalmazások futtatásához egy olyan környezet szükséges, amely ismeri és kezeli az alkalmazás által használt API-kat. Ezeket a környezeteket az alkalmazásszerverek. 
 Feladatuk az alkalmazás számára biztosítani az általa használt API-kat, és erőforrás kezelést, erőforrás (ki)osztást végezni. Ilyen erőforrás (ki)osztás alatt értem például az alkalmazásszerver azon műveleteit, amelynek során az erőforrás konténerekbe annyi EJB példányt tárol, amennyi a kliensoldalról érkező kéréseket (optimálisan) képes kiszolgálni.
 
-Én a WildFly alkalmazásszervert fogom használni, amely a JBoss alkalmazásszerver community verziójának új neve a 8.0-s verzió óta. Ez az alkalmazásszerver alkalmas a Java EE technológiával készült alkalmazások futtatására, mert implementálja a annak összes standardját.  
+Én a WildFly alkalmazásszervert fogom használni, amely a JBoss alkalmazásszerver community verziójának új neve a 8.0-s verzió óta. Ez az alkalmazásszerver alkalmas a Java EE technológiával készült alkalmazások futtatására, mert implementálja annak összes standardját.  
 
 \subsection{Oracle Database 11g Express Edition}
 
-Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat fog tárolni. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t fogom használni.
-
+Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat tárolni. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t használja.
 \subsection{IntelliJ IDEA}
 
-A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ezen választásom oka az, hogy tapasztalt programozóktól azt hallottam, hogy a forgalomban lévő fejlesztői környezetek közül ez a tapasztalataik alapján a legjobb. Na, majd kiderül, hogy tényleg így van-e.
+A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ezen választásom oka az, hogy tapasztalt programozóktól azt hallottam, hogy a forgalomban lévő fejlesztői környezetek közül ez a tapasztalataik alapján az egyik legjobb. Ezen választás hozomány, hogy egy újabb fejlesztői környezetet ismerek meg, a főiskolai tanulmányaim során használt Microsoft Visual Studio és NetBeans mellett.
 
 \subsection{Vaadin Framework}
 
@@ -160,13 +147,13 @@ Az alkalmazás frontend részét Vaadin Framework használatával fogom elkész�
 \subsection{Maven}
 
 A szoftverfejlesztési iparban jelenleg sok programozó és sok cég van jelen. Előfordul, hogy az egyikük elkészít egy funkcióhalmazt implementáló kódot, és azt mások által felhasználhatóvá teszi.
-Az is előfordulhat, hogy egy specifikációt, elvbeli működést (pl JPA) több cég is implementál, méghozzá másként, majd kiadja azt másoknak felhasználásra. Ezen esetekben ezeken az implementációkat osztálykönyvtárak formájában érjük el egy központi repositoryban. Amennyiben használni szeretnénk ezen osztálykönyvtárakat, úgy azokat hozzá kell kapcsolnunk a projektünkhöz, mivel az függ azoktól. Ez esetben jön jól a Maven, amellyel a projektünk függőségei könnyen letölthetők az internetről és belefordíthatóak a projektünkbe. Ehhez mindössze egy megfelelő módon összeállított, projektfüggőségeket leíró fájlra van szükségünk.(pl pon.xml) Ez a fájl tartalmazza a projektben használt függőségek elérési helyét és azonosítóját, így azok egy áttekinthető, struktúrált és kényelmes módon integrálhatóak a projektünkbe.
+Az is előfordulhat, hogy egy specifikációt, elvbeli működést (pl JPA) több cég is implementál, méghozzá másként, majd kiadja azt másoknak felhasználásra. Ezen esetekben ezeken az implementációkat osztálykönyvtárak formájában érjük el egy központi repositoryban. Amennyiben használni szeretnénk ezen osztálykönyvtárakat, elérhetővé kell tennünk ezeket a projektünk számára, mivel az függ azoktól. Ez esetben jön jól a Maven, amellyel a projektünk függőségei könnyen letölthetők az internetről és hozzáadhatók a projektünkhöz. Ehhez mindössze egy megfelelő módon összeállított, projektfüggőségeket leíró fájlra van szükségünk.(pl pom.xml) Ez a fájl tartalmazza a projektben használt függőségek elérési helyét és azonosítóját, így azok egy áttekinthető, struktúrált és kényelmes módon integrálhatóak a projektünkbe.
 
 \subsection{Git}
 
-A program elkészítése során nagy segítséget nyújt egy verziókezelő rendszer használata, amely lehetővé teszi a fejlesztés során az alkalmazás aktuális állapotának mentését. Ennek több előnye is van. Egyik előnye az, hogy a fejlesztés egy pontjából több irányba is elágaztathatjuk a a fejlesztés további menetét. Ez amiatt hasznos, mert ha két megrendelő hasonló alkalmazást kér, akkor az alkalmazások funkciói közötti átfedéseket egy fejlesztési vonalon kezelhetjük és implementálhatjuk, a különbségeket pedig egy-egy külön ágon "adhatjuk" hozzá az átfedéseket tartalmazó részhez. Másik előnye a verziókezelésnek, hogy amennyiben azt találjuk, hogy az alkalmazás jelenlegi állapota nem a kívánt állapottal egyenlő, akkor könnyen átállhatunk egy olyan mentett állapotra, amelyik egy kívánt állapot. Harmadik előnye, hogy amennyiben osztott verziókezelő rendszert használunk, úgy a forráskódból több példány is van, így amennyiben az egyik példány elveszne, úgy tényleges veszteség nem ér minket, mivel van belőle másik.
+A program elkészítése során nagy segítséget nyújt egy verziókezelő rendszer használata, amely lehetővé teszi a fejlesztés során az alkalmazás aktuális állapotának mentését. Ennek több előnye is van. Egyik előnye az, hogy a fejlesztés egy pontjából több irányba is elágaztathatjuk a a fejlesztés további menetét. Ez amiatt hasznos, mert ha két megrendelő hasonló alkalmazást kér, akkor az alkalmazások funkciói közötti átfedéseket egy fejlesztési vonalon kezelhetjük és implementálhatjuk, a különbségeket pedig egy-egy külön ágon "adhatjuk" hozzá az átfedéseket tartalmazó részhez. Másik előnye a verziókezelésnek, hogy amennyiben azt találjuk, hogy az alkalmazás jelenlegi állapota nem a kívánt állapottal egyenlő, akkor könnyen átállhatunk egy olyan mentett állapotra, amelyik egy kívánt állapot. Harmadik előnye, hogy amennyiben osztott verziókezelő rendszert használunk, úgy a forráskódból több példány is van, így az esetben, ha az egyik példány elveszne, úgy tényleges veszteség nem ér minket, mivel a projekt kódja máshol is tárolva van.
 
-Én egy a github-on létrehozott repositoryt és a Git nevű verziókezelő rendszert fogom az alkalmazás megírása során használni
+Én egy a github-on létrehozott repositoryt és a Git nevű verziókezelő rendszert használom az alkalmazás elkészítése során.
 
 
 \chapter{A Java Enterprise Edition}
@@ -183,26 +170,23 @@ A Java EE API-k egy halmaza.
 
 \section{A projekt összeállítása}
 
-A projekt vázának egy Vaadin archetípust, nevezetesen a vaadin-archetype-application archetípust használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
-Ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. \href{https://vaadin.com/maven#dependencies}{Mindezek a Vaadin honlapján elérhetőek.} . Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután kézhez kapunk egy alap projektet, ami mindössze egy UI java objektumok, egy gwt.xml-t és néhány kinézetet leíró .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
+A projekt vázának egy Vaadin archetípust\footnote{\url{https://vaadin.com/maven\#dependencies}}, nevezetesen a vaadin-archetype-application archetípust használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
+Ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. \href{https://vaadin.com/maven#dependencies}{Mindezek a Vaadin honlapján elérhetőek.} Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután rendelkezésünkre áll egy kiindulási projekttartalom, ami mindössze egy UI java objektumot, egy gwt.xml-t és néhány a kinézetre(forntend) vonatkozó .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
 
-Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin maven-nel könnyen hozzáadható az alkalmazásunkhoz. A 	
+Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin mavennel könnyen hozzáadható az alkalmazásunkhoz. A 	
 \lstinputlisting[caption=WildFly plugin,label=kod-wildfly-plugin]{wildfly-plugin.pas}
 sorok pom.xml-hez hozzáadásával a plugin letöltésre kerül, és a projekt részévé válik. Ezután a Maven toolboxban megjelenik a pluginok között, és a wildfly:deploy opció indításával máris deployolásra kerül az alkalmazásszerverünkre. A port és name konfigurációs attribútumok beállításával finomhangolhatjuk a deployolás tulajdonságait. Jelen esetben a 10000-es porton futó administration consol-ú szerverre fog történni a deploy - melynél jelen esetben maga a szerver a 8090-es porton fut - és szer.war néven fog az alkalmazás deployálásra kerülni. Ez utóbbi azt vonja magával, hogy az alkalmazást a localhost:8090/szer URL-en fogjuk elérni. 
 
+Ezt követően az első lépés az adatbázis elérést lehetővé tévő persistence.xml fájl hozzáadása a projekthez, amelyet az src mappa alatt néhány mélységben található resources almappában létrehozandó META-INF mappában kell elhelyezni. Ez az xml file tartalmazza az adatbázis eléréséhez szükséges információkat. Jelen esetben a DataSource nevét, amely az adatbáziskapcsolat kialakításához szükséges információkat tárolja: az adatbázis címe, a bejelentkezéshez szükséges felhasználónév és jelszó.
+Emellett ami számunkra fontos ebben az xml-ben, az a table generation strategy. Egy jól megválasztott stratégiával gondoskodhatunk az adatok biztonságáról. Én az update értéket választottam. Ez a stratégia az alkalmazás indulásakor megvizsgálja az adatbázis séma tartalmát, és amennyiben nem talál benne a projektben definiált entitás számára táblát, létrehozza azt. Abban az esetben pedig, amikor egy entitásosztály tagváltozóinak típusa és/vagy a tagváltozókhoz beállított adatbázisbeli jellemzők az adatbázisbeli táblafelépítéssel nincsenek szinkronban, úgy a tábla módosításra kerül, hogy annak jellemzői az entitásosztályban beállított jellemzőket tükrözzék.
+Például, ha egy Java osztály, ami egy entitást ír le rendelkezik egy int típusú és mennyiség nevű tagváltozóval, aminek az entitáshoz tartozó táblában nincs megfelelő mező, úgy a tábla egy "ALTER TABLE ..." DDL utasítás automatikus lefutásával módosul, és bővül egy mennyiség nevű mezővel. 
 
-
-
-
-Ezt követően az első lépés az adatbázis elérést lehetővé tévő persistence.xml fájl hozzáadása a projekthez a feladat, amelyet az src mappa alatt nehény mélységben található resources almappában létrehozandó META-INF mappában kell elhelyezni. Ez az xml file tartalmazza az adatbázis eléréséhez szükséges információkat. Jelen esetben a DataSource nevét, amely az adatbáziskapcsolat kialakításához szükséges információkat tárolja: az adatbázis címe, a bejelentkezéshez szükséges felhasználónév és jelszó.
-Emellett a ami számunkra fontos ebben az xml-ben, az a table generation strategy. Egy jól megválasztott stratégiával gondoskodhatunk az adatok biztonságáról. Én az update értéket választottam. Ez a stratégia az alkalmazás indulásakor megvizsgálja az adatbázis séma tartalmát, és amennyiben nem talál benne a projektben definiált entitás számára táblát, létrehozza azt.
-
-Az ORM műveleteket a JPA fogja végezni. Ez az entitymanager-en keresztül végzi a munkáját. Ahhoz hogy ezt használni lehessen, a JPA-t függőségként hozzá kel adnunk a proketünkhoz. Ezt a pom.xml szerkesztésével tehetjük meg:
+Az ORM műveleteket a Hibernate, egy JPA implementáció fogja végezni. Ez az entitymanager-en keresztül goldozik. Ahhoz hogy ezt használni lehessen, függőségként hozzá kel adnunk a projektünkhoz. Ezt a pom.xml szerkesztésével tehetjük meg:
 
 \lstinputlisting[caption=Hibernate függőségek, label=kod-hibernate-dependencies]{hibernate-dependencies.pas}
 
 
-A fenti kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a JPA-t.
+A fenti kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a Hibernate-t, amivel az objektumorientált programunk entitásainak világa és a "rekord orientált" adatbázisunk rekordjainak világa közötti átjárást tesszük lehetővé.
 
 \subsection{Alszakasz címe}
 
