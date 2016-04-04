@@ -7,10 +7,10 @@ import java.io.Serializable;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="TelephoneServices")
+@Table(name="TELEPHONESERVICES")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TelephoneService extends Service implements Serializable {
-    @Column(name="TYPE")
+    @Column(name="TYPE", nullable = false, length = 19)
     private String type;
 
     public TelephoneService(){

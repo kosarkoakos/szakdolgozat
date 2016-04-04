@@ -13,11 +13,11 @@ import java.util.List;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="Customers")
+@Table(name="CUSTOMERS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Customer extends ApplicationUser implements Serializable {
 
-    @Column(name="REGISTRATIONDATE")
+    @Column(name="REGISTRATIONDATE", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date registrationDate;
 
@@ -28,7 +28,6 @@ public class Customer extends ApplicationUser implements Serializable {
     private List<ReportedFault> reportedFaults;
 
     public Customer(){
-
     }
 
     public Date getRegistrationDate() {

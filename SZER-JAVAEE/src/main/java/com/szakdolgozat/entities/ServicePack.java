@@ -10,24 +10,24 @@ import java.util.List;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="ServicePacks")
+@Table(name="SERVICEPACKS")
 public class ServicePack implements Serializable{
     @Id
     @GeneratedValue
     @Column(name="SERVICEPACK_ID")
     private Short servicePackId;
 
-    @Column(name="NAME")
+    @Column(name="NAME", nullable = false, length = 99)
     private String name;
 
-    @Column(name="PRICE")
+    @Column(name="PRICE",nullable = false)
     private Integer price;
 
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCRIPTION", nullable = false, length = 99)
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "jnd_ServicePacks_Services",
+    @JoinTable(name = "JND_SERVICEPACKS_SERVICES",
             joinColumns = @JoinColumn(name = "SERVICEPACK_ID_FK"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID_FK"))
     private List<Service> parts;

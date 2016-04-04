@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Ákos on 2016.03.21..
  */
 @Entity
-@Table(name="Addresses")
+@Table(name="ADDRESSES")
 public class Address implements Serializable {
 
     @GeneratedValue
@@ -17,22 +17,22 @@ public class Address implements Serializable {
     @Column(name = "ADDRESS_ID")
     private Long id;
 
-    @Column(name = "ZIPCODE")
+    @Column(name = "ZIPCODE", nullable = false, length = 4)
     private String zipCode;
 
-    @Column(name = "CITY")
+    @Column(name = "CITY", nullable = false, length = 99)
     private String city;
 
-    @Column(name = "STREET")
+    @Column(name = "STREET", nullable = false, length = 99)
     private String street;
 
-    @Column(name = "HOUSENUMBER")
+    @Column(name = "HOUSENUMBER", nullable = false, length = 19)
     private String houseNumber;
 
-    @Column(name = "FLOOR")
+    @Column(name = "FLOOR", nullable = true, length = 19)
     private String floor;
 
-    @Column(name = "DOOR")
+    @Column(name = "DOOR", nullable = true, length = 19)
     private String door;
 
     @OneToMany(mappedBy = "address",cascade = CascadeType.ALL)

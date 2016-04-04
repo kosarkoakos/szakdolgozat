@@ -8,24 +8,24 @@ import java.util.Date;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="Bills")
+@Table(name="BILLS")
 public class Bill implements Serializable{
     @Id
     @GeneratedValue
     @Column(name="BILL_ID")
     private Long billId;
 
-    @Column(name = "BILLNAME")
+    @Column(name = "BILLNAME", nullable = false, length = 99)
     private String billName;
 
-    @Column(name="AMOUNT")
+    @Column(name="AMOUNT", nullable = false)
     private Integer amount;
 
-    @Column(name="DEADLINE")
+    @Column(name="DEADLINE", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date deadline;
 
-    @Column(name="PAIDTIME")
+    @Column(name="PAIDTIME", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date paidTime;
 

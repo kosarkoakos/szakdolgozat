@@ -11,22 +11,22 @@ import java.util.List;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="Services")
+@Table(name="SERVICES")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "SERVICETYPE")
 public class Service implements Serializable{
     @Id
     @GeneratedValue
     @Column(name="SERVICE_ID")
-    private Short serviceId;
+    private Long serviceId;
 
-    @Column(name="NAME")
+    @Column(name="NAME", nullable = false, length = 99)
     private String name;
 
-    @Column(name="PRICE")
+    @Column(name="PRICE", nullable = false)
     private Integer price;
 
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCRIPTION", nullable = false, length = 255)
     private String description;
 
     @ManyToMany(mappedBy = "parts")
@@ -35,18 +35,18 @@ public class Service implements Serializable{
     @ManyToMany(mappedBy = "services")
     private List<Order> containerOrders;
 
-    @Column(name="LOYALTY")
+    @Column(name="LOYALTY", nullable = false)
     private int loyalty;
 
     public Service(){
 
     }
 
-    public Short getServiceId() {
+    public Long getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(Short serviceId) {
+    public void setServiceId(Long serviceId) {
         this.serviceId = serviceId;
     }
 

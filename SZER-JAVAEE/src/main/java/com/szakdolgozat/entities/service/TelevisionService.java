@@ -7,11 +7,11 @@ import java.io.Serializable;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="TelevisionServices")
+@Table(name="TELEVISIONSERVICES")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TelevisionService extends Service implements Serializable {
 
-    @Column(name="CHANNEL_COUNT")
+    @Column(name="CHANNEL_COUNT", nullable = false)
     private Byte channelCount;
 
     public TelevisionService(){

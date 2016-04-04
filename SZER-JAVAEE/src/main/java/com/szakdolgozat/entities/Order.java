@@ -22,13 +22,13 @@ public class Order {
     private Date orderDate;
 
     @ManyToMany
-    @JoinTable(name = "jnd_Orders_ServicePacks",
+    @JoinTable(name = "JND_ORDERS_SERVICEPACKS",
             joinColumns = @JoinColumn(name = "ORDER_ID_FK"),
             inverseJoinColumns = @JoinColumn(name = "SERVICEPACK_ID_FK"))
     private List<ServicePack> servicePacks;
 
     @ManyToMany
-    @JoinTable(name = "jnd_Orders_Services",
+    @JoinTable(name = "JND_ORDERS_SERVICES",
             joinColumns = @JoinColumn(name = "ORDER_ID_FK"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID_FK"))
     private List<Service> services;

@@ -7,22 +7,21 @@ import java.io.Serializable;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="Agents")
+@Table(name="AGENTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Agent extends ApplicationUser implements Serializable {
 
-    @Column(name="ROLE")
-    private String role;  //????? új tábla a jogokkal?
+    @Column(name="AGENTLEVEL", nullable = false, length = 19)
+    private String agentLevel;
 
     public Agent(){
-
     }
 
-    public String getRole() {
-        return role;
+    public String getAgentLevel() {
+        return agentLevel;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setAgentLevel(String agentLevel) {
+        this.agentLevel = agentLevel;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="ApplicationUsers")
+@Table(name="APPLICATIONUSERS")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "USERTYPE")
 public class ApplicationUser implements Serializable {
@@ -18,20 +18,20 @@ public class ApplicationUser implements Serializable {
     @Column(name="USER_ID")
     private Long userId;
 
-    @Column(name="USERNAME")
+    @Column(name="USERNAME", nullable = false, length = 99)
     private String username;
 
-    @Column(name="PASSWORD")
+    @Column(name="PASSWORD", nullable = false, length = 99)
     private String password;
 
-    @Column(name="NAME")
+    @Column(name="NAME", nullable = false, length = 99)
     private String name;
 
-    @Column(name="BIRTHDATE")
+    @Column(name="BIRTHDATE", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date birthdate;
 
-    @Column(name="BIRTHPLACE")
+    @Column(name="BIRTHPLACE", nullable = false, length = 99)
     private String birthPlace;
 
     public Long getUserId() {

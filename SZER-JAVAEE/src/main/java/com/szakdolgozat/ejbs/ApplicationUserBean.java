@@ -3,6 +3,7 @@ package com.szakdolgozat.ejbs;
 import com.szakdolgozat.dto.LoginDTO;
 import com.szakdolgozat.entities.Address;
 import com.szakdolgozat.entities.ServicePack;
+import com.szakdolgozat.entities.person.Agent;
 import com.szakdolgozat.entities.person.ApplicationUser;
 import com.szakdolgozat.entities.service.InternetService;
 import com.szakdolgozat.entities.service.Service;
@@ -362,7 +363,7 @@ public class ApplicationUserBean {
         sp8.setParts(sp8Services);
 
         sp9.setName("Nagy csomag - h. n.");
-        sp9.setLoyalty(9);
+        sp9.setLoyalty(0);
         sp9.setDescription("Nagy csomag");
         sp9.setPrice((int)((is9.getPrice()+ts9.getPrice()+televisionService9.getPrice())*0.8));
 
@@ -374,6 +375,15 @@ public class ApplicationUserBean {
 
         sp9.setParts(sp9Services);
 
+        Agent agent= new Agent();
+        agent.setUsername("agent");
+        agent.setPassword("agent");
+        agent.setBirthPlace("Budapest");
+        agent.setBirthdate(java.util.Calendar.getInstance().getTime());
+        agent.setAgentLevel("level max");
+        agent.setName("Kiss Laura");
+
+        entityManager.persist(agent);
 
 
 
