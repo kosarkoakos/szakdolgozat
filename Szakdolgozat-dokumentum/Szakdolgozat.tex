@@ -26,10 +26,10 @@
 	postbreak=\hbox{},
 	xleftmargin=2cm,
 	xrightmargin=2cm,
-	backgroundcolor=\color{gray!30},
+	backgroundcolor=\color{white},
 	frame=tlbr,
 	framesep=3pt,
-	keywordstyle=\bfseries\color{blue},
+	keywordstyle=\bfseries\color{black},
 	commentstyle=\itshape\color{green!85}
 }
 \renewcommand{\lstlistingname}{kód}
@@ -135,7 +135,7 @@ Feladatuk az alkalmazás számára biztosítani az általa használt API-kat, é
 
 \subsection{Oracle Database 11g Express Edition}
 
-Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat tárolni. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t használja.
+Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat tárol. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t használja.
 \subsection{IntelliJ IDEA}
 
 A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ezen választásom oka az, hogy tapasztalt programozóktól azt hallottam, hogy a forgalomban lévő fejlesztői környezetek közül ez a tapasztalataik alapján az egyik legjobb. Ezen választás hozomány, hogy egy újabb fejlesztői környezetet ismerek meg, a főiskolai tanulmányaim során használt Microsoft Visual Studio és NetBeans mellett.
@@ -158,15 +158,115 @@ A program elkészítése során nagy segítséget nyújt egy verziókezelő rend
 
 \chapter{A Java Enterprise Edition}
 
-\section{Szakasz címe}
+\section{Mi a Java EE?}
 
-A Java EE API-k egy halmaza.
+A jelen korban gyakori eset, hogy olyan szoftvereket kell készítenünk, amelyek a felhasználóik számára rengeteg funkciót biztosítanak, és emellett megbízhatónak és biztonságosnak is kell lenniük. Ahhoz , hogy ezeket az igényeket kielégítsük, és az alkalmazásunk viszonylag rövid idő alatt elkészüljön, az szükséges, hogy a szoftver elkészítéséhez szükséges építőkockát közül ne az összeset mi írjuk meg, vagyis felhasználhassunk olyan eszközöket, építőkockákat, amiket mások már elkészítettek, ezáltal mi már nagyrészt csak ezek összeillesztésére kell, hogy időt és energiát fordítsunk, ami összetett alkalmazások esetében még így is jelentős mennyiségű. 
+Például, teljesen felesleges minden egyes alkalmazásunkban elkészíteni egy típust, ami primitív típusú elemeket tartalmaz, hiszen ezt már másvalaki(k) elkészítették, és a műveleteit optimalizálták. Ezek a listák, mint egy alkalmazás építőkockái. Ez, és sok más építőkocka API-ként a Java Standard Edition-jében található meg összegyűjtve.
+Ennek mintájára, robosztus méretű alkalmazások elkészítéséhez nagy méretű építőkockákat is elkészítettek, amelyek összetett műveletek elvégzésére alkalmasak. Ezekkel az építőkockákkal néhány 10 sor általunk írt programkóddal elvégezhető egy entitás adatbázisba történő perzisztálása, alkalmazások közötti üzenetküldés, e-mail küldés, és egyéb összetett művelet, amelyeket ha mi kellene, hogy megírjunk, nagy mértékben megnövekedne a fejlesztéshez szükséges időtartam.
+Ezeket a nagy építőkockákat gyűjtötték össze, mint API-k, amiből létrejött a Java EE.
+Ez az enterprise edition a standard edition teljes egészét felhasználhatja, illetve ha egy Java EE alkalmazást készítünk, mi is használhatjuk benne a Java SE tartalmát.
 
+\section{Arhitektúra}
+
+A Java EE különböző konténerekben implementált specifikációk halmaza. A konténerek Java EE futtatói környezetek, amelyek különböző szolgáltatásokat bitosítanak az általuk kiszolgált komponenseknek. Ilyen szolgáltatások például az életciklus menedzselés, a függőség befecskendezés, és így tovább. Ezek a komponensek jól definiált szerződéseket használnak a Java EE infrasruktúrabeli kommunikációhoz, és más komponensekkel történő kommunikációhoz egyíránt. Deploy-olás (az alkalmazásszerverre történő kihelyezés) előtt úgynevezett package-ekbe csomagolandóak, amik típusát és kuterjesztését a célkonténer típusa határoz meg.
+
+Konténerek Kép ide!!!
+
+Az alábbi ábrán a platform négy konténere látható, a köztük lévő kapcsolódási protokollok megjelölésével.
+
+\section{Komponensek}
+
+\subsection{Komponensek bemutatása}
+A platform négy komponenstípust tartalmaz:
+\begin{itemize}
+	\item Az "Applet"-ek grafikus felhasználói felülettel(Graphic User Interface - GUI) rendelkező alkalmazások, amelyek webes böngészőkben futnak.
+	
+	\item Az "Application"-ök olyan alkalmazások, amelyek kliens gépeken futnak. Ezek tipikusan GUI-k, amelyeknek a Java EE középső rétegének összes eszközéhez elérése van.
+	
+	\item A "Web Applicaton"-ök, amelyek servletekből, JSP-kből, JSF-ekből, stb állnak a web konténerben futnak, és a kliensekből érkező kéréseket szolgáljak ki.
+	
+	\item Az "Enterprise Application"-öket az EJB konténerben futtatjuk. Ezek az alkalamzások EJB-kből (Enterprise Java Beans), Java Message Service-ből, Java Transaction API-ból, asszinkron hívásokból, RMI/IIOP-ből állnak. Az EJB-k konténer-menedzselt komponensek, amelyek az üzleti logikát írják le és implementálják. Lokálisan, vagy RMI-n keresztül távolról érhetőek el. 
+	
+\end{itemize} 
+
+\subsection{Komponensek csomagolása}
+
+Ahhoz, hogy egy komponenst kihelyezhessünk a szerverre, először be kell, hogy csomagoljuk egy standard formátumba. A Java SE a Java Archive (jar) fájlokat használja erre, amelyek több fájl (Java osztályok, deployment descriptorok, erőforrások, külső könyvtárak) egyetlen fájlba csomagolásai. Ez a csomagolás ZIP formátum alapú.
+Minden egyes modul számára meghatározott, hogy milyen típus csomagolt fájlba kell csomagolni:
+\begin{itemize}
+	\item Az application client modul java osztályokat és más erőforrás fájlokat tartalmaz, amiket egy .jar fájlba kell csomagolni.
+	
+	\item Az EJB modulok egy vagy több bean-t tartalmaznak, és esetükben szintén a .jar kiterjesztés a megkövetelt.
+	
+	\item A web application module számos elemet tartalmazhat: servleteket, JSP-ket, JSF-eket, Java-Scriptet, HTML fájlokat, CSS-t, stb. Mindezek egyetlen Web-Archive fájlba kerülnek, ami egy .war kiterjesztésű állomány.
+	
+	\item A negyedik modultípus az enterprise modul, ami bármennyi (akár 0-t is) web modul-t(.war), bármennyi EJB modult(.jar) tartalmazhat, és mindezeket egy Enterprise Archive .ear kiterjesztésű fájlban fogja össze.
+	
+\end{itemize} 
+
+\section{Konténerek}
+
+\subsection{Konténerek leírása}
+
+A Java EE infrastruktúra logikai egységekbe került felosztásra, amiket konténereknek nevezünk. Minden egyes konténernek speciális szerepe van, má-más szolgáltatásokat tesznek elérhető a komponensek számára. A konténerek elrejtik a technikai komplexitást.
+Attól függően, hogy milyen típusú alkalmazást akarunk fejleszteni, más és más konténer(eke)t kell használnunk. Például, ha egy webes alkalmazást fejlesztünk, akkor elegendő egy JSF réteget és egy EJB Lite réteget fejleszteni, amik a web konténerbe deployolva működőképesek.
+Négy különböző konténer létezik:
+\begin{itemize}
+	\item Az Applet konténer applet komponensek futtatására alkalmas. Homokozó biztonsági modell-t használ, így a kód egy homokozó környezetben fut, és a "homokozóm kívüli játék" nem megengedett.
+	Ez azt jelenti, hogy a konténer megelőzi azt, hogy az applet a lokális gépen lévő erőforrásokhoz -képekhez, fájlokhoz- hozzáférjen.
+	\item Az Application Client Container Java osztályokat, könyvtárakat és egyéb fájlokat tratalmaz, amik ahhoz szükségesek, hogy a Java SE alkalmazás egy EJB konténerbeli vagy egy Web konténerbeli komponenssel képes legyen kommunikálni.
+	\item A Web konténer web komponensek futtatásának és menedzselésének alapjául szolgáló szolgáltatásokat biztosítja. Például ez a konténer felelős az EJB-k példányosításáért, inicializálásáért és a servlet hívásokért. HTTP és HTTPS protokollon keresztül érhető el. Ez az a konténer, amit a web oldalak generálására használunk, amik ezután eljutnak a böngészőbe.
+	\item Az EJB konténer a Java EE alkalmazás üzleti logikáját tartalmazó enterprise beanek futtatásának menedzseléséért felelős. Új példányokat hoz létre belőlük, kezeli az életciklusukat.
+\end{itemize}
+
+\subsection{Konténerek által nyújtott szolgáltatások}
+
+A konténerek különféle alapszolgáltatásokat nyújtanak az általuk futtatott komponensek számára.
+Így a fejlesztés során elég az üzleti logika implementálására fókuszálnunk, a technikai problémákat ezen szolgáltatások orvosolják(pl Java entitásosztály mappelése adatbázisbeli rekorddá).
+Az, hogy ezen alapszolgáltatások közül melyik érhető el egykonténerben, az konténerenkénet változik.
+Néhány szolgáltatás a teljesség igénye nélkül:
+\begin{itemize}
+	\item Java Persistence API(JPA): ez egy standard API az objektum relációs leképzéshez(ORM). Az API által definiált Java Persistence Query Language (JPQL) által objektumokat olvashatunk fel az alkalmazás által használt adatbázis(ok)ból.
+	\item Java Message Service(JMS): Asszinkron üzenetek általi kommunikációt tesz lehetővé komponensek között. Megbízható point-to-point üzenetküldést ad mint például a publish-service modell.
+	\item Java Naming and Directory Interface(JNDI): Arra használjuk, hogy neveket kössünk objektumokhoz és ezután ezen nevek használatával találjuk meg ezeket az objektumokat egy dictionary-ben(lookup). Ez a lookup használható datasource-ok, bean-ek és más erőforrások esetén.
+	\item JavaMail: Ezzel az API-val e-mail üzeneteket küldhetünk az alkalmazásunkból.
+	
+	kép ide
+\end{itemize}
+
+\section{Annotációk és deployment descriptorok}
+
+Ahogy az előbb írtam, a konténerek szolgáltatásokat nyújtanak a komponensek számára. Ezek a szolgáltatások alapbeállításokkal rendelkeznek. Például egy entitás osztály egy String típusú tagváltozója varchar2(255) típusú mezőbe fog leképződni az adatbázisban. Abban az esetben, hogyha ezt meg kívánjuk változtatni, meta-adatként kell megadnunk a forráskódban, vagy egy külső fájlban. Forráskódban egy annotációt használva jelezzük az alapbeállításon való változtatást, amikor pedig egy külső fájlban tesszük ezt meg egy deployment descriptor-t alkalmazunk. Ez a deployment descriptor egy XML fájl, amiben a meta-adatok leírása található. A Java EE 6 óta, amikor is beletettek az annotációkat a platform eszközei közé, az általános trend az annotációk használata, mivel ez jóval kevesebb írást igényel, illetve a meta-adat azon a helyen kerül rögzítésre, ahol kifejti a hatását, így egyszerű kezelhetőséget nyújt. Hátránya, hogy egy annotációban megadott érték megváltoztatása a kód újra fordítását igényli. Deployment descriptor esetében elegendő az xml fájlban átírni az értéket.
+A két meta-adat megadási mód közül a deployment descriptor rendelkezik magasabb precedenciával. Tehát ha egy meta-adat értéket annotációval is megadtunk, illetve deployment descriptort is alkalmazunk, de abban más értéket állítottunk be, akkor az felülírja az annotációban megadott értéket, és az fogja kifejteni a hatását.
 \subsection{Alszakasz címe}
 
 \chapter{Az alkalmazás}
 
 \section{Az adatbázismodell}
+
+Az adatbázismodell 15 darab táblából áll. Ezek közül 12 forgalmi tábla. Forgalmi tábláknak azokat a táblákat nevezzük, amelyek egy entitásra jellemző adatokat tartalmaznak. Például, az általam használt táblák közül az APPLICATIONUSER tábla egy forgalmi tábla, mert egy felhasználó adatait(neve, felhasználóneve, jelszava, stb) tartalmazza. Egy jól megtervezett adatbázismodellben a modell összes táblája közvetlenül kapcsolódik legalább egy másik táblához, és közvetve az összeshez. Ez azt jelenti, hogyha gráfként ábrázoljuk a modellt, amiben a táblák a csúcsok, és két csúcs akkor van összekötve a gráfban, ha az általuk reprezentált táblák között bármilyen(egy-egy, egy-több, több-több) kapcsolat van, és a gráf bármely pontjából vezet út bármely másik pontjába. A forgalmi táblák mellett kapcsolótáblákról is beszélünk. Ezek azok a táblák, amelyek két több-több kapcsolatban álló tábla közé ékelődnek be, méghozzá azért, hogy eltárolják, hogy az egyik tábla mely entitása mely másik táblabeli entitásokhoz kapcsolódik, és fordítva. Az alkalmazásomban által használt adatbázisban egy kapcsolótábla a JND\_ORDERS\_SERVICES. Ez a tábla az ORDERS és a SERVICES tábla között teremt kapcsolatot, melyhez a két oszlopát használja fel. Az ezekben szereplő értékek a idegen kulcsok, melyek elsődleges kulcsok a kapcsolat két oldalán álló táblákban. Egy sorbeli két mezőérték mutatja meg, hogy az egyik tábla mely rekordja a másik tábla mely rekordjához kapcsolódik. Például, ha az ORDER\_ID\_FK mező értéke 9, és a SERVICE\_ID\_FK-é 12, egy másik rekordban pedig 9 és 14, egy harmadikban pedig 10 és 14 ez a két érték, akkor az azt jelenti, hogy a 9-es ID-jű Order rekord a 12 ID-jű, és a 14-es ID-jű Service rekordhoz is kapcsolódik, a 14-s ID-jű Service rekord pedig a 9-es és 10-es ID-jű Orderhez.
+
+
+A modell ER diagrammja a következő képen látható:
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=14cm]{adatbazis-modell.png}
+\end{figure}
+
+
+Az adatbázis felhasználókról, bejelentett hibákról, rendelésekről és a rendelésekhez kapcsolódó adategyüttesekről tárol értékeket. Ez utóbbiak a megrendelt szolgáltatások és/vagy szolgáltatáscsomagok, a rendeléshez tartozó cím amelyre a megrendelt szolgáltatásokat bekötik, és a számlák, amelyek a megrendelés véglegesítése után rögtön le is generálódnak.
+
+A felhasználói adatok az APPLICATIONUSER, az AGENTS és a CUSTOMERS táblában szerepelnek. Az APPLICATIONUSER tábla egy "őstábla", amely mindazokat a mezőket tartalmazza, amik az Agent típusú és a Customer típusú felhasználók leírására szolgálnak. Az Agent-ök egyedi jellemzőit az AGENTS tábla mezői jelentik. A Customer-ök egyedi adatai pedig a CUSTOMERS táblába kerülnek bele. Hogy mi miatt van ez, és hogy miért jó ez, arról egy másik részben fogok írni.
+
+A megrendelések jellemzőit az ORDERS táblában találjuk. A megrendeléshez cím (város, utca, stb) tartozik, amelyek egy a számukra fenntartott táblában -- amely az ADDRESSES -- kapnak helyet. Ennek oka, hogy amennyiben egy címre több megrendelés is érkezne, elég a címet összeállító adatokat egyszer eltárolni, így elkerüljük az adatok fölöslegesen sokszori eltárolását, és ezáltal gazdaságosabban használjuk fel a tárhelyünket. Egy megrendeléshez nem a cím részleteit(utca, házszám, stb), hanem a cím rekord elsődleges kulcsát tároljuk el idegen kulcsként, amivel hivatkozhatunk rá.
+
+A szolgáltató az általa nyújtott szolgáltatásokból szolgáltatáscsomagokat rak össze. Egy szolgáltatása akár több csomagban is szerepelhet. Nyilvánvalóan egy szolgáltatáscsomag több szolgáltatásból áll. A szolgáltatások közös adatait a SERVICES tábla, a szolgáltatáscsomagok adatait a SERVICEPACKS tábla tárolja. A szolgáltatáscsomagok és a bennük lévő szolgáltatások összerendelését a JND\_SERVICEPACKS\_SERVICES kapcsolótábla tárolja. A különböző típusú (Internet, KábelTV, Telefon) szolgáltatások típusjellemző adatait az INTERNETSERVICES, a TELEVISIONSERVICES és a TELEPHONESERVICES táblákban találjuk. Az elv ugyanaz, mint a felhasználói adatok tárolására használt táblák kialakításánál.
+
+A szolgáltatásokat és szolgáltatáscsomagokat kapcsolótáblák kötik a megrendelésekhez. Ezek a táblák az idegen kulcsokon kívül mást nem tartalmaznak, neveik: JND\_ORDERS\_SERVICES és JND\_ORDERS\_SERVICEPACKS.
+
+A modell utolsó táblája a BILLS nevű tábla. Ezen táblabeli rekordok tartalmazzák a megrendelések után létrejövő számlák adatait. Számlanév, az összeg, amiről a számla szól, a befizetési határidő, amely minden esetben a következő hónap 5-e, és a befizetés ideje. Ezen utolsó mezőt, ami egy Date típusú PAIDTIME nevű mező használom fel arra, hogy egy számláról megállapíttassam, hogy be van-e már fizetve. Amennyiben ezen mező értéke null, úgy tudjuk, hogy még befizetetlen számláról van szó, ha pedig egy dátum érték szerepel benne, egyértelmű, hogy befizetett. Az előbb leírtak alapján a NOTNULL megszorítást erre a mezőre nem raktam rá. A rekord ORDER\_ID\_FK idegen kulcsa elárulja, hogy melyik megrendelésről szól a számla.
+
 
 \section{A projekt összeállítása}
 

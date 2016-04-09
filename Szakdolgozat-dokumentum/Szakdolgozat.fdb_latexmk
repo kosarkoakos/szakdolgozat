@@ -1,13 +1,14 @@
 # Fdb version 3
-["pdflatex"] 1459611174 "Szakdolgozat.tex" "Szakdolgozat.pdf" "Szakdolgozat" 1459611176
-  "./Szakdolgozat.out" 1459611175 5449 c0d6c265788a86d989a58dbb521d5da1 ""
-  "./Szakdolgozat.tex" 1459611173 21493 811b61184ac1f4e6bb827a4088fd117e ""
+["pdflatex"] 1460227683 "Szakdolgozat.tex" "Szakdolgozat.pdf" "Szakdolgozat" 1460227685
+  "./Szakdolgozat.out" 1460227684 7121 9eb54935017915c6109985c9c7e4becd ""
+  "./Szakdolgozat.tex" 1460227657 36952 3f9022e5fe2f2d3fef05ab48e31d836f ""
   "./hibernate-dependencies.pas" 1455381790 913 a3314de9f5331966fec7992ccec7b321 ""
+  "./images/adatbazis-modell.png" 1459789539 147722 dc11721fa784e8ea0a8da182dffbce4f ""
   "./wildfly-plugin.pas" 1455381237 226 38fdd893e41033cd213331af946d1f32 ""
-  "Szakdolgozat.aux" 1459611175 5725 f98c6b95302f2413ddda41df5d41adde ""
-  "Szakdolgozat.out" 1459611175 5449 c0d6c265788a86d989a58dbb521d5da1 ""
-  "Szakdolgozat.tex" 1459611173 21493 811b61184ac1f4e6bb827a4088fd117e ""
-  "Szakdolgozat.toc" 1459611175 3577 288656c0b34b0e7b4182f4d450803095 ""
+  "Szakdolgozat.aux" 1460227684 6888 db1d4820a828ca075c927659e1ef9b4c ""
+  "Szakdolgozat.out" 1460227684 7121 9eb54935017915c6109985c9c7e4becd ""
+  "Szakdolgozat.tex" 1460227657 36952 3f9022e5fe2f2d3fef05ab48e31d836f ""
+  "Szakdolgozat.toc" 1460227684 4604 c72ac3d95319f68038ab0c14b5143e75 ""
   "c:/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1443366342 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1443367467 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "c:/texlive/2015/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1443366935 3584 2d666ecf6d466d8b007246bc2f94d9da ""
@@ -135,7 +136,7 @@
   "wildfly-plugin.pas" 1455381237 226 38fdd893e41033cd213331af946d1f32 ""
   (generated)
   "Szakdolgozat.pdf"
+  "Szakdolgozat.aux"
+  "Szakdolgozat.toc"
   "Szakdolgozat.log"
   "Szakdolgozat.out"
-  "Szakdolgozat.toc"
-  "Szakdolgozat.aux"
