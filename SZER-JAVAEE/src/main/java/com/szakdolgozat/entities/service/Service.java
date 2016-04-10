@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Ákos on 2016.02.20..
  */
 @Entity
-@Table(name="SERVICES")
+@Table(name="SERVICES" )
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "SERVICETYPE")
 public class Service implements Serializable{
