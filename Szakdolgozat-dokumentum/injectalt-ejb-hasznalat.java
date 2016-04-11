@@ -1,0 +1,1 @@
+b.setBillName(s.getName() + " - " + dfc.convertToYearMonth(calendar.getTime()));

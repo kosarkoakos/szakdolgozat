@@ -22,16 +22,19 @@
 \select@language {magyar} \contentsline {section}{\numberline {2.2}Arhitekt\IeC {\'u}ra}{12}{section.2.2}
 \select@language {magyar} \contentsline {section}{\numberline {2.3}Komponensek}{12}{section.2.3}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.3.1}Komponensek bemutat\IeC {\'a}sa}{12}{subsection.2.3.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Komponensek csomagol\IeC {\'a}sa}{12}{subsection.2.3.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Komponensek csomagol\IeC {\'a}sa}{13}{subsection.2.3.2}
 \select@language {magyar} \contentsline {section}{\numberline {2.4}Kont\IeC {\'e}nerek}{13}{section.2.4}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.4.1}Kont\IeC {\'e}nerek le\IeC {\'\i }r\IeC {\'a}sa}{13}{subsection.2.4.1}
 \select@language {magyar} \contentsline {subsection}{\numberline {2.4.2}Kont\IeC {\'e}nerek \IeC {\'a}ltal ny\IeC {\'u}jtott szolg\IeC {\'a}ltat\IeC {\'a}sok}{14}{subsection.2.4.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.5}Annot\IeC {\'a}ci\IeC {\'o}k \IeC {\'e}s deployment descriptorok}{14}{section.2.5}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.5.1}Alszakasz c\IeC {\'\i }me}{15}{subsection.2.5.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}Az alkalmaz\IeC {\'a}s}{16}{chapter.3}
-\select@language {magyar} \contentsline {section}{\numberline {3.1}Az adatb\IeC {\'a}zismodell}{16}{section.3.1}
-\select@language {magyar} \contentsline {section}{\numberline {3.2}A projekt \IeC {\"o}ssze\IeC {\'a}ll\IeC {\'\i }t\IeC {\'a}sa}{18}{section.3.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Alszakasz c\IeC {\'\i }me}{20}{subsection.3.2.1}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}\IeC {\"O}sszegz\IeC {\'e}s}{21}{chapter.4}
-\select@language {magyar} \contentsline {section}{\numberline {4.1}Szakasz c\IeC {\'\i }me}{21}{section.4.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {4.1.1}Alszakasz c\IeC {\'\i }me}{21}{subsection.4.1.1}
+\select@language {magyar} \contentsline {section}{\numberline {2.5}Annot\IeC {\'a}ci\IeC {\'o}k \IeC {\'e}s deployment descriptorok}{15}{section.2.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Az alkalmaz\IeC {\'a}s}{17}{chapter.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Az adatb\IeC {\'a}zismodell}{17}{section.3.1}
+\select@language {magyar} \contentsline {section}{\numberline {3.2}A projekt \IeC {\"o}ssze\IeC {\'a}ll\IeC {\'\i }t\IeC {\'a}sa}{19}{section.3.2}
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Az adatb\IeC {\'a}zis-modell megval\IeC {\'o}s\IeC {\'\i }t\IeC {\'a}sa Java Entity-k felhaszn\IeC {\'a}l\IeC {\'a}s\IeC {\'a}val}{21}{section.3.3}
+\select@language {magyar} \contentsline {section}{\numberline {3.4}Az \IeC {\"u}zleti logika}{26}{section.3.4}
+\select@language {magyar} \contentsline {section}{\numberline {3.5}Adatb\IeC {\'a}zism\IeC {\H u}veletek a JPA ig\IeC {\'e}nybev\IeC {\'e}tel\IeC {\'e}vel}{28}{section.3.5}
+\select@language {magyar} \contentsline {section}{\numberline {3.6}A megjelen\IeC {\'\i }t\IeC {\'e}sre ker\IeC {\"u}l\IeC {\H o} fel\IeC {\"u}letek}{30}{section.3.6}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.6.1}UI}{30}{subsection.3.6.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.6.2}View}{31}{subsection.3.6.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {3.6.3}A View-k \IeC {\"o}ssze\IeC {\'a}ll\IeC {\'\i }t\IeC {\'a}sa}{31}{subsection.3.6.3}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}\IeC {\"O}sszegz\IeC {\'e}s}{35}{chapter.4}

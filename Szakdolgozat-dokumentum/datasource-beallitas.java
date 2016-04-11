@@ -1,0 +1,2 @@
+telephoneContainer=tableContentHandlerBean.makeTelephoneIndexedConatiner();
+services.setContainerDataSource(telephoneContainer);
