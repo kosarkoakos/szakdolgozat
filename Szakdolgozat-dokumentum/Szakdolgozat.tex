@@ -203,14 +203,18 @@ Ez az enterprise edition a standard edition teljes egészét felhasználhatja, i
 
 \section{Arhitektúra}
 
-A Java EE különböző konténerekben implementált specifikációk halmaza. A konténerek Java EE futtatói környezetek, amelyek különböző szolgáltatásokat bitosítanak az általuk kiszolgált komponenseknek. Ilyen szolgáltatások például az életciklus menedzselés, a függőség befecskendezés, és így tovább. Ezek a komponensek jól definiált szerződéseket használnak a Java EE infrasruktúrabeli kommunikációhoz, és más komponensekkel történő kommunikációhoz egyíránt. Deploy-olás (az alkalmazásszerverre történő kihelyezés) előtt úgynevezett package-ekbe csomagolandóak, amik típusát és kiterjesztését a célkonténer típusa határoz meg.
+A Java EE különböző \hyperlink{figure-kontenerek}{konténerekben} implementált specifikációk halmaza. A konténerek Java EE futtatói környezetek, amelyek különböző szolgáltatásokat biztosítanak az általuk kiszolgált komponenseknek. Ilyen szolgáltatások például az életciklus menedzselés, a függőség befecskendezés, és így tovább. Ezek a komponensek jól definiált szerződéseket használnak a Java EE infrastruktúrabeli kommunikációhoz, és más komponensekkel történő kommunikációhoz egyaránt. Deploy-olás (az alkalmazásszerverre történő kihelyezés) előtt úgynevezett package-ekbe csomagolandóak, amik típusát és kiterjesztését a célkonténer típusa határoz meg.
 
+\hypertarget{figure-kontenerek}{}
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=14cm]{kontenerek.png}
+	\caption{A konténerek}
 \end{figure}
 
 Az alábbi ábrán a platform négy konténere látható, a köztük lévő kapcsolódási protokollok megjelölésével.
+
+\newpage
 
 \section{Komponensek}
 
@@ -259,9 +263,9 @@ Négy különböző konténer létezik:
 
 \subsection{Konténerek által nyújtott szolgáltatások}
 
-A konténerek különféle alapszolgáltatásokat nyújtanak az általuk futtatott komponensek számára.
+A \hyperlink{figure-container-services}{konténerek különféle alapszolgáltatásokat} nyújtanak az általuk futtatott komponensek számára.
 Így a fejlesztés során elég az üzleti logika implementálására fókuszálnunk, a technikai problémákat ezen szolgáltatások orvosolják(pl Java entitásosztály mappelése adatbázisbeli rekorddá).
-Az, hogy ezen alapszolgáltatások közül melyik érhető el egykonténerben, az konténerenkénet változik.
+Az, hogy ezen alapszolgáltatások közül melyik érhető el egy konténerben, az konténerenkénet változik.
 Néhány szolgáltatás a teljesség igénye nélkül:
 \begin{itemize}
 	\item Java Persistence API(JPA): ez egy standard API az objektum relációs leképzéshez(ORM). Az API által definiált Java Persistence Query Language (JPQL) által objektumokat olvashatunk fel az alkalmazás által használt adatbázis(ok)ból.
@@ -271,14 +275,16 @@ Néhány szolgáltatás a teljesség igénye nélkül:
 	
 \end{itemize}
 
+\hypertarget{figure-container-services}{}
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=14cm]{kontener-szolgaltatasok.png}
+	\caption{Konténerek és szolgáltatásaik}
 \end{figure}
 
 \section{Annotációk és deployment descriptorok}
 
-Ahogy az előbb írtam, a konténerek szolgáltatásokat nyújtanak a komponensek számára. Ezek a szolgáltatások alapbeállításokkal rendelkeznek. Például egy entitás osztály egy String típusú tagváltozója varchar2(255) típusú mezőbe fog leképződni az adatbázisban. Abban az esetben, hogyha ezt meg kívánjuk változtatni, meta-adatként kell megadnunk a forráskódban, vagy egy külső fájlban. Forráskódban egy annotációt használva jelezzük az alapbeállításon való változtatást, amikor pedig egy külső fájlban tesszük ezt meg egy deployment descriptor-t alkalmazunk. Ez a deployment descriptor egy XML fájl, amiben a meta-adatok leírása található. A Java EE 6 óta, amikor is beletettek az annotációkat a platform eszközei közé, az általános trend az annotációk használata, mivel ez jóval kevesebb írást igényel, illetve a meta-adat azon a helyen kerül rögzítésre, ahol kifejti a hatását, így egyszerű kezelhetőséget nyújt. Hátránya, hogy egy annotációban megadott érték megváltoztatása a kód újra fordítását igényli. Deployment descriptor esetében elegendő az xml fájlban átírni az értéket.
+Ahogy az előbb írtam, a konténerek szolgáltatásokat nyújtanak a komponensek számára. Ezek a szolgáltatások alapbeállításokkal rendelkeznek. Például egy entitásosztály egy String típusú tagváltozója varchar2(255) típusú mezőbe fog leképződni az adatbázisban. Abban az esetben, hogyha ezt meg kívánjuk változtatni, meta-adatként kell megadnunk a forráskódban, vagy egy külső fájlban. Forráskódban egy annotációt használva jelezzük az alapbeállításon való változtatást, amikor pedig egy külső fájlban tesszük ezt meg egy deployment descriptor-t alkalmazunk. Ez a deployment descriptor egy XML fájl, amiben a meta-adatok leírása található. A Java EE 6 óta, amikor is beletettek az annotációkat a platform eszközei közé, az általános trend az annotációk használata, mivel ez jóval kevesebb írást igényel, illetve a meta-adat azon a helyen kerül rögzítésre, ahol kifejti a hatását, így egyszerű kezelhetőséget nyújt. Hátránya, hogy egy annotációban megadott érték megváltoztatása a kód újra fordítását igényli. Deployment descriptor esetében elegendő az xml fájlban átírni az értéket.
 A két meta-adat megadási mód közül a deployment descriptor rendelkezik magasabb precedenciával. Tehát ha egy meta-adat értéket annotációval is megadtunk, illetve deployment descriptort is alkalmazunk, de abban más értéket állítottunk be, akkor az felülírja az annotációban megadott értéket, és az fogja kifejteni a hatását.
 
 \chapter{Az alkalmazás}
@@ -288,11 +294,13 @@ A két meta-adat megadási mód közül a deployment descriptor rendelkezik maga
 Az adatbázismodell 15 darab táblából áll. Ezek közül 12 forgalmi tábla. Forgalmi tábláknak azokat a táblákat nevezzük, amelyek egy entitásra jellemző adatokat tartalmaznak. Például, az általam használt táblák közül az APPLICATIONUSER tábla egy forgalmi tábla, mert egy felhasználó adatait(neve, felhasználóneve, jelszava, stb) tartalmazza. Egy jól megtervezett adatbázismodellben a modell összes táblája közvetlenül kapcsolódik legalább egy másik táblához, és közvetve az összeshez. Ez azt jelenti, hogyha gráfként ábrázoljuk a modellt, amiben a táblák a csúcsok, és két csúcs akkor van összekötve a gráfban, ha az általuk reprezentált táblák között bármilyen(egy-egy, egy-több, több-több) kapcsolat van, és a gráf bármely pontjából vezet út bármely másik pontjába. A forgalmi táblák mellett kapcsolótáblákról is beszélünk. Ezek azok a táblák, amelyek két több-több kapcsolatban álló tábla közé ékelődnek be, méghozzá azért, hogy eltárolják, hogy az egyik tábla mely entitása mely másik táblabeli entitásokhoz kapcsolódik, és fordítva. Az alkalmazásomban által használt adatbázisban egy kapcsolótábla a JND\_ORDERS\_SERVICES. Ez a tábla az ORDERS és a SERVICES tábla között teremt kapcsolatot, melyhez a két oszlopát használja fel. Az ezekben szereplő értékek a idegen kulcsok, melyek elsődleges kulcsok a kapcsolat két oldalán álló táblákban. Egy sorbeli két mezőérték mutatja meg, hogy az egyik tábla mely rekordja a másik tábla mely rekordjához kapcsolódik. Például, ha az ORDER\_ID\_FK mező értéke 9, és a SERVICE\_ID\_FK-é 12, egy másik rekordban pedig 9 és 14, egy harmadikban pedig 10 és 14 ez a két érték, akkor az azt jelenti, hogy a 9-es ID-jű Order rekord a 12 ID-jű, és a 14-es ID-jű Service rekordhoz is kapcsolódik, a 14-s ID-jű Service rekord pedig a 9-es és 10-es ID-jű Orderhez.
 
 
-A modell ER diagrammja a következő képen látható:
+A modell ER diagrammja a \hyperlink{figure-db}{következő képen} látható:
+\newpage
 
-\begin{figure}[!h]
+\begin{figure}[!h]\hypertarget{figure-db}{}
 	\centering
-	\includegraphics[width=14cm]{adatbazis-modell.png}
+	\includegraphics[width=23.1cm, angle=270]{adatbazis-modell.png}
+	\caption{Az adattáblák és kapcsolataik}
 \end{figure}
 
 
@@ -302,7 +310,7 @@ A felhasználói adatok az APPLICATIONUSER, az AGENTS és a CUSTOMERS táblában
 
 A megrendelések jellemzőit az ORDERS táblában találjuk. A megrendeléshez cím (város, utca, stb) tartozik, amelyek egy a számukra fenntartott táblában -- amely az ADDRESSES -- kapnak helyet. Ennek oka, hogy amennyiben egy címre több megrendelés is érkezne, elég a címet összeállító adatokat egyszer eltárolni, így elkerüljük az adatok fölöslegesen sokszori eltárolását, és ezáltal gazdaságosabban használjuk fel a tárhelyünket. Egy megrendeléshez nem a cím részleteit(utca, házszám, stb), hanem a cím rekord elsődleges kulcsát tároljuk el idegen kulcsként, amivel hivatkozhatunk rá.
 
-A szolgáltató az általa nyújtott szolgáltatásokból szolgáltatáscsomagokat rak össze. Egy szolgáltatása akár több csomagban is szerepelhet. Nyilvánvalóan egy szolgáltatáscsomag több szolgáltatásból áll. A szolgáltatások közös adatait a SERVICES tábla, a szolgáltatáscsomagok adatait a SERVICEPACKS tábla tárolja. A szolgáltatáscsomagok és a bennük lévő szolgáltatások összerendelését a JND\_SERVICEPACKS\_SERVICES kapcsolótábla tárolja. A különböző típusú (Internet, KábelTV, Telefon) szolgáltatások típusjellemző adatait az INTERNETSERVICES, a TELEVISIONSERVICES és a TELEPHONESERVICES táblákban találjuk. Az elv ugyanaz, mint a felhasználói adatok tárolására használt táblák kialakításánál.
+A szolgáltató az általa nyújtott szolgáltatásokból szolgáltatáscsomagokat rak össze. Egy szolgáltatása akár több csomagban is szerepelhet. Nyilvánvalóan egy szolgáltatáscsomag több szolgáltatásból áll. A szolgáltatások közös adatait a SERVICES tábla, a szolgáltatáscsomagok adatait a SERVICEPACKS tábla tárolja. A szolgáltatáscsomagok és tartalmuk összerendelését a JND\_SERVICEPACKS\_SERVICES kapcsolótábla tárolja. A különböző típusú (Internet, KábelTV, Telefon) szolgáltatások típusjellemző adatait az INTERNETSERVICES, a TELEVISIONSERVICES és a TELEPHONESERVICES táblákban találjuk. Az elv ugyanaz, mint a felhasználói adatok tárolására használt táblák kialakításánál.
 
 A szolgáltatásokat és szolgáltatáscsomagokat kapcsolótáblák kötik a megrendelésekhez. Ezek a táblák az idegen kulcsokon kívül mást nem tartalmaznak, neveik: JND\_ORDERS\_SERVICES és JND\_ORDERS\_SERVICEPACKS.
 
@@ -311,33 +319,46 @@ A modell utolsó táblája a BILLS nevű tábla. Ezen táblabeli rekordok tartal
 \section{A projekt összeállítása}
 
 A projekt vázának egy Vaadin archetípust\footnote{\url{https://vaadin.com/maven\#dependencies}}, nevezetesen a vaadin-archetype-application archetípust használom. Ez az archetípus egy kiindulási alapot szolgáltat, amelyhez az EJB-k, entitások és egyéb Java objektumok, illetve a konfigurációs fájlok, mint például a persistence.xml, hozzáadása az alkalmazás elkészüléséhez vezet.
-Ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. \href{https://vaadin.com/maven#dependencies}{Mindezek a Vaadin honlapján elérhetőek.} Jelen esetben ezek a következőek: groupId: com.vaadin, artifactId:vaadin-archetype-application version: 7.6.2 . Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután rendelkezésünkre áll egy kiindulási projekttartalom, ami mindössze egy UI java objektumot, egy gwt.xml-t és néhány a kinézetre(forntend) vonatkozó .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
+Ahhoz, hogy ezen archetype alapján egyszerűen létrehozzam a projektet, egy új projektet hozok létre, amely egy maven-es projekt, és a projekt létrehozása során megadom, hogy archetype alapján jöjjön létre a projekt. Ehhez meg kell adni az archetype jellemzőit: groupID, artifactId, és a verzió. \href{https://vaadin.com/maven#dependencies}{Mindezek a Vaadin honlapján elérhetőek.} 
+Jelen esetben ezek a következőek: 
+\begin{itemize}
+	\item groupId: com.vaadin
+	\item artifactId:vaadin-archetype-application
+	\item version: 7.6.2
+\end{itemize}
+Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artifactID-ját kell megadnunk. Én groupdId-nak a com.szakdolgozat, artifactId-nak pedig a szer-t választottam. Ezen adatok megadása után az IDE letölti a maven központi repository-jából a archetype-ot, mint függőséget, és ez alapján legenerálja a projektet. Ezután rendelkezésünkre áll egy kiindulási projekttartalom, ami mindössze egy UI java objektumot, egy gwt.xml-t és néhány a kinézetre(forntend) vonatkozó .scss-t tartalmaz, egy struktúrált mappaszerkezetben.
 
-Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin mavennel könnyen hozzáadható az alkalmazásunkhoz. A 	
+Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin mavennel könnyen hozzáadható az alkalmazásunkhoz.
+
+\hypertarget{figure-wildfly}{} 	
 \lstinputlisting[caption=WildFly plugin,label=kod-wildfly-plugin]{wildfly-plugin.pas}
-sorok pom.xml-hez hozzáadásával a plugin letöltésre kerül, és a projekt részévé válik. Ezután a Maven toolboxban megjelenik a pluginok között, és a wildfly:deploy opció indításával máris deployolásra kerül az alkalmazásszerverünkre. A port és name konfigurációs attribútumok beállításával finomhangolhatjuk a deployolás tulajdonságait. Jelen esetben a 10000-es porton futó administration consol-ú szerverre fog történni a deploy - melynél jelen esetben maga a szerver a 8090-es porton fut - és szer.war néven fog az alkalmazás deployálásra kerülni. Ez utóbbi azt vonja magával, hogy az alkalmazást a localhost:8090/szer URL-en fogjuk elérni. 
+
+A \hyperlink{figure-wildfly}{fenti sorok} pom.xml-hez hozzáadásával a plugin letöltésre kerül, és a projekt részévé válik. Ezután a Maven toolboxban megjelenik a pluginok között, és a wildfly:deploy opció indításával máris deployolásra kerül az alkalmazásszerverünkre. A port és name konfigurációs attribútumok beállításával finomhangolhatjuk a deployolás tulajdonságait. Jelen esetben a 10000-es porton futó administration consol-ú szerverre fog történni a deploy - melynél jelen esetben maga a szerver a 8090-es porton fut - és szer.war néven fog az alkalmazás deployálásra kerülni. Ez utóbbi azt vonja magával, hogy az alkalmazást a localhost:8090/szer URL-en fogjuk elérni. 
 
 Ezt követően az első lépés az adatbázis elérést lehetővé tévő persistence.xml fájl hozzáadása a projekthez, amelyet az src mappa alatt néhány mélységben található resources almappában létrehozandó META-INF mappában kell elhelyezni. Ez az xml file tartalmazza az adatbázis eléréséhez szükséges információkat. Jelen esetben a DataSource nevét, amely az adatbáziskapcsolat kialakításához szükséges információkat tárolja: az adatbázis címe, a bejelentkezéshez szükséges felhasználónév és jelszó.
 Emellett ami számunkra fontos ebben az xml-ben, az a table generation strategy. Egy jól megválasztott stratégiával gondoskodhatunk az adatok biztonságáról. Én az update értéket választottam. Ez a stratégia az alkalmazás indulásakor megvizsgálja az adatbázis séma tartalmát, és amennyiben nem talál benne a projektben definiált entitás számára táblát, létrehozza azt. Abban az esetben pedig, amikor egy entitásosztály tagváltozóinak típusa és/vagy a tagváltozókhoz beállított adatbázisbeli jellemzők az adatbázisbeli táblafelépítéssel nincsenek szinkronban, úgy a tábla módosításra kerül, hogy annak jellemzői az entitásosztályban beállított jellemzőket tükrözzék.
 Például, ha egy Java osztály, ami egy entitást ír le rendelkezik egy int típusú és mennyiség nevű tagváltozóval, aminek az entitáshoz tartozó táblában nincs megfelelő mező, úgy a tábla egy "ALTER TABLE ..." DDL utasítás automatikus lefutásával módosul, és bővül egy mennyiség nevű mezővel. 
 
-Az ORM műveleteket a Hibernate, egy JPA implementáció fogja végezni. Ennek magja az entitmy manager. Ahhoz hogy ezt a persistence provider-t használni lehessen, függőségként hozzá kel adnunk a projektünkhoz. Ezt a pom.xml szerkesztésével tehetjük meg:
+Az ORM műveleteket a Hibernate nevű persistence provider fogja végezni. Ennek magja az entitmy manager. Ahhoz hogy ezt a persistence provider-t használni lehessen, függőségként hozzá kel adnunk a projektünkhöz. Ezt a pom.xml szerkesztésével tehetjük meg. A \hypertarget{figure-hibernate-dependencies}{következő} kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a Hibernate-t, amivel az objektumorientált programunk entitásainak világa és a "rekord orientált" adatbázisunk rekordjainak világa közötti átjárást tesszük lehetővé.
 
+\newpage
+\hypertarget{figure-hibarnate-dependencies}{}
 \lstinputlisting[caption=Hibernate függőségek, label=kod-hibernate-dependencies]{hibernate-dependencies.pas}
 
 
-A fenti kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a Hibernate-t, amivel az objektumorientált programunk entitásainak világa és a "rekord orientált" adatbázisunk rekordjainak világa közötti átjárást tesszük lehetővé.
 
+\newpage
 \section{Az adatbázis-modell megvalósítása Java Entity-k felhasználásával}
 
-Egy alkalmazás számos dologból épül fel: üzleti logika, felhasználói felületek, más alkalmazásokkal történő kommunikáció, ... , és ezek mellet egy lényeges elem az adat. A pályafutásunk első elkészült szoftvereiben, amik funkciója általában a felhasználó nevének és kedvenc állatának bekérésében kimerült, a kis adatmennyiség miatt, illetve az adat felhasználásának rövid időtartama miatt elegendő volt, hogy ezek csak a memóriában kapjanak helyet. Azonban a gyakorlatban használt alkalmazásuk szinte mindegyike olyan alkalmazás, amely hatalmas mennyiségű adat elérését igényli, amelyek rendszerint egy adatbázisban találhatóak meg. Ezen adatbázisok legtöbbje relációs adatbázis, amely táblákba és azon belül rekordokba rendezve tárolja az adatokat. Mi, amikor egy Java EE alkalmazást készítünk, nem rekordokkal, hanem az objektumorientált világ objektumaival dolgozunk. Emiatt szükségünk van valamire, amik Java oldalon "kézzel foghatóvá", egységbe zárttá teszik az adatokat. Ezek a valamik az entitás osztályok. Ezek olyan osztályok, amelyek egy-egy tagváltozója az adatbázisbeli rekord egy-egy mezőjét reprezentálja. Egy alap entitás osztály implementálása egy java osztály megírását jelenti(Plain Old Java Object - Pojo), amit ellátunk az @Entity annotációval. Ezen annotáció alapján a Java EE-s környezetünk tudni fogja, hogy egy ebből az osztályból létrehozott memóriabeli objektumok az adatbázishoz kapcsolódnak: leképezhetőek abba, törölhetőek onnan, lekérdezhetőek. A leképzést a JPA végzi, ami egy saját lekérdező nyelvet, a  JPQL-t adja az adatbázison futtatható lekérdezések Java oldali elkészítéséhez.
+Egy alkalmazás számos dologból épül fel: üzleti logika, felhasználói felületek, más alkalmazásokkal történő kommunikáció, ... , és ezek mellet egy lényeges elem az adat. A pályafutásunk első elkészült szoftvereiben, amik funkciója általában a felhasználó nevének és kedvenc állatának bekérésében kimerült, a kis adatmennyiség miatt, illetve az adat felhasználásának rövid időtartama miatt elegendő volt, hogy ezek csak a memóriában kapjanak helyet. Azonban a gyakorlatban használt alkalmazásuk szinte mindegyike olyan alkalmazás, amely hatalmas mennyiségű adat elérését igényli, amelyek rendszerint egy adatbázisban találhatóak meg. Ezen adatbázisok legtöbbje relációs adatbázis, amely táblákba és azon belül rekordokba rendezve tárolja az adatokat. Mi, amikor egy Java EE alkalmazást készítünk, nem rekordokkal, hanem az objektumorientált világ objektumaival dolgozunk. Emiatt szükségünk van valamire, amik Java oldalon "kézzel foghatóvá", egységbe zárttá teszik az adatokat. Ezek a valamik az entitásosztályok. Ezek olyan osztályok, amelyek egy-egy tagváltozója az adatbázisbeli rekord egy-egy mezőjét reprezentálja. Egy alap entitásosztály implementálása egy java osztály megírását jelenti(Plain Old Java Object - POJO), amit ellátunk az @Entity annotációval. Ezen annotáció alapján a Java EE-s környezetünk tudni fogja, hogy egy ebből az osztályból létrehozott memóriabeli objektumok az adatbázishoz kapcsolódnak: leképezhetőek abba, törölhetőek onnan, lekérdezhetőek. A leképzést a JPA végzi, ami egy saját lekérdező nyelvet, a  JPQL-t adja az adatbázison futtatható lekérdezések Java oldali elkészítéséhez. A következőkben az általam készített alkalmazás egy entitásosztályán keresztül fogom bemutatni, hogy miként állíthatunk össze és paraméterezhetünk fel egy entitást, amennyiben nem a JPA által adott default értékeket kívánjuk használni, például egy String típusú tagváltozó mappelésekor.
 
-\lstinputlisting[caption=Service entitás osztály,label=Service entitás osztály]{service-entity.java}
+\newpage
+\hypertarget{figure-service-entity}{}
+\lstinputlisting[caption=Service entitásosztály,label=Service entitásosztály]{service-entity.java}
 
-A következőkben az általam készített alkalmazás egy entitás osztályán keresztül fogom bemutatni, hogy miként állíthatunk össze és paraméterezhetünk fel egy entitást, amennyiben nem a JPA által adott default értékeket kívánjuk használni, például egy String típusú tagváltozó mappelésekor.
 
 
-A kód első sora, a már említett @Entity annotáció, amivel azt jelezzük, hogy a POJO-nkat egy entitás osztállyá alakítjuk. Ez egy kötelező annotáció. A második sorban a @Table annotáció került elhelyezésre. Ez az annotáció az entitást fogadó táblához nyújt beállítási lehetőségeket. Itt adhatjuk meg a tábla nevét, amennyiben az az entitás osztály nevétől eltérő. Szintén itt fogalmazhatunk meg megszorításokat a táblához. Mindezek megadása opcionális. Ha a name attribútumnak nem adunk értéket, akkor a létrejövő tábla neve az entitás nevével fog egyezni. A 3. sorban az @Inheritance annotáció látható. Ezt az annotációt azokban az esetekben használjuk, amikor szülő és leszármazott kapcsolatban álló entitásosztályokat akarunk az adatbázisban használni. Jelen esetben ez a Service nevű osztály az ősosztály, amiből 3 leszármazott osztály ágazik le (InternetService, TelephoneService, TelevisionService). Ez az annotáció ugyanebben a formában mindhárom osztály forráskódjában szerepeltetésre kell kerüljön. Az annotáció strategy attribátumával adható meg, hogy melyik öröklődési típust alkalmazzuk. Három stratégia közül választhatunk fejlesztőként, ezek  következőek:
+A \hyperlink{figure-service-entity}{kód} első sora, a már említett @Entity annotáció, amivel azt jelezzük, hogy a POJO-nkat egy entitásosztállyá alakítjuk. Ez egy kötelező annotáció. A második sorban a @Table annotáció került elhelyezésre. Ez az annotáció az entitást fogadó táblához nyújt beállítási lehetőségeket. Itt adhatjuk meg a tábla nevét, amennyiben az az entitásosztály nevétől eltérő. Szintén itt fogalmazhatunk meg megszorításokat a táblához. Mindezek megadása opcionális. Ha a name attribútumnak nem adunk értéket, akkor a létrejövő tábla neve az entitás nevével fog egyezni. A 3. sorban az @Inheritance annotáció látható. Ezt az annotációt azokban az esetekben használjuk, amikor szülő és leszármazott kapcsolatban álló entitásosztályokat akarunk az adatbázisban használni. Jelen esetben ez a Service nevű osztály az ősosztály, amiből 3 leszármazott osztály ágazik le (InternetService, TelephoneService, TelevisionService). Ez az annotáció ugyanebben a formában mindhárom osztály forráskódjában szerepeltetésre kell kerüljön. Az annotáció strategy attribátumával adható meg, hogy melyik öröklődési típust alkalmazzuk. Három stratégia közül választhatunk fejlesztőként, ezek  következőek:
 \begin{itemize}
 	\item Single-Table-per-Class: Ezt a stratégiát alkalmazva az osztályhiercarchiában lévő összes osztályból készült objektumok egyetlen táblába kerülnek bele. Emiatt ez a tábla tartalmazza az összes oszlopot, ami az osztályok tagváltozóinak tárolására szolgál. 
 	\item Joined: Amikor ezt a stratégiát választjuk, az osztályhierarchia összes osztálya számára egy külön tábla jön létre. Az ős osztályok számára készült táblák tartalmazzák az összes olyan mezőt, amik a közös tagváltozók értékeinek tárolására szolgálnak. A leszármazott osztályok táblái így elég, ha csak kifejezetten a leszármazott osztályok által tartalmazott tagváltozók mezőből állnak össze.
@@ -351,10 +372,11 @@ A másik ok, ami miatt a Joined stratégiát alkalmaztam, hogy az adatbázis-mod
 Az entitásosztály negyedik sorában lévő @DiscriminatorColumn annotáció az ősosztály táblájában lévő egy speciális oszlopának jellemzőit állítja be. Ez a speciális oszlop értéke tárolja minden egyes rekord esetén, hogy az melyik leszármazott osztálybeli rekordhoz tartozik. Ezáltal az entitás objektum elkészítése a megfelelő osztály konstruktorával fog történni, elkerülve a hibás működést.
 Ez az annotáció szintén opcionális.
 
-Mindezen meta-adatok megadását követően az entitás osztály tagváltozóinak, konstruktorainak,  gettereinek és settereinek implementálása következik. Ennek módja ugyanaz, mintha egy nem entitás osztályt állítanánk össze. A tagváltozókból leképzett adatbázisbeli mezők jellemzőit a szintén annotációkkal adhatjuk meg. Ezek közül egyetlen egy a kötelező, mégpedig az @Id. Ez az annotáció szolgál jelzésül a fordítónak arra vonatkozólag, hogy melyik tagváltozó lesz a rekord elsődleges kulcsa. Ez egy egyedi azonosító az objektumok azonosításához. Ebben a példában a serviceId nevá tagvoltozó kapta meg ezt az annotációt, így ez lesz az entitás azonosítója. Rögtön az @Id annotáció alatt a @GeneratedValue következik. Ezzel azt a beállítást adjuk meg, hogy mi nem a JPA-ra bízzuk az elsődleges kulcsok generálását a perzisztálás során, így elkerüljük azt a hibalehetőséget, hogy esetleg olyan elsődleges kulcsú objektumot próbáljunk elhelyezni az adatbázis egy táblájában, amivel egy másik már szerepel. A serviceId harmadik annotációja a @Column, amivel az oszlop jellemzőit állíthatjuk a default beállítástól eltérőre. A name attribútummal a mező nevét adhatjuk meg, ami default esetben az entitás tagváltozójának neve. A description nevű tagváltozón további attribútumok megadásával a mezőnév megváltoztatásán túl más alapértékeket is felülírtunk: a nullable = false értékkel azt a megkötést tettük a mezőre, hogy nem vehet fel null értéket, a length = 255-el a Varchar2 típusú mező hosszát a 255-re állítottuk. 
+Mindezen meta-adatok megadása után az entitásosztály tagváltozóinak, konstruktorainak,  gettereinek és settereinek implementálása következik. Ennek módja ugyanaz, mintha egy nem entitásosztályt állítanánk össze. A tagváltozókból leképzett adatbázisbeli mezők jellemzőit a szintén annotációkkal adhatjuk meg. Ezek közül egyetlen egy a kötelező, mégpedig az @Id. Ez az annotáció szolgál jelzésül a fordítónak arra vonatkozólag, hogy melyik tagváltozó lesz a rekord elsődleges kulcsa. Ez egy egyedi azonosító az objektumok azonosításához. Ebben a példában a serviceId nevá tagvoltozó kapta meg ezt az annotációt, így ez lesz az entitás azonosítója. Rögtön az @Id annotáció alatt a @GeneratedValue következik. Ezzel azt a beállítást adjuk meg, hogy mi nem a JPA-ra bízzuk az elsődleges kulcsok generálását a perzisztálás során, így elkerüljük azt a hibalehetőséget, hogy esetleg olyan elsődleges kulcsú objektumot próbáljunk elhelyezni az adatbázis egy táblájában, amivel egy másik már szerepel. A serviceId harmadik annotációja a @Column, amivel az oszlop jellemzőit állíthatjuk a default beállítástól eltérőre. A name attribútummal a mező nevét adhatjuk meg, ami default esetben az entitás tagváltozójának neve. A description nevű tagváltozón további attribútumok megadásával a mezőnév megváltoztatásán túl más alapértékeket is felülírtunk: a nullable = false értékkel azt a megkötést tettük a mezőre, hogy nem vehet fel null értéket, a length = 255-el a Varchar2 típusú mező hosszát a 255-re állítottuk. 
 
-A Service tábla egy olyan tábla, amelyik több-több kapcsolatban áll két másik táblával. Ezt implementálni a következőképpen lehet: Az entitásosztályban létre kell hozunk olyan Collection típusú tagváltozókat, amelyek azon entitásosztály típusú elemeket tárolnak, amelyek a több-több kapcsolat másik oldalán állnak. Például, az adatbázis-modellben szerepel egy Services-Orders táblák közötti több több kapcsolat. Amiatt a Service entitásosztály egy Order-eket tároló Collectiont (jelen esetben List-et) kell hogy tartalmazzon, amit a @ManyToMany annotációval láttam el, az összerendelés típusának megadására. Az annotáció mappedBy attribútumértéke az az Order entitásbeli tagváltozó neve, amelyik az Order oldalon a több-több kapcsolat jelzésére szolgál.
+A Service tábla egy olyan tábla, amelyik több-több kapcsolatban áll két másik táblával. Ezt implementálni a következőképpen lehet: Az entitásosztályban létre kell hozunk olyan Collection típusú tagváltozókat, amelyek azon entitásosztály típusú elemeket tárolnak, amelyek a több-több kapcsolat másik oldalán állnak. Például, az adatbázis-modellben szerepel egy Services-Orders táblák közötti több-több kapcsolat. Emiatt a \hyperlink{figure-order-entity}{Service entitásosztály} egy Order-eket tároló Collectiont (jelen esetben List-et) kell hogy tartalmazzon, amit a @ManyToMany annotációval láttam el, az összerendelés típusának megadására. Az annotáció mappedBy attribútumértéke az az Order entitásbeli tagváltozó neve, amelyik az Order oldalon a több-több kapcsolat jelzésére szolgál.
 
+\hypertarget{figure-order-entity}{}
 \lstinputlisting[caption=Order entitás kódrészlet,label=Order entitás kódrészlet]{order-entity-part.java}
 
 Mint a beillesztett kódrészletben látható, ez a services tagváltozó. ahhoz, hogy a több-több kapcsolat kiépíthető legyen, ugyanitt, a services tagváltozón definiálni szükséges a rekordok közötti kapcsolatokat eltároló kapcsolótábla adatait. Ezt a @JoinTable annotáció felhelyezésével tettem meg, aminek attribútumként megadtam a kapcsolótábla nevét (name = "JND\_ORDERS\_SERVICES"), és a kapcsolótábla két oszlopának a nevét, amelyek közül az egyik a Service rekord elsődleges kulcsát, a másik pedig az Order rekord elsődleges kulcsát tárolja. Ezzel elkészült a Service és Order táblák közötti több-több kapcsolat kialakítása.
@@ -379,16 +401,19 @@ Az EJB-knek 3 fajtájuk van:
 
 Egy POJO-t a @Stateless, a @Stateful vagy a @Singleton annotációk egyikével alakíthatunk EJB-vé. Természetesen ezek közül egy időben csak egyet használhatunk ugyanazon EJB esetén. Az alábbi példakódban egy egyszerű Singleton Bean implementációja látható:
 
+\hypertarget{figure-dateformatconverter}{}
 \lstinputlisting[caption=DateFormatConverter EJB,label=DateFormatConverter EJB]{dateformatconverter-class.java}
 
-Ezt a beant közös használatra terveztem az alkalmazás részeinek számára, emiatt Singleton típusú beannek állítottam be. A bean 3 metódust tartalmaz, amelyek egy paraméterül kapott dátumot más és más formátumú dátumsztringgé konvertálnak át. Látható, hogy ez egy a Java SE-ben megszokott osztálydefiníciótól mindössze annyiban tér el, hogy a egy annotáció felkerült rá. 
+Ezt a \hyperlink{figure-dateformetconverter}{beant} közös használatra terveztem az alkalmazás részeinek számára, emiatt Singleton típusú beannek állítottam be. A bean 3 metódust tartalmaz, amelyek egy paraméterül kapott dátumot más és más formátumú dátumsztringgé konvertálnak át. Látható, hogy ez egy a Java SE-ben megszokott osztálydefiníciótól mindössze annyiban tér el, hogy a egy annotáció felkerült rá. 
 
-A használat helyén elegendő az @Inject annotációval befecskendezni egy példányt a beanből, amihez a típust és a változónevet szükséges még megadnunk:
+A használat helyén elegendő az @Inject annotációval \hyperlink{figure-inject}{befecskendezni} egy példányt a beanből, amihez a típust és a változónevet szükséges még megadnunk:
 
+\hypertarget{figure-inject}{}
 \lstinputlisting[caption=Injectálás ,label=Injectálás]{inject.java}
 
-Ezután a Java SE-ben megszokott módon elérjük az objektum metódusait:
+Ezután a Java SE-ben megszokott módon \hypertarget{figure-method-call}{elérjük} az objektum metódusait:
 
+\hypertarget{figure-method-call}{}
 \lstinputlisting[caption=Injectált bean metódusának meghívása,label=Injectált bean metódusának meghívása]{injectalt-ejb-hasznalat.java}
 
 \section{Adatbázisműveletek a JPA igénybevételével}
@@ -396,8 +421,10 @@ Ezután a Java SE-ben megszokott módon elérjük az objektum metódusait:
 Mint már említettem, egyes konténerek különféle szolgáltatásokat nyújtanak a bennük futó komponensek számára. Ezek közül az egyik leggyakrabban használt szolgáltatás a JPA.
 A JPA az objektumorientált világ és a relációs világ között teremt kapcsolatot. Középpontjában az entity manager van, ami az entitások állapotát és életciklusát kezeli, és lekérdezéseket tesz lehetővé. Ez felelős az entitás példányok létrehozásáért és eltávolításáért, valamint ez találja meg az entitásokat az adatbázisban az elsődleges kulcsuk alapján. Lockolhat entitásokat a konkurens hozzáférés megvalósításáért, illetve rendelkezik egy JPQL nevű lekérdező nyelvvel, amivel SQL  utasításokat hajthatunk végre a JPQL szintaktikával megírt parancsokkal. A gyakorlatban ez úgy valósul meg, hogy egy persistence provider implementálja az EntityManager interfacet, aminek a metódusai SQL utasításokat generálnak és futtatnak le. Számos persistence provider érhető el open-source formában: Hibernate, OpenJPA, EclipseLink.
 
-A következő példakóddal néhány az entity manager által kínált műveletet mutatok be, amiben az is láthatóvá válik, hogy a JPQL szintaktikája mennyire közel áll a natív SQL szintaktikájához.
+A \hyperlink{figure-entitymanager}{következő példakóddal} néhány az entity manager által kínált műveletet mutatok be, amiben az is láthatóvá válik, hogy a JPQL szintaktikája mennyire közel áll a natív SQL szintaktikájához.
 
+\newpage
+\hypertarget{figure-entitymanager}{}
 \lstinputlisting[caption=JPA-EntityManager,label=JPA-EntityManager]{entitymanager.java}
 
 Ahhoz, hogy egy entity managert használni tudjunk egy beanben, először elérhetővé kell tennünk egy példányát az EJB-ben. Ezt a @PersistenceContext annotációval ellátott EntityManager deklarációval tehetjük meg. Ekkor a @PersistenceContext unitName attribútumában megadott persistence unitban megjelölt adatbázis sémához hozzáférő entity managert kapunk. A bean doRegistration metódusa egy egyszerű metódus, ami paraméterül megkap egy ApplicationUser típusú objektumok. A metódus lefutása ezt az objektumot helyezi el az adatbázisban azáltal, hogy meghívja az entity manager persist() metódusát a user paraméterrel. Ennek hatására amennyiben az entitás még nem szerepel az adatbázisban, úgy az perzisztálásra kerül, ellenkező esetben egy EntityExistException kivételt kapunk.
@@ -409,6 +436,7 @@ A lekérdezést emellett a getResultList() metódussal is futtathatjuk, amennyib
 
 Amennyiben update vagy delete DML utasítást akarunk futtatni, úgy az exectueUpdate() metódussal futtathatjuk a query-nket, ami a módosított/törölt rekordok számát adja visszatérési értékül. 
 
+\newpage
 \section{A megjelenítésre kerülő felületek}
 
 A felhasználók által látot képernyőket Vaadin-nal készítettem el. A Vaadin egy felhasználói felületek elkészítésére való keretrendszer, ami rengeteg Java szerver oldali előre definiált komponenst tartalmaz, amiket a programozók a képernyők összeállítására használhatnak. 
@@ -425,7 +453,7 @@ A komponens hierarchiát azáltal kell inicializálnunk, hogy egy komponenst, am
 
 \subsection{View}
 
-A Vaadin View osztálya képernyők elkészítését teszi lehetővé azáltal, hogy a képernyőt, mint egy objektumot állítunk össze. A View osztály rendelkezik egy enter(ViewChangeEvent) metódussal, amely az oldalra navigálás után kerül meghívásra, ezáltal ez a metódus szolgál arra, hogy a metódus törzsébe írt kódsorokkal, illetve metódushívásokkal előállítsuk az oldal éppen azzal a tartalommal, amit a felhasználónak az adott pillanatba látnia kell.
+A Vaadin View osztálya képernyők elkészítését teszi lehetővé azáltal, hogy a képernyőt egy objektumként állítjunk össze. A View osztálynak van egy enter(ViewChangeEvent) metódusa, amely az oldalra navigálás után kerül meghívásra, ezáltal ez a metódus szolgál arra, hogy a metódus törzsébe írt kódsorokkal, illetve metódushívásokkal előállítsuk az oldal éppen azzal a tartalommal, amit a felhasználónak az adott pillanatba látnia kell.
 
 \subsection{A View-k összeállítása}
 A képernyők elkészítéséhez először elkészítettem egy AbstractView osztály, amiben elhelyeztem azokat az elemeket, amik az összes, a felhasználók által látott képernyőn megjelennek. Ezek a következők
@@ -438,7 +466,6 @@ A képernyők elkészítéséhez először elkészítettem egy AbstractView oszt
 
 
 Ahány képernyő van, annyi AbstractView-ból leszármazó osztály implementáltam a képernyők egyedi tartalmának legenerálásához.
-
 Ezen osztályok felhasználásával a képernyők a következő mechanizmus során állnak elő:
 \begin{enumerate}
 	\item A felhasználó beírja a böngészőbe címsorában az alkalmazás elérését lehetővé tévő URL-t, vagy amennyiben már az oldalak között böngész, rányom egy menüpontra, vagy funkciógombra.
@@ -447,18 +474,20 @@ Ezen osztályok felhasználásával a képernyők a következő mechanizmus sor�
 	\item Az enter metódus meghívja az afterEnter() metódust, amik a leszármazott osztályokban override-olt metódusok, amik így a konkrét view által megjelenítendő tartalommal töltik fel azokat a komponenseket, amelyek az egyediségük miatt az abstract osztály enter() metódusának futása során nem töltődtek fel tartalommal.
 \end{enumerate}
 
-A dinamikus tartalmak összeállításához számos esetben van adatbázishoz fordulás. Ezekben az esetekben a leszármazott view osztályokba injectált bean-ek metódusai azok, amik az adatbázis műveleteket elvégzik, és olyan tartalmat hoznak a leszármazott view-okba, hogy azok már elkészíthetik ezáltal a képernyő teljes tartalmát. Példa erre a szolgáltatások képernyő, amelyet a ServicesView állít elő. Ez esetben szükség van a szolgáltatások listájának táblázatban történő megjelenítésére.
+A dinamikus tartalmak összeállításához számos esetben van adatbázishoz fordulás. Ezekben az esetekben a leszármazott View osztályokba injectált bean-ek metódusai azok, amik az adatbázis műveleteket elvégzik, és olyan tartalmat hoznak a leszármazott View-okba, hogy azok már elkészíthetik ezáltal a képernyő teljes tartalmát. Példa erre a szolgáltatások képernyő, amelyet a ServicesView állít elő. Ez esetben szükség van a szolgáltatások listájának táblázatban történő megjelenítésére.
 A listázás a szolgáltatás típusának megadása után történik meg. Alapból a telefonszolgáltatások típus van kiválasztva. Az aktuálisan kiválasztott szolgáltatástípus alapján a TableContentHandlerBean egy metódusa fog lefutni, ami összegyűjti az adatbázisból a kiválasztott szolgáltatástípusba tartozó szolgáltatásokat, és a lista alapján előállít egy IndexedContainer példányt, amely példány a szolgáltatások jellemzőit tartalmazza egy rendezett formában, amelyet így a ServicesView-on lévő Table-nek datasourceként beállítva elérhetővé válnak a szolgáltatások jellemzői a táblázatban megjelenve.
-Ennek megvalósítását a következő kódrészlet adja:
+Ennek megvalósítását a \hyperlink{figure-tablecontenthandlerbean}{következő} kódrészlet adja:
 
+\hypertarget{figure-tablecontenthandlerbean}{}
 \lstinputlisting[caption=TableContentHandler EJB,label=TableContentHandler EJB]{tablecontenthandlerbean.java}
 
 A @Stateful annotációval ellátott POJO-nk EJB-ként fog rendelkezésre állni a Web Konténerben. Ezen példányok egyike fogja kiszolgálni a ServicesView objektumbeli metódushívást. A beanbe első körben egy EntityManager került injektálásra, ami az adatbázis műveletek használatához szükséges. Emellett jópár metódus került még megírásra, amelyek többféle helyen használt táblázatok feltöltéséhez állítanak elő IndexedContainer példányok. Ezek közül az egyik a makeTelephoneIndexedConatiner() metódus, amelyik a telefonszolgáltatások táblázat sorait tartalmazza. A táblázat összes oszlopát egy-egy ContainerProperty-ként lehet hozzáadni az IndexedContainerhez. Ehhez három paraméter megadása kötelező, az egyik az oszlop neve, amelyet a felhasználók látni fognak. A második az oszlopba kerülő értékek típusa. Amennyiben egy Item egy mezőértékének az itt megadottól eltérő típusú értéke próbálnánk beállítani, úgy kivétel keletkezik. A harmadik paraméter az oszlopba kerülő alapérték, amennyiben azt explicit módon nem állítanánk be. Ezen paraméterek megadásával előállt egy váz, amelyet adatokkal (sorokkal) tölthetünk fel ezután.
 Mivel feltöltéshez használt adatok adatbázisból érkeznek, emiatt egy lekérdezés futtatása szükséges, amelyet a TypedQuery létrehozása és futtatása által teszek meg. Az összes telefonszolgáltatás megjelenítésére szükség van a képernyőn, így a TelephoneServices tábla teljes tartalmának kiolvasása szükséges, azaz az összes rekord összes mezőjét eredményül adó JPQL query megfogalmazását kell megejteni. Ez a következőképpen néz ki: "SELECT s FROM TelephoneService s". A query által adott visszaadott objektumok TelephoneService típusúak lesznek, mivel ezen osztály táblájából olvastuk fel az entitások összes mezőjét. Így ezeket az objektumokat egy TelephoneService elemeket tároló listában lehet például letárolni. Miután a lista rendelkezésre áll, minden egyes eleme alapján egy új Item-et kell hozzáadni az IndexedContainer-hez, méghozzá úgy, hogy minden egyes Property-be a helyes érték kerüljön. Tehát például az "Ár" nevű propertybe egy Integer értéket kell tennünk, méghozzá azt az Integer-t, ami a TelephoneService objektum ár tagváltozójának az értéke. Egy új Item egy új sort fog jelenteni a táblázatban.
 A metódus végén nincs más dolgunk, mint visszatérni az összeállított IndexedContainer objektummal.
 
-A hívás a következő kódrészletben látható módon történt, aminek a második sora a services nevű Table komponensnek állítja be tartalomként a metódushívás eredményeképpen létrejött IndexedContainer-t.
+A hívás a \hyperlink{figure-datasource}{következő} kódrészletben látható módon történt, aminek a második sora a services nevű Table komponensnek állítja be tartalomként a metódushívás eredményeképpen létrejött IndexedContainer-t.
 
+\hypertarget{figure-datasource-beallitas}{}
 \lstinputlisting[caption=Table tartalom beállítása,label=Table tartalom beállítása]{datasource-beallitas.java}
 
 
@@ -470,5 +499,6 @@ Az alkalmazás és a szakdolgozat elkészítése során úgy vélem sikerült eg
 
 \begin{thebibliography}{1}
 \bibitem{cimke} \textsc{Antonio Goncalves}: Beginning Java EE 7, Apress, Milton Keynes, 2013.
+\bibitem{cimke} \textsc{Vaadin hivatalos weboldala}: \href{https://vaadin.com/docs/-/part/framework/components/components-overview.html}{vaadin.com}
 \end{thebibliography}
 \end{document}

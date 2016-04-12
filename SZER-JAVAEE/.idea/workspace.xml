@@ -36,9 +36,37 @@
       <file leaf-file-name="ServicesView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/views/ServicesView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.4415889">
-              <caret line="99" column="26" selection-start-line="99" selection-start-column="26" selection-end-line="99" selection-end-column="26" />
-              <folding />
+            <state vertical-scroll-proportion="0.49390244">
+              <caret line="199" column="31" selection-start-line="199" selection-start-column="31" selection-end-line="199" selection-end-column="31" />
+              <folding>
+                <element signature="method#makeLayoutForTablesAsOneTable#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#switchToInternet#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#switchToServicePack#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#fillpackContents#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#setBasketDS#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#fillBasketTable#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#initBasketTable#0;class#ServicesView#0" expanded="false" />
+                <element signature="method#initLayoutForBasket#0;class#ServicesView#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableContentHandlerBean.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/ejbs/TableContentHandlerBean.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+              <folding>
+                <element signature="method#makeBasketIndexedConatiner#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeBillsIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeFaultsIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeInternetServicesIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeTelevisionIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeTelephoneIndexedConatiner#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeServicePacksIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+                <element signature="method#makeServicePackContentIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -369,8 +397,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -563,7 +590,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -825,7 +853,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295838" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25534308" sideWeight="0.50428724" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21489818" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21757771" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295838" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -980,13 +1008,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/ejbs/TableContentHandlerBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.035031848">
-          <caret line="89" column="6" selection-start-line="89" selection-start-column="6" selection-end-line="89" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/views/CustomerRegistrationView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1097,7 +1118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="60" selection-start-line="33" selection-start-column="60" selection-end-line="33" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1105,13 +1125,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#447#448#0" expanded="false" />
-            <element signature="e#480#481#0" expanded="false" />
-            <element signature="e#532#533#0" expanded="false" />
-            <element signature="e#576#577#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1119,7 +1132,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21411192">
           <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1143,7 +1155,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="78" column="39" selection-start-line="78" selection-start-column="39" selection-end-line="78" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1260,11 +1271,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/ejbs/TableContentHandlerBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+          <folding>
+            <element signature="method#makeBasketIndexedConatiner#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeBillsIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeFaultsIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeInternetServicesIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeTelevisionIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeTelephoneIndexedConatiner#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeServicePacksIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+            <element signature="method#makeServicePackContentIndexedContainer#0;class#TableContentHandlerBean#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/szakdolgozat/views/ServicesView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4415889">
-          <caret line="99" column="26" selection-start-line="99" selection-start-column="26" selection-end-line="99" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="0.49390244">
+          <caret line="199" column="31" selection-start-line="199" selection-start-column="31" selection-end-line="199" selection-end-column="31" />
+          <folding>
+            <element signature="method#makeLayoutForTablesAsOneTable#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#switchToInternet#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#switchToServicePack#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#fillpackContents#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#setBasketDS#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#fillBasketTable#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#initBasketTable#0;class#ServicesView#0" expanded="false" />
+            <element signature="method#initLayoutForBasket#0;class#ServicesView#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -7,8 +7,8 @@ public class TableContentHandlerBean {
 	public IndexedContainer makeTelephoneIndexedConatiner(){
 		IndexedContainer ic=new IndexedContainer();
 		
-        ic.addContainerProperty("Név", String.class, null);
-        ic.addContainerProperty("Leírás", String.class,null);
+		ic.addContainerProperty("Név", String.class, null);
+		ic.addContainerProperty("Leírás", String.class,null);
         ic.addContainerProperty("Hűségidő", Integer.class,null);
         ic.addContainerProperty("Ár", Integer.class, null);
         ic.addContainerProperty("Típus", String.class,null);
