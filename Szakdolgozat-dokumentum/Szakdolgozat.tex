@@ -78,106 +78,115 @@
 
 \chapter*{Bevezetés}
 
-2015 elején foglalkoztatni kezdett, hogy munkába álljak és pénzt keressek. Ezen célért az interneten böngészve rátaláltam egy iskolaszövetkezet hirdetésére, amely biztos munkát ígért az általuk kínált képzés elvégzése után. A képzés tárgyaként a JAVA EE volt megjelölve, amiről első körben nem tudtam, hogy micsoda, annyit sejtettem, hogy a Java programozási nyelvhez kapcsolódhat. Második nekifutásra utánaolvastam az interneten, az jött le, hogy ez a Java programozási nyelv rengeteg külső osztálykönyvtárral kibővített "változata". Ma már tudom, hogy ez ennél jóval több. Visszatérve az iskolaszövetkezet hirdetésére, kapva az alkalmon, jelentkeztem a hirdetésükre, és a felvételi interjú után alkalmasnak találtak arra, hogy részt vegyek a képzésükön. 
+2015 elején elkezdtem készülni arra, hogy munkába álljak. Úgy találtam, hogy a főiskolán szerzett elméleti és gyakorlati ismereteim eszköztárába további ismereteket vegyek fel azért, hogy amennyire lehet, egy pályakezdő programozótól elvárható naprakészséggel rendelkezzek a jelenkor technológiai eszközeiről. Azáltal, hogy elkezdett érdekelni a Java programozási nyelv, úgy döntöttem, hogy megismerkedek a Java Enterprise Edition-nel, amit napjainkban robosztus nagyvállalati alkalmazások készítésére használnak. Úgy láttam, ha megismerem ezt az eszközt, úgy nagy eséllyel rendelkezem arra, hogy felvételt nyerjek az első szakmai munkahelyemre.
 
-Így kerültem kapcsolatba a Java Enterprise Edition technológiával, amely, mint később világossá vált számomra, az iparban széles körben elterjedt és számos helyen használt eszköz. A szakdolgozat elkészítésével és az ehhez írt alkalmazás elkészítésével célom a technológia általam már ismert részének bemutatása, a technológia által nyújtott és számomra új megoldások megtalálása, és a gyakorlás. Mindezeket egy fiktív telekommunikációs cég számára készített alkalmazás, amellyel online ügyintézést tesznek lehetővé a régi és új ügyfeleik számára.
+Így hát belekezdtem a technológia megismerésébe. Számos újdonsággal szembesültem a technológiával való "kalandom" első fejezeteiben. Az első Java EE-s alkalmazásom megírása előtt még sosem használtam például alkalmazásszervert, amiken a programok futnak. Teljesen új volt számomra a Maven, amivel az alkalmazásunk függőségeit adhatjuk hozzá a projektünkhöz.
+
+A szakdolgozatom elkészítésének céljául ezért azt tűztem ki, hogy amellett, hogy megismerem egy Java EE elméletét, gyakorlatban is kipróbáljam, sőt ha lehet, gyakorlottá váljak a használatában. Természetesen a architektúra teljes egészének megismeréséhez rengeteg idő szükséges, mivel az első verziójának kiadása után - amely 1999-en történt, J2EE 1.2 néven - rengeteg API-val bővült, a kezdeti 10 helyett a jelenlegi, Java EE 7-es verzió 31 darabot tartalmaz. A könyv, amit a technológia megismeréséhez felhasználtam, kezdőknek szól, és cirka ~600 oldalas. Vannak olyan API-k, aminek részletesebb leírását ~500 oldalas könyvek adják. Mindezek mutatják a technológia összetettségét és a benne való elmélyüléshez szükséges rengeteg időigényt. Emiatt az első lépésekben a technológia alappillérit jelentő Enterprise Java Beans-ekkel, a Java Persistence API-val és a JSF elemekkel foglalkoztam. Az első az üzleti logika implementálására használható, a második az adatbázis elérést és műveleteket teszi lehetővé, a harmadikkal pedig az alkalmazásaink képernyőfelületeit készíthetjük el. Ez utóbbit az alkalmazásomhoz készített szoftverben nem alkalmaztam, helyette egy Java szerver oldali (képernyőn megjelenő) komponenseket használó keretrendszerrel, a Vaadin-nal készítettem el az alkalmazás frontendjét.
+
+A szakdolgozatom első fejezetében az elkészített alkalmazás funkcióinak és az azokhoz kapcsolódó képernyőinek bemutatását lehet elolvasni. A második fejezetben a Java EE alapjairól írok, míg a harmadik fejezetben az elkészített szoftver egyes kódrészleteinek felhasználásával mutatok be egy-egy API-t. A szakdolgozatom végét egy összegzés zárja, amiben a szakdolgozat elkészítésének tapasztalatai közül néhányat írok le.
 
 \chapter{Az alkalmazás bemutatása}
 
 \section{Az alkalmazás működtetésének célja}
 
-Az alkalmazás működtetésének célja lehetővé tenni a szolgáltató ügyfelei számára, hogy online intézhessék az ügyeiket. Ezen ügyintézésbe a cég szolgáltatásaira való előfizetés, számlabefizetés és hibabejelentés tartozik, emellett az alkalmazást a szolgáltató ügyintézői szintén használhatják, akik az ügyintézői jogosultságuk miatt más tartalomhoz férnek hozzá, mint az ügyfelek. Ők látják az összes bejelentett hibajegyet, amikhez a hiba elhárításának megoldását fűzik hozzá a hibabejelentés lezárásaként. 
+Az alkalmazás működtetésének célja lehetővé tenni egy fiktív telekommunikációs szektorbeli szolgáltató ügyfelei számára, hogy online intézhessék az ügyeiket. Ezen ügyintézésbe a cég szolgáltatásaira való előfizetés, számlabefizetés és hibabejelentés tartozik. Az alkalmazást a szolgáltató ügyintézői szintén használhatják, akik az ügyintézői jogosultságuk miatt más tartalomhoz férnek hozzá, mint az ügyfelek. Ők látják az összes bejelentett hibajegyet, amikhez a hiba elhárításának megoldását fűzik hozzá a hibabejelentés lezárásaként. 
 
 \section{Képernyők}
 
-Az alkalmazással végezhető műveletek természetesen láthatóak kell legyenek a használóik számára, erre a képernyők szolgálnak. Az alkalmazás webes böngészőkön keresztül érhető el a felhasználók számára, a képernyők is abban fognak megjelenni nekik. Az alábbiakban a felhasználók számára megjelenő képernyők leírását adom meg.
-A képernyők két csoportba bonthatók:
+Az alkalmazással végezhető műveletek természetesen láthatóak kell legyenek a használóik számára, erre a képernyők szolgálnak. Az alkalmazás webes böngészőkön keresztül érhető el, a képernyők abban fognak megjelenni. Az alábbiakban ezek leírását adom meg.
+A képernyők három csoportba bonthatók:
  
  \begin{itemize}
- 	\item Az egyik csoportba azok a képernyők tartoznak, amelyek bárki számára(azaz a nem bejelentkezett felhasználók számára is) megjelennek. Az ezeken a képernyőkön elérhető információk és műveletek nincsenek egyénekhez kötve, egyedi információkat nem tartalmaznak. Ezzel együtt vannak olyan bárki számára elérhető oldalak, amelyek bejelentkezés után bővebb tartalommal rendelkeznek.
- 	\item Ennek ellenkezője áll fenn a bejelentkezett felhasználók számára elérhető oldalak esetén. Ezeken az oldalakon olyan információk és műveletek is elérhetőek, amelyek egyéniek, azaz bejelentkezett felhasználónként különböznek. Ilyen például a számlák képernyő, ahol nyilvánvalóan a felhasználó saját számlai kerülnek megjelenítésre. Ennek adatvédelmi okai vannak: egy előfizető számláit csakis ő maga láthassa, az alkalmazás többi felhasználója ne.
- 	A bejelentkezett felhasználók típusoktól függően (ügyfél illetve ügyintéző) más felületeket érnek el: egy ügyfél hibabejelentő oldalt ér el, míg az ügyintéző a bejelentett hibákat listáztathatja ki, és kezelheti.
+ 	\item Az egyik csoportba azok a képernyők tartoznak, amelyek bárki számára (azaz a nem bejelentkezett felhasználók számára is) megjelennek. Az ezeken a képernyőkön elérhető információk és műveletek nincsenek egyénekhez kötve, egyedi (konkrét felhasználóra vonatkozó) információkat nem tartalmaznak. Ezzel együtt vannak olyan bárki számára elérhető oldalak, amelyek bejelentkezés után bővebb tartalommal rendelkeznek.
+ 	\item A második csoport a bejelentkezett ügyfelek által elérhető képernyőkből áll. Ezeken az oldalakon olyan műveletek végezhetőek, amelyek "tárgyai" ügyfelenként mások. Például egy ügyfél csak a saját számláit kérheti le, és fizetheti be.
+ 	\item A harmadik csoport azon képernyők csoportja, amelyeket ügyintézőként bejelentkezve érhetőek el. Például egy ügyintéző típusú felhasználó az, aki bejelentett hibákat látja, és azokhoz információt tud rendelni.
  \end{itemize}
   
 
 \subsection{Főoldal}\hypertarget{leiras-fooldal}{}
 
-Az alkalmazás kezdőoldala a főoldal, amely a bárki számára megjelenő oldalakhoz közé tartozik. Ez az oldal egy rövid üdvözlő szöveget jelenít meg, a bárki számára elérhető menüpontok gombjaival együtt.
+Az alkalmazás kezdőoldala a főoldal, amely a bárki számára megjelenő képernyők közé tartozik. Ez az oldal egy rövid üdvözlő szöveget jelenít meg, a bárki számára elérhető menüpontok gombjaival együtt.
 
 \subsection{Regisztrációs oldal}\hypertarget{leiras-regisztracios}{}
 
-Az oldalon történő ügyintézéshez egy saját felhasználói fiókra szükséges. Ezt a fiókot a \hyperlink{leiras-regisztracios}{"Regisztrációs oldal"}-on hozhatja létre a leendő ügyfél, amelyre a képernyő jobb felső sarkában lévő login-box "Regisztráció" linkre kattintással jut el. A fiók létrehozásához személyes adatainak megadására van szükség, amely a form mezőinek kitöltésével végzendő el. A megadott adatok a regisztráció véglegesítése előtt egy validáción kell hogy keresztül menjenek. A validáció célja jelen esetben az, hogy elkerüljük olyan értékek megadását, amik nem lehetnek valósak, például egy számjegy a névben. 
+Az oldalon történő ügyintézéshez egy saját felhasználói fiók szükséges. Ezt a fiókot a \hyperlink{leiras-regisztracios}{,,Regisztrációs oldal''}-on hozhatja létre a leendő ügyfél, amelyre a képernyő jobb felső sarkában lévő ,,login-box''-beli ,,Regisztráció'' linkre kattintással jut el. A fiók létrehozásához személyes adatainak megadására van szükség, amely a form mezőinek kitöltésével végezhető el.  
 
 \subsection{Bemutatkozás}\hypertarget{leiras-bemutatkozo}{}
 
-A \hyperlink{leiras-bemutatkozo}{"Bemutatkozó oldal"}-on a szolgáltató hosszabb bemutatkozása olvasható, amely bővebb információkat ad a működéséről, felépítéséről és az általa nyújtott szolgáltatásokról.
+A \hyperlink{leiras-bemutatkozo}{,,Bemutatkozó oldal''}-on a szolgáltató hosszabb bemutatkozása olvasható, amely bővebb információkat ad a működéséről, felépítéséről és az általa nyújtott szolgáltatásokról.
 
 \subsection{Szolgáltatások}\hypertarget{leiras-szolgaltatasok}{}
 
-A \hyperlink{leiras-szolgaltatasok}{"Szolgáltatások"} felület egy fontos felület a képernyők között. Ezen a felületen találja meg az oldal látogatója a cég által nyújtott szolgáltatások listáját és azok jellemzőit, úgy mint az ár, internetszolgáltatás esetén a sebesség, stb. Mivel a cég többféle szolgáltatást is nyújt(telefon, internet, kábeltv) ezért az oldal áttekinthetősége és a szolgáltatások megjelenítésének struktúrája kiemelkedő fontosságú. Éppen ezért a szolgáltatások listája szolgáltatástípusonként megjelenítve áll rendelkezésre az ügyfelek számára.
-A bejelentkezett felhasználók itt adhatják hozzá a bevásárlókosarukhoz a szolgáltatásokat, amelyekre elő kívánnak fizetni. A bevásárlókosárba tett szolgáltatások megrendelését a "Megrendel" gomb megnyomásával eszközölheti az ügyfél, ami után a szolgáltatási végpont adatait kell hogy megadja. A megrendelt szolgáltatások az itt megadott címre kerülnek bekötésre.
+A \hyperlink{leiras-szolgaltatasok}{,,Szolgáltatások''} felület egy fontos felület a képernyők között. Ezen a felületen találja meg az oldal látogatója a cég által nyújtott szolgáltatások listáját és azok jellemzőit, úgy mint az ár, és internetszolgáltatás esetén a például a sebesség. Mivel a cég több típusba tartozó szolgáltatást is nyújt --telefon, internet, kábel tv-- ezért a szolgáltatások megjelenítésének megtervezett struktúrája javít a képernyő áttekinthetőségén. Ez a gyakorlatban annyit tesz, hogy a szolgáltatások típusonként listázhatóak ki, illetve a kiválasztott típustól függően egyes képernyőkomponensek megjelenítésre/eltüntetésre kerülnek.
+A bejelentkezett felhasználók ugyanezen a képernyőn adhatják hozzá a bevásárlókosarukhoz a szolgáltatásokat, amelyekre elő kívánnak fizetni. A bevásárlókosárba tett szolgáltatások megrendelését a ,,Megrendel'' gomb megnyomásával eszközölheti az ügyfél, ami után a szolgáltatási végpont adatait kell hogy megadja. A megrendelt szolgáltatások az itt megadott címre kerülnek bekötésre.
 
 \subsection{Kapcsolat}\hypertarget{leiras-kapcsolat}{}
 
-A \hyperlink{leiras-kapcsolat}{"Kapcsolat"} oldalon a cég elérhetőségei olvashatóak, úgy mint a székhely, ügyfélszolgálati telefonszám és levelezési cím.
+A \hyperlink{leiras-kapcsolat}{,,Kapcsolat''} oldalon a cég elérhetőségei olvashatóak, úgy mint a székhely, ügyfélszolgálati telefonszám és levelezési cím.
 
 \subsection{Számlák}\hypertarget{leiras-szamla}{}
 
-Ez az oldal az előfizetések megléte miatt kiállított számlákat listázza ki. Az ügyfél minden egyes befizetetlen számláját kilistázásra kerül ezen a felületen, számlanévvel, összeggel és befizetési határidővel együtt. A számla befizetésére bankkártyás fizetéssel van mód, amelyhez a bankkártyán szereplő adatokat a számlához tartozó befizetés gomb megnyomásával betöltődő oldalon kell megadni. Ezen az oldalon - természetesen egy kitalált, nem létező - pénzügyi szolgáltató felé történő kérés fut le, amely a bankkártyás fizetést szimulálja. Ez a fizetési kísérlet kétféle eredménnyel záródhat:
- Az ügyfél bankszámláján van elegendő pénz a számla kiegyenlítésére, és ez esetben a számla befizetett státuszba kerül.
- A másik eset az, amikor az ügyfél bankszámláján nem áll rendelkezésre elegendő pénz a számla befizetésére, így az befizetésre váró számlaként marad a számlák között.
- Mivel nincs valós pénzügyi szolgáltató a befizetések mögött, ezért a befizetés sikerességét vagy sikertelenségét egy véletlen szám generálással határozom meg, amelynek értéke dönti el, hogy sikeres vagy sikertelen legyen a befizetés. Mindkét esetben újra a \hyperlink{leiras-szamla}{"Számlabefizetés"} oldal töltődik be újra.
+Ez az oldal az előfizetések megléte miatt kiállított számlákat listázza ki. Az ügyfél minden egyes befizetetlen számláját itt találja meg, számlanévvel, összeggel és befizetési határidővel együtt. A számla befizetésére bankkártyás fizetéssel van mód, amelyhez a bankkártyán szereplő adatokat a számlához tartozó befizetés gomb megnyomása után betöltődő oldalon kell megadni. Ezen az oldalon - természetesen egy kitalált, nem létező - pénzügyi szolgáltató felé történő kérés fut le, amely a bankkártyás fizetést szimulálja. Ez a fizetési kísérlet kétféle eredménnyel záródhat:
+\begin{itemize}
+	\item  Az ügyfél bankszámláján van elegendő pénz a számla kiegyenlítésére, és ez esetben a számla befizetett státuszba kerül.
+	\item Az ügyfél bankszámláján nem áll rendelkezésre elegendő pénz a számla befizetésére, így az befizetésre váró számlaként marad a számlák között.
+\end{itemize}
+
+ Mivel nincs valós pénzügyi szolgáltató a befizetések mögött, ezért a befizetés sikerességét vagy sikertelenségét egy véletlen szám generálással határozom meg, amelynek értéke dönti el, hogy sikeres vagy sikertelen legyen a befizetés. Mindkét esetben újra a \hyperlink{leiras-szamla}{,,Számlabefizetés''} oldal töltődik be újra.
 
 \subsection{Hibabejelentés}\hypertarget{leiras-bejelentes}{}
 
-Az aktív szolgáltatással rendelkező felhasználóknak lehetőségük nyílik a szolgáltatással kapcsolatos hibák bejelentésére. Ezt a \hyperlink{leiras-bejelentes}{"Hibabejelentés"} oldalon tehetik meg.
-Az észlelt hiba részleteit egy form kitöltésével adhatják meg, amely form beküldésével az rögzítésre kerül, és az ügyintézők számára láthatóvá válik.
+Az előfizetői fiókkal rendelkező felhasználóknak lehetőségük nyílik a szolgáltatással kapcsolatos hibák bejelentésére. Ezt a \hyperlink{leiras-bejelentes}{,,Hibabejelentés''} oldalon tehetik meg.
+Az észlelt hiba részleteit egy form kitöltésével adhatják meg, aminek beküldésével az rögzítésre kerül, és az ügyintézők számára láthatóvá válik.
 
 \subsection{Bejelentett hibák}\hypertarget{leiras-bejelentetthibak}{}
 
-Ez egy az ügyintézők számára elérhető felület, amin a még ki nem javított hibákról szóló bejelentések érhetőek el. Amennyiben egy hiba kijavításra került, azt az ügyintézők a megoldást eredményező munkálatok rögzítésével nyugtázhatják.
+Ez egy az ügyintézők számára elérhető képernyő, amin a még ki nem javított hibákról szóló bejelentések érhetőek el. Amennyiben egy hiba kijavításra került, azt az ügyintézők a megoldást eredményező munkálatok leírásának rögzítésével nyugtázhatják.
 
 \section{A szoftver elkészítésére használt technológiák, és az azt támgató eszközök}
 
-Egy alkalmazás elkészítése összetett folyamat. Ennek során nem elég a specifikációt ismerni, és az alkalmazott programozási nyelv használatában járatosnak lenni, ezek mellet számos olyan eszközt érdemes igénybe venni, amely gyorsítja, hatékonyabbá, vagy éppen "biztonságosabbá" teszi az alkalmazás fejlesztését azáltal, hogy a szoftverkészítés folyamat egyes állomásain a forráskód állapotát eltárolja.
+Egy alkalmazás elkészítése összetett folyamat. Ennek során nem elég a specifikációt ismerni, és az alkalmazott programozási nyelv használatában járatosnak lenni, hanem érdemes számos olyan eszközt igénybe venni, amely gyorsítja, hatékonyabbá, vagy éppen ,,biztonságosabbá'' teszi az alkalmazás fejlesztését azáltal, hogy a szoftverkészítés folyamat egyes állomásain a forráskód állapotát eltárolja.
 
 \subsection{Java Enterpreise Edition}
 
-A szakdolgozatom témája a Java EE technológia bemutatása, így ez az a technológia, amiről részletesen írni fogok. Bevezetésül pár dolgot írok itt a technológiáról.
+A szakdolgozatom témája a Java EE technológia bemutatása, így ez az a technológia, amiről részletesen írni fogok. Bevezetésül egy rövid leírás:
 
-A Java Enterprise Edition API-k egy halmaza, amely API-k lehetővé teszik nagy skálázhatósággal rendelkező üzleti alkalmazások elkészítését. 13 API van, amelyek a technológia részeiül szolgálnak.
-Egy alkalmazás elkészítéséhez nem szükséges minden API-t felhasználni. Például abban az esetben, amikor az alkalmazásunkban nincs szükség a kliensek közötti üzenetküldésre, abban az esetben a JMS -Java Message Service - használata nélkülözhető.
-
-Természetesen vannak olyan API-k amelyek használata szinte nélkülözhetetlen a JEE technológia felhasználásával készített alkalmazások során. Ezen API-k az EJB és a JPA API-k, amik az üzleti logika és az adatbázisműveletek implementálására alkalmasak.
-
-Az általam készített alkalmazás egy olyan alkalmazás, amelyik az API-k egy részét fogja használni.
+A Java Enterprise Edition a Java Standard Edition kibővítését jelenti olyan API-kal, amelyek az alkalmazások nagy részénél használatos modulok implementációját jelentik, default alapbeállításokkal.
+Ilyen például a Persistence API, ami az adatbázissal történő kommunikációt segíti elő. Az API használatával számos beépített függvény érhető el, amelyekkel például entitásokat perzisztálhatunk az adatbázis tábláiba, vagy lekérdezéseket futtathatunk azokon.
+Természetesen API-k közül nem kötelező az összeset használni egy alkalmazásban.
 
 \subsection{WildFly Application Server}
 
 Az elkészült alkalmazások futtatásához egy olyan környezet szükséges, amely ismeri és kezeli az alkalmazás által használt API-kat. Ezeket a környezeteket az alkalmazásszerverek. 
-Feladatuk az alkalmazás számára biztosítani az általa használt API-kat, és erőforrás kezelést, erőforrás (ki)osztást végezni. Ilyen erőforrás (ki)osztás alatt értem például az alkalmazásszerver azon műveleteit, amelynek során az erőforrás konténerekbe annyi EJB példányt tárol, amennyi a kliensoldalról érkező kéréseket (optimálisan) képes kiszolgálni.
+A kész alkalmazások ezen technológiai elemekre deployálva, azaz kihelyezve válnak elérhetővé a kliensek számára.
 
-Én a WildFly alkalmazásszervert fogom használni, amely a JBoss alkalmazásszerver community verziójának új neve a 8.0-s verzió óta. Ez az alkalmazásszerver alkalmas a Java EE technológiával készült alkalmazások futtatására, mert implementálja annak összes standardját.  
+Én a WildFly alkalmazásszervert fogom használni, amely a JBoss alkalmazásszerver community verziójának új neve a 8.0-s verzió óta. 
 
 \subsection{Oracle Database 11g Express Edition}
 
-Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat tárol. Erre az Oracle ingyenesen használható adatbázisát, az Oracle Database 11g Express Edition-t használja.
+Az alkalmazás a felhasználókról, szolgáltatásokról, stb adatokat tárol. Erre az Oracle ingyenesen használható adatbázis kezelő rendszerét, az Oracle Database 11g Express Edition-t használom.
 \subsection{IntelliJ IDEA}
 
-A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ezen választásom oka az, hogy tapasztalt programozóktól azt hallottam, hogy a forgalomban lévő fejlesztői környezetek közül ez a tapasztalataik alapján az egyik legjobb. Ezen választás hozomány, hogy egy újabb fejlesztői környezetet ismerek meg, a főiskolai tanulmányaim során használt Microsoft Visual Studio és NetBeans mellett.
+A fejlesztői környezetnek az IntelliJ IDEA nevű eszközét választottam. Ennek oka, hogy egy jól használható IDE-ként emlegetik tapasztalt szoftverfejlesztők, és hasznos a tapasztaltabbakra hallgatni. 
 
 \subsection{Vaadin Framework}
 
-Az alkalmazás frontend részét Vaadin Framework használatával fogom elkészíteni. Ennek oka az, hogy Java-alapú frontend készítést tesz lehetővé. Ez azt jelenti, hogy a böngészőben megjelenő oldalakat nem HTML használatával kell összeállítani, hanem a framework által nyújtott Java objektumokkal, és az így összeállított oldalak HTML5-ként generálódnak ki, amelyet a böngészők képesek megjeleníteni.
+Az alkalmazás frontend részét Vaadin Framework használatával fogom elkészíteni. Ennek oka az, hogy Java alapú frontend készítést tesz lehetővé, én pedig Java-val foglalkozom. A Java alapú frontend készítés azt jelenti, hogy a böngészőben megjelenő oldalakat nem HTML használatával kell összeállítani, hanem a framework által nyújtott Java objektumokkal, és az így összeállított oldalak HTML5-ként generálódnak ki, amelyet a böngészők képesek megjeleníteni.
 
 \subsection{Maven}
 
 A szoftverfejlesztési iparban jelenleg sok programozó és sok cég van jelen. Előfordul, hogy az egyikük elkészít egy funkcióhalmazt implementáló kódot, és azt mások által felhasználhatóvá teszi.
-Az is előfordulhat, hogy egy specifikációt, elvbeli működést (pl JPA) több cég is implementál, méghozzá másként, majd kiadja azt másoknak felhasználásra. Ezen esetekben ezeken az implementációkat osztálykönyvtárak formájában érjük el egy központi repositoryban. Amennyiben használni szeretnénk ezen osztálykönyvtárakat, elérhetővé kell tennünk ezeket a projektünk számára, mivel az függ azoktól. Ez esetben jön jól a Maven, amellyel a projektünk függőségei könnyen letölthetők az internetről és hozzáadhatók a projektünkhöz. Ehhez mindössze egy megfelelő módon összeállított, projektfüggőségeket leíró fájlra van szükségünk.(pl pom.xml) Ez a fájl tartalmazza a projektben használt függőségek elérési helyét és azonosítóját, így azok egy áttekinthető, struktúrált és kényelmes módon integrálhatóak a projektünkbe.
+Az is előfordulhat, hogy egy Java EE szolgáltatást (pl JPA) több fejlesztőcsoport is implementál (ezek a persistence providerek), majd kiadja azt másoknak felhasználásra. Ezen esetekben ezeken az implementációkat csomagok formájában érjük el egy központi repositoryban. Amennyiben használni szeretnénk ezen csomagok egyikét, elérhetővé kell tennünk ezeket a projektünk számára, mivel az függ azoktól. Ez esetben jön jól a Maven, amellyel a projektünk függőségei könnyen letölthetők az internetről és hozzáadhatók a projektünkhöz. Ehhez mindössze egy megfelelő módon összeállított, projektfüggőségeket leíró fájlra van szükségünk(pom.xml). Ez a fájl tartalmazza a projektben használt függőségek elérési helyét és azonosítóját, így azok egy áttekinthető, struktúrált és kényelmes módon integrálhatóak a projektünkbe.
 
 \subsection{Git}
 
-A program elkészítése során nagy segítséget nyújt egy verziókezelő rendszer használata, amely lehetővé teszi a fejlesztés során az alkalmazás aktuális állapotának mentését. Ennek több előnye is van. Egyik előnye az, hogy a fejlesztés egy pontjából több irányba is elágaztathatjuk a a fejlesztés további menetét. Ez amiatt hasznos, mert ha két megrendelő hasonló alkalmazást kér, akkor az alkalmazások funkciói közötti átfedéseket egy fejlesztési vonalon kezelhetjük és implementálhatjuk, a különbségeket pedig egy-egy külön ágon "adhatjuk" hozzá az átfedéseket tartalmazó részhez. Másik előnye a verziókezelésnek, hogy amennyiben azt találjuk, hogy az alkalmazás jelenlegi állapota nem a kívánt állapottal egyenlő, akkor könnyen átállhatunk egy olyan mentett állapotra, amelyik egy kívánt állapot. Harmadik előnye, hogy amennyiben osztott verziókezelő rendszert használunk, úgy a forráskódból több példány is van, így az esetben, ha az egyik példány elveszne, úgy tényleges veszteség nem ér minket, mivel a projekt kódja máshol is tárolva van.
+A program elkészítése során nagy segítséget nyújt egy verziókezelő rendszer használata, amely lehetővé teszi a fejlesztés során az alkalmazás aktuális állapotának mentését. Ennek legalább két előnye van:
+\begin{itemize}
+	\item A fejlesztés egy pontjából több irányba is elágaztathatjuk a fejlesztés további menetét. Ez amiatt hasznos, mert ha két megrendelő hasonló alkalmazást kér, akkor az alkalmazások funkciói közötti átfedéseket egy fejlesztési vonalon kezelhetjük és implementálhatjuk, a különbségeket pedig egy-egy külön ágon adhatjuk hozzá az átfedéseket tartalmazó részhez.
+	\item Amennyiben azt találjuk, hogy az alkalmazás jelenlegi állapota nem a kívánt állapottal egyenlő, akkor könnyen átállhatunk egy olyan mentett állapotra, amelyik egy kívánt állapot.
+	\item  Amennyiben osztott verziókezelő rendszert használunk, úgy a forráskódból több példány is van, így az esetben, ha az egyik példány elveszne, úgy tényleges veszteség nem ér minket, mivel a projekt kódja máshol is tárolva van.
+\end{itemize}
 
 Én egy a github-on létrehozott repositoryt és a Git nevű verziókezelő rendszert használom az alkalmazás elkészítése során.
 
@@ -455,7 +464,7 @@ A hívás a következő kódrészletben látható módon történt, aminek a má
 
 \chapter{Összegzés}
 
-Az alkalmazás és a szakdolgozat elkészítése során úgy vélem sikerült egy erős alapszinten megismerkednem a Java Enterpreise Edition-nel, és mindeközben megismerkedni egy szoftver elkészítésének nehézségeivel, buktatóival. Szembesültem azzal, hogy sokat számít az, hogy előre pontosan megtervezzünk egy-egy funkciót, mert ha például egy már elkészített adatbázis modellen utólag változtatunk, és még ha csak egy táblanév átnevezésről is van szó, az hibához vezethet, amelynek megtalálása nagyságrendekkel több időt vesz igénybe mint a hiba kijavítása.
+Az alkalmazás és a szakdolgozat elkészítése során úgy vélem sikerült egy erős alapszinten megismerkednem a Java Enterpreise Edition-nel, és mindeközben meglátni egy szoftver elkészítésének nehézségeit, buktatóit. Szembesültem azzal, hogy sokat számít az, hogy előre pontosan megtervezzünk egy-egy funkciót. Egy esetben egy entitásosztály megírása után futtattam az alkalmazást, ezáltal az adatbázisban létrejött egy tábla az entitásokból készülő rekordok számára. Későbbiekben az entitásosztályon más nevet adtam meg táblanévnek, emiatt egy új tábla jött létre az adatbázisban, ugyanezen típusú entitások számára. Ebbe az új táblába valahogy belekerült egy felesleges megszorítás, ami miatt számos perzisztálás során kivételt kaptam, aminek az okát sokáig kerestem. Mivel a második (és egyben fölösleges) megszorítás meglétéről nem tudtam, emiatt nem értettem, hogy hogy lehet, hogy egy idegen kulcs elsődleges kulcsa a hivatkozott rekordnak. Később az adatbázis alapos vizsgálata után találtam rá a fölöslegesen elhelyezett megszorításra, ami miatt nem tekintette a perzisztálandó lakcímeket megrendelésekhez kapcsolható entitásoknak. A megszorítás törlése után az adatok rögzítése kiválóan kezdett működni.
 Összességében örülök, hogy ezzel a témával foglalkozhattam, és hogy sikerült elkészítenem a szoftvert.
 
 
