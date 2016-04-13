@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1460494837 "Szakdolgozat.tex" "Szakdolgozat.pdf" "Szakdolgozat" 1460494840
-  "./Szakdolgozat.out" 1460494839 8097 5e0ebb21240e9aa4d70c26cf4fa0f491 ""
-  "./Szakdolgozat.tex" 1460494833 68037 835384971b664aa202f8080a5f2af468 ""
+["pdflatex"] 1460578050 "Szakdolgozat.tex" "Szakdolgozat.pdf" "Szakdolgozat" 1460578054
+  "./Szakdolgozat.out" 1460578053 8097 5e0ebb21240e9aa4d70c26cf4fa0f491 ""
+  "./Szakdolgozat.tex" 1460578049 69245 c7337623ba5bf406a70b10a1af826580 ""
   "./datasource-beallitas.java" 1460406149 129 254d4b9cd804967ea1c6bb893e4e0009 ""
   "./dateformatconverter-class.java" 1460405754 588 eaa0ef6b325438904429be16baedf45a ""
   "./entitymanager.java" 1460405989 779 84face84efad87441ebaad17a89f47bc ""
@@ -15,10 +15,10 @@
   "./service-entity.java" 1460405518 807 0bdfc0b0f6a300ff5dfe52c3ba5c99cc ""
   "./tablecontenthandlerbean.java" 1460493452 1284 2442c7af64e0ecb34a3dbb28462dec6f ""
   "./wildfly-plugin.pas" 1460378515 226 38fdd893e41033cd213331af946d1f32 ""
-  "Szakdolgozat.aux" 1460494839 10097 82ed64bf7f6f6389c1142d2b0aad3777 ""
-  "Szakdolgozat.out" 1460494839 8097 5e0ebb21240e9aa4d70c26cf4fa0f491 ""
-  "Szakdolgozat.tex" 1460494833 68037 835384971b664aa202f8080a5f2af468 ""
-  "Szakdolgozat.toc" 1460494839 5155 eda3ae52db144670b379ba23d77120b7 ""
+  "Szakdolgozat.aux" 1460578053 10353 79d4e7674533a37e5c01d09bfaad5292 ""
+  "Szakdolgozat.out" 1460578053 8097 5e0ebb21240e9aa4d70c26cf4fa0f491 ""
+  "Szakdolgozat.tex" 1460578049 69245 c7337623ba5bf406a70b10a1af826580 ""
+  "Szakdolgozat.toc" 1460578053 5155 eda3ae52db144670b379ba23d77120b7 ""
   "c:/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1443366342 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1443367467 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "c:/texlive/2015/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1443366935 3584 2d666ecf6d466d8b007246bc2f94d9da ""
@@ -155,8 +155,8 @@
   "tablecontenthandlerbean.java" 1460493452 1284 2442c7af64e0ecb34a3dbb28462dec6f ""
   "wildfly-plugin.pas" 1460378515 226 38fdd893e41033cd213331af946d1f32 ""
   (generated)
-  "Szakdolgozat.toc"
   "Szakdolgozat.log"
   "Szakdolgozat.pdf"
+  "Szakdolgozat.toc"
   "Szakdolgozat.out"
   "Szakdolgozat.aux"

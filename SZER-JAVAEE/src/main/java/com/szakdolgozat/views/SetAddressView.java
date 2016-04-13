@@ -54,12 +54,12 @@ public class SetAddressView extends AbstractView {
     private void initForm(){
         addressForm=new FormLayout();
 
-        zipcode=new TextField("Irányítószám:");
-        city=new TextField("Város:");
-        street=new TextField("Utcanév:");
-        houseNumber=new TextField("Házszám");
-        floor=new TextField("Emelet");
-        door=new TextField("Ajtó");
+        zipcode=new TextField("Irányítószám*:");
+        city=new TextField("Város*:");
+        street=new TextField("Utcanév*:");
+        houseNumber=new TextField("Házszám*:");
+        floor=new TextField("Emelet:");
+        door=new TextField("Ajtó:");
 
         addressForm.addComponent(zipcode);
         addressForm.addComponent(city);
@@ -73,29 +73,42 @@ public class SetAddressView extends AbstractView {
         verifyButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                ApplicationUser user= ((MyUI)getUI().getCurrent()).getLoggedInUser();
-                Address address=new Address();
-                address.setZipCode(zipcode.getValue());
-                address.setCity(city.getValue());
-                address.setStreet(street.getValue());
-                address.setHouseNumber(houseNumber.getValue());
-                address.setFloor(floor.getValue());
-                address.setDoor(door.getValue());
+                if (requiredTextFildsFullfilled()) {
 
-                ordersBean.saveOrder(user,
-                                        servicesStorageBean.getServicesListOfCustomer(user.getUsername()),
-                                        servicesStorageBean.getServicePacksListOfCustomer(user.getUsername()),
-                                        address
-                );
-                basketEJB.makeBasketEmpty();
-                servicesStorageBean.removeServicesList(user.getUsername());
-                servicesStorageBean.removeServicePacksList(user.getUsername());
+                    ApplicationUser user = ((MyUI) getUI().getCurrent()).getLoggedInUser();
+                    Address address = new Address();
+                    address.setZipCode(zipcode.getValue());
+                    address.setCity(city.getValue());
+                    address.setStreet(street.getValue());
+                    address.setHouseNumber(houseNumber.getValue());
+                    address.setFloor(floor.getValue());
+                    address.setDoor(door.getValue());
 
-                getUI().getNavigator().navigateTo(BillsView.VIEWID);
+                    ordersBean.saveOrder(user,
+                            servicesStorageBean.getServicesListOfCustomer(user.getUsername()),
+                            servicesStorageBean.getServicePacksListOfCustomer(user.getUsername()),
+                            address
+                    );
+                    basketEJB.makeBasketEmpty();
+                    servicesStorageBean.removeServicesList(user.getUsername());
+                    servicesStorageBean.removeServicePacksList(user.getUsername());
+
+                    getUI().getNavigator().navigateTo(BillsView.VIEWID);
+                }else{
+                    Notification notification = new Notification("A csillaggal jelölt mezők kitöltése kötelező!", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(5000);
+                    notification.show(getUI().getPage());
+                }
             }
         });
 
+
         addressForm.addComponent(verifyButton);
 
+    }
+
+    private boolean requiredTextFildsFullfilled(){
+        return zipcode.getValue()!="" && city.getValue()!="" &&
+                street.getValue()!="" && houseNumber.getValue()!="";
     }
 }

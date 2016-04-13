@@ -52,11 +52,11 @@ public class PayingView extends AbstractView{
         payingPanel.setWidth(panelWidth);
         formLayout= new FormLayout();
 
-        name=new TextField("Név:");
-        cardNumber=new TextField("Kártyaszám:");
-        expDate=new TextField("Lejárati dátum:");
-        CVC=new PasswordField("CVC:");
-        bank=new TextField("Kibocsátó bank:");
+        name=new TextField("Név*:");
+        cardNumber=new TextField("Kártyaszám*:");
+        expDate=new TextField("Lejárati dátum*:");
+        CVC=new PasswordField("CVC*:");
+        bank=new TextField("Kibocsátó bank*:");
         payButton=new Button("Jóváhagyás");
         informLabel=new Label("A levonásra kerülő összeg: " + amount +" HUF");
 
@@ -71,14 +71,20 @@ public class PayingView extends AbstractView{
         payButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if(new Random().nextDouble()>0.3){
-                    billBean.makeBillsPayed(((MyUI)getUI().getCurrent()).getLoggedInUser().getName());
-                    getUI().getNavigator().navigateTo(BillsView.VIEWID);
+                if (reqiredTextFieldsFullfilled()) {
+                    if (new Random().nextDouble() > 0.3) {
+                        billBean.makeBillsPayed(((MyUI) getUI().getCurrent()).getLoggedInUser().getName());
+                        getUI().getNavigator().navigateTo(BillsView.VIEWID);
+                    } else {
+                        Notification notification = new Notification("Hibás kártya adatok!", Notification.Type.HUMANIZED_MESSAGE);
+                        notification.setDelayMsec(5000);
+                        notification.show(getUI().getPage());
+                    }
                 }else{
-                    Notification notification= new Notification("Hibás kártya adatok!", Notification.Type.HUMANIZED_MESSAGE);
-                    notification.setDelayMsec(5000);
-                    notification.show(getUI().getPage());
-                }
+                Notification notification = new Notification("A csillaggal jelölt mezők kitöltése kötelező!", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(5000);
+                notification.show(getUI().getPage());
+            }
             }
         });
 
@@ -91,5 +97,15 @@ public class PayingView extends AbstractView{
 
     private void setInformLabel(){
         informLabel.setValue("A levonásra kerülő összeg: " + amount +" HUF");
+    }
+
+    private boolean reqiredTextFieldsFullfilled(){
+        name=new TextField("Név:");
+        cardNumber=new TextField("Kártyaszám:");
+        expDate=new TextField("Lejárati dátum:");
+        CVC=new PasswordField("CVC:");
+        bank=new TextField("Kibocsátó bank:");
+        return name.getValue()!="" &&cardNumber.getValue() !=""
+                && expDate.getValue()!="" && CVC.getValue()!="" && bank.getValue()!="";
     }
 }

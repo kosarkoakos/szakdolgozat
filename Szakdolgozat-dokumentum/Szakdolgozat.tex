@@ -199,7 +199,7 @@ A jelen korban gyakori eset, hogy olyan szoftvereket kell készítenünk, amelye
 Például, teljesen felesleges minden egyes alkalmazásunkban elkészíteni egy típust, ami primitív típusú elemeket tartalmaz, hiszen ezt már másvalaki(k) elkészítették, és a műveleteit optimalizálták. Ezek a listák, mint egy alkalmazás építőkockái. Ez, és sok más építőkocka API-ként a Java Standard Edition-jében található meg összegyűjtve.
 Ennek mintájára, robosztus méretű alkalmazások elkészítéséhez nagy méretű építőkockákat is elkészítettek, amelyek összetett műveletek elvégzésére alkalmasak. Ezekkel az építőkockákkal néhány 10 sor általunk írt programkóddal elvégezhető egy entitás adatbázisba történő perzisztálása, alkalmazások közötti üzenetküldés, e-mail küldés, és egyéb összetett művelet, amelyeket ha mi kellene, hogy megírjunk, nagy mértékben megnövekedne a fejlesztéshez szükséges időtartam.
 Ezeket a nagy építőkockákat gyűjtötték össze, mint API-k, amiből létrejött a Java EE.
-Ez az enterprise edition a standard edition teljes egészét felhasználhatja, illetve ha egy Java EE alkalmazást készítünk, mi is használhatjuk benne a Java SE tartalmát.
+Ez az enterprise edition a standard edition teljes egészét felhasználhatja, illetve ha egy Java EE alkalmazást készítünk, mi is használhatjuk benne a Java SE tartalmát.\cite{BJEE}
 
 \section{Arhitektúra}
 
@@ -209,10 +209,10 @@ A Java EE különböző \hyperlink{figure-kontenerek}{konténerekben} implement�
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=14cm]{kontenerek.png}
-	\caption{A konténerek}
+	\caption{A konténerek}\cite{BJEE}
 \end{figure}
 
-Az alábbi ábrán a platform négy konténere látható, a köztük lévő kapcsolódási protokollok megjelölésével.
+Az fenti ábrán a platform négy konténere látható, a köztük lévő kapcsolódási protokollok megjelölésével.\cite{BJEE}
 
 \newpage
 
@@ -234,7 +234,7 @@ A platform négy komponenstípust tartalmaz:
 \subsection{Komponensek csomagolása}
 
 Ahhoz, hogy egy komponenst kihelyezhessünk a szerverre, először be kell, hogy csomagoljuk egy standard formátumba. A Java SE a Java Archive (jar) fájlokat használja erre, amelyek több fájl (Java osztályok, deployment descriptorok, erőforrások, külső könyvtárak) egyetlen fájlba csomagolásai. Ez a csomagolás ZIP formátum alapú.
-Minden egyes modul számára meghatározott, hogy milyen típus csomagolt fájlba kell csomagolni:
+Minden egyes modul számára meghatározott, hogy milyen típus csomagolt fájlba kell csomagolni:\cite{BJEE}
 \begin{itemize}
 	\item Az application client modul java osztályokat és más erőforrás fájlokat tartalmaz, amiket egy .jar fájlba kell csomagolni.
 	
@@ -252,7 +252,7 @@ Minden egyes modul számára meghatározott, hogy milyen típus csomagolt fájlb
 
 A Java EE infrastruktúra logikai egységekbe került felosztásra, amiket konténereknek nevezünk. Minden egyes konténernek speciális szerepe van, má-más szolgáltatásokat tesznek elérhető a komponensek számára. A konténerek elrejtik a technikai komplexitást.
 Attól függően, hogy milyen típusú alkalmazást akarunk fejleszteni, más és más konténer(eke)t kell használnunk. Például, ha egy webes alkalmazást fejlesztünk, akkor elegendő egy JSF réteget és egy EJB Lite réteget fejleszteni, amik a web konténerbe deployolva működőképesek.
-Négy különböző konténer létezik:
+Négy különböző konténer létezik:\cite{BJEE}
 \begin{itemize}
 	\item Az Applet konténer applet komponensek futtatására alkalmas. Homokozó biztonsági modell-t használ, így a kód egy homokozó környezetben fut, és a "homokozóm kívüli játék" nem megengedett.
 	Ez azt jelenti, hogy a konténer megelőzi azt, hogy az applet a lokális gépen lévő erőforrásokhoz -képekhez, fájlokhoz- hozzáférjen.
@@ -266,7 +266,7 @@ Négy különböző konténer létezik:
 A \hyperlink{figure-container-services}{konténerek különféle alapszolgáltatásokat} nyújtanak az általuk futtatott komponensek számára.
 Így a fejlesztés során elég az üzleti logika implementálására fókuszálnunk, a technikai problémákat ezen szolgáltatások orvosolják(pl Java entitásosztály mappelése adatbázisbeli rekorddá).
 Az, hogy ezen alapszolgáltatások közül melyik érhető el egy konténerben, az konténerenkénet változik.
-Néhány szolgáltatás a teljesség igénye nélkül:
+Néhány szolgáltatás a teljesség igénye nélkül:\cite{BJEE}
 \begin{itemize}
 	\item Java Persistence API(JPA): ez egy standard API az objektum relációs leképzéshez(ORM). Az API által definiált Java Persistence Query Language (JPQL) által objektumokat olvashatunk fel az alkalmazás által használt adatbázis(ok)ból.
 	\item Java Message Service(JMS): Asszinkron üzenetek általi kommunikációt tesz lehetővé komponensek között. Megbízható point-to-point üzenetküldést ad mint például a publish-service modell.
@@ -279,13 +279,13 @@ Néhány szolgáltatás a teljesség igénye nélkül:
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=14cm]{kontener-szolgaltatasok.png}
-	\caption{Konténerek és szolgáltatásaik}
+	\caption{Konténerek és szolgáltatásaik}\cite{BJEE}
 \end{figure}
 
 \section{Annotációk és deployment descriptorok}
 
 Ahogy az előbb írtam, a konténerek szolgáltatásokat nyújtanak a komponensek számára. Ezek a szolgáltatások alapbeállításokkal rendelkeznek. Például egy entitásosztály egy String típusú tagváltozója varchar2(255) típusú mezőbe fog leképződni az adatbázisban. Abban az esetben, hogyha ezt meg kívánjuk változtatni, meta-adatként kell megadnunk a forráskódban, vagy egy külső fájlban. Forráskódban egy annotációt használva jelezzük az alapbeállításon való változtatást, amikor pedig egy külső fájlban tesszük ezt meg egy deployment descriptor-t alkalmazunk. Ez a deployment descriptor egy XML fájl, amiben a meta-adatok leírása található. A Java EE 6 óta, amikor is beletettek az annotációkat a platform eszközei közé, az általános trend az annotációk használata, mivel ez jóval kevesebb írást igényel, illetve a meta-adat azon a helyen kerül rögzítésre, ahol kifejti a hatását, így egyszerű kezelhetőséget nyújt. Hátránya, hogy egy annotációban megadott érték megváltoztatása a kód újra fordítását igényli. Deployment descriptor esetében elegendő az xml fájlban átírni az értéket.
-A két meta-adat megadási mód közül a deployment descriptor rendelkezik magasabb precedenciával. Tehát ha egy meta-adat értéket annotációval is megadtunk, illetve deployment descriptort is alkalmazunk, de abban más értéket állítottunk be, akkor az felülírja az annotációban megadott értéket, és az fogja kifejteni a hatását.
+A két meta-adat megadási mód közül a deployment descriptor rendelkezik magasabb precedenciával. Tehát ha egy meta-adat értéket annotációval is megadtunk, illetve deployment descriptort is alkalmazunk, de abban más értéket állítottunk be, akkor az felülírja az annotációban megadott értéket, és az fogja kifejteni a hatását.\cite{BJEE}
 
 \chapter{Az alkalmazás}
 
@@ -331,7 +331,7 @@ Az archetype kiválasztása után a saját alkalmazásunk groupId-ját és artif
 Ezután az alkalmazás IDE-ből deployolhatóságát állíttam be. Ehhez egy plugin-t használok, amely alkalmazásszerver specifikus. Ez a plugin mavennel könnyen hozzáadható az alkalmazásunkhoz.
 
 \hypertarget{figure-wildfly}{} 	
-\lstinputlisting[caption=WildFly plugin,label=kod-wildfly-plugin]{wildfly-plugin.pas}
+\lstinputlisting[caption=WildFly plugin\cite{wildfly},label=kod-wildfly-plugin]{wildfly-plugin.pas}
 
 A \hyperlink{figure-wildfly}{fenti sorok} pom.xml-hez hozzáadásával a plugin letöltésre kerül, és a projekt részévé válik. Ezután a Maven toolboxban megjelenik a pluginok között, és a wildfly:deploy opció indításával máris deployolásra kerül az alkalmazásszerverünkre. A port és name konfigurációs attribútumok beállításával finomhangolhatjuk a deployolás tulajdonságait. Jelen esetben a 10000-es porton futó administration consol-ú szerverre fog történni a deploy - melynél jelen esetben maga a szerver a 8090-es porton fut - és szer.war néven fog az alkalmazás deployálásra kerülni. Ez utóbbi azt vonja magával, hogy az alkalmazást a localhost:8090/szer URL-en fogjuk elérni. 
 
@@ -339,7 +339,7 @@ Ezt követően az első lépés az adatbázis elérést lehetővé tévő persis
 Emellett ami számunkra fontos ebben az xml-ben, az a table generation strategy. Egy jól megválasztott stratégiával gondoskodhatunk az adatok biztonságáról. Én az update értéket választottam. Ez a stratégia az alkalmazás indulásakor megvizsgálja az adatbázis séma tartalmát, és amennyiben nem talál benne a projektben definiált entitás számára táblát, létrehozza azt. Abban az esetben pedig, amikor egy entitásosztály tagváltozóinak típusa és/vagy a tagváltozókhoz beállított adatbázisbeli jellemzők az adatbázisbeli táblafelépítéssel nincsenek szinkronban, úgy a tábla módosításra kerül, hogy annak jellemzői az entitásosztályban beállított jellemzőket tükrözzék.
 Például, ha egy Java osztály, ami egy entitást ír le rendelkezik egy int típusú és mennyiség nevű tagváltozóval, aminek az entitáshoz tartozó táblában nincs megfelelő mező, úgy a tábla egy "ALTER TABLE ..." DDL utasítás automatikus lefutásával módosul, és bővül egy mennyiség nevű mezővel. 
 
-Az ORM műveleteket a Hibernate nevű persistence provider fogja végezni. Ennek magja az entitmy manager. Ahhoz hogy ezt a persistence provider-t használni lehessen, függőségként hozzá kel adnunk a projektünkhöz. Ezt a pom.xml szerkesztésével tehetjük meg. A \hypertarget{figure-hibernate-dependencies}{következő} kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a Hibernate-t, amivel az objektumorientált programunk entitásainak világa és a "rekord orientált" adatbázisunk rekordjainak világa közötti átjárást tesszük lehetővé.
+Az ORM műveleteket a Hibernate nevű persistence provider fogja végezni. Ennek magja az entity manager. Ahhoz hogy ezt a persistence provider-t használni lehessen, függőségként hozzá kel adnunk a projektünkhöz. Ezt a pom.xml szerkesztésével tehetjük meg. A \hyperlink{figure-hibarnate-dependencies}{következő}\footnote{\url{https://www.jumpingbean.co.za/hibernate-4.0.1-pom.xml}} kód alapján a maven a központi repositoryból letölti a szükséges JAR-okat, és hozzáadja a projektünkhöz. Így már fogjuk tudni használni a Hibernate-t, amivel az objektumorientált programunk entitásainak világa és a "rekord orientált" adatbázisunk rekordjainak világa közötti átjárást tesszük lehetővé.
 
 \newpage
 \hypertarget{figure-hibarnate-dependencies}{}
@@ -496,9 +496,17 @@ A hívás a \hyperlink{figure-datasource}{következő} kódrészletben látható
 Az alkalmazás és a szakdolgozat elkészítése során úgy vélem sikerült egy erős alapszinten megismerkednem a Java Enterpreise Edition-nel, és mindeközben meglátni egy szoftver elkészítésének nehézségeit, buktatóit. Szembesültem azzal, hogy sokat számít az, hogy előre pontosan megtervezzünk egy-egy funkciót. Egy esetben egy entitásosztály megírása után futtattam az alkalmazást, ezáltal az adatbázisban létrejött egy tábla az entitásokból készülő rekordok számára. Későbbiekben az entitásosztályon más nevet adtam meg táblanévnek, emiatt egy új tábla jött létre az adatbázisban, ugyanezen típusú entitások számára. Ebbe az új táblába valahogy belekerült egy felesleges megszorítás, ami miatt számos perzisztálás során kivételt kaptam, aminek az okát sokáig kerestem. Mivel a második (és egyben fölösleges) megszorítás meglétéről nem tudtam, emiatt nem értettem, hogy hogy lehet, hogy egy idegen kulcs elsődleges kulcsa a hivatkozott rekordnak. Később az adatbázis alapos vizsgálata után találtam rá a fölöslegesen elhelyezett megszorításra, ami miatt nem tekintette a perzisztálandó lakcímeket megrendelésekhez kapcsolható entitásoknak. A megszorítás törlése után az adatok rögzítése kiválóan kezdett működni.
 Összességében örülök, hogy ezzel a témával foglalkozhattam, és hogy sikerült elkészítenem a szoftvert.
 
+A 2. fejezet tartalmi részének alapjául Antonio Goncalves könyve szolgált, ahonnan az ábrák is származnak.
+Az alkalmazás Java EE részét szintén e könyv példakódjai alapján állítottam össze.
+A frontend elkészítésében az irodalomjegyzékben feltüntetett hivatalos Vaadin oldalról származó ismeretanyagot használtam fel.
+
 
 \begin{thebibliography}{1}
-\bibitem{cimke} \textsc{Antonio Goncalves}: Beginning Java EE 7, Apress, Milton Keynes, 2013.
-\bibitem{cimke} \textsc{Vaadin hivatalos weboldala}: \href{https://vaadin.com/docs/-/part/framework/components/components-overview.html}{vaadin.com}
+\bibitem{BJEE} \textsc{Antonio Goncalves}: Beginning Java EE 7, Apress, Milton Keynes, 2013.
+\bibitem{komponensek} \textsc{Vaadin komponensek}: \href{https://vaadin.com/docs/-/part/framework/components/components-overview.html}{Vaadin dokumentáció:\newline https://vaadin.com/docs/-/part/framework/components/components-overview.html }
+\bibitem{cdi} \textsc{Vaadin cdi}: \href{https://vaadin.com/docs/-/part/framework/advanced/advanced-cdi.html}{Vaadin dokumentáció:\newline https://vaadin.com/docs/-/part/framework/advanced/advanced-cdi.html}
+\bibitem{ui} \textsc{Vaadin ui, view, Navigáció}: \href{https://vaadin.com/wiki/-/wiki/10674/III+-+Views+and+navigation}{Vaadin Wiki:\newline https://vaadin.com/wiki/-/wiki/10674/III+-+Views+and+navigation}
+\bibitem{wildfly} \textsc{WildFly}: \href{https://docs.jboss.org/wildfly/plugins/maven/latest/}{Vaadin Wiki:\newline https://docs.jboss.org/wildfly/plugins/maven/latest/}
+
 \end{thebibliography}
 \end{document}
